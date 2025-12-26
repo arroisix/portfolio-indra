@@ -52,19 +52,19 @@ export default function PostFeedItem(props) {
                     <ImageBlock
                         {...post.featuredImage}
                         className={classNames({
-                            'xs:w-[50%] xs:shrink-0': hasBigThumbnail && (flexDirection === 'row' || flexDirection === 'row-reversed'),
-                            'xs:w-[28.4%] xs:shrink-0': !hasBigThumbnail && (flexDirection === 'row' || flexDirection === 'row-reversed')
+                            'xs:w-[50%] xs:shrink-0': hasBigThumbnail && (flexDirection === 'row' || flexDirection === 'row-reverse'),
+                            'xs:w-[28.4%] xs:shrink-0': !hasBigThumbnail && (flexDirection === 'row' || flexDirection === 'row-reverse')
                         })}
                         imageClassName="w-full h-full object-cover"
                         {...(hasAnnotations && { 'data-sb-field-path': 'featuredImage' })}
                     />
                 )}
                 <div
-                    className={classNames('w-full', {
-                        'xs:grow': hasThumbnail && (flexDirection === 'row' || flexDirection === 'row-reversed')
+                    className={classNames('w-full', 'flex', 'flex-col', 'gap-[10px]', {
+                        'xs:grow': hasThumbnail && (flexDirection === 'row' || flexDirection === 'row-reverse')
                     })}
                 >
-                    <TitleTag className="h3">
+                    <TitleTag className="font-epilogue font-semibold text-[20px] leading-[30px] text-[#2d2d2d]">
                         <span
                             className={classNames(mapCardTitleHoverStyles(hoverEffect, post.colors))}
                             {...(hasAnnotations && { 'data-sb-field-path': 'title' })}
@@ -72,6 +72,11 @@ export default function PostFeedItem(props) {
                             {post.title}
                         </span>
                     </TitleTag>
+                    {showExcerpt && post.excerpt && (
+                        <p className="font-epilogue font-normal text-[17px] leading-[27px] text-[#2d2d2d]" {...(hasAnnotations && { 'data-sb-field-path': 'excerpt' })}>
+                            {post.excerpt}
+                        </p>
+                    )}
                     <PostAttribution
                         showAuthor={showAuthor}
                         showDate={showDate}
@@ -80,11 +85,6 @@ export default function PostFeedItem(props) {
                         className="mt-3"
                         hasAnnotations={hasAnnotations}
                     />
-                    {showExcerpt && post.excerpt && (
-                        <p className="mt-3" {...(hasAnnotations && { 'data-sb-field-path': 'excerpt' })}>
-                            {post.excerpt}
-                        </p>
-                    )}
                 </div>
             </div>
         </Link>

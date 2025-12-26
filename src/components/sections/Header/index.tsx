@@ -16,17 +16,30 @@ export default function Header(props) {
         <header
             className={classNames(
                 'sb-component',
-                'sb-component-header',
                 colors,
-                'relative',
-                'shadow-header',
+                'fixed',
+                'top-0',
+                'left-1/2',
+                '-translate-x-1/2',
+                'backdrop-blur-[22px]',
+                'bg-white/60',
+                'rounded-b-2xl',
+                'max-w-[1280px]',
+                'w-full',
+                'h-20',
                 styles?.self?.margin ? mapStyles({ padding: styles?.self?.margin }) : undefined,
-                styles?.self?.padding ? mapStyles({ padding: styles?.self?.padding }) : 'p-4',
                 'z-50'
             )}
             {...(enableAnnotations && { 'data-sb-object-id': props?.__metadata?.id })}
         >
-            <div className="mx-auto max-w-7xl">
+            <div className={classNames(
+                'mx-auto',
+                'max-w-7xl',
+                'h-full',
+                'flex',
+                'items-center',
+                styles?.self?.padding ? mapStyles({ padding: styles?.self?.padding }) : 'px-[40px]'
+            )}>
                 <Link href="#main" className="sr-only">
                     Skip to main content
                 </Link>
@@ -106,14 +119,14 @@ function HeaderLogoLeftPrimaryCentered(props) {
 function HeaderLogoLeftPrimaryRight(props) {
     const { title, logo, primaryLinks = [], secondaryLinks = [], colors = 'bg-light-fg-dark', enableAnnotations } = props;
     return (
-        <div className="relative flex items-center">
+        <div className="relative flex items-center justify-start w-full">
             {(title || logo?.url) && (
-                <div className="mr-10">
+                <div className="absolute left-0">
                     <SiteLogoLink title={title} logo={logo} enableAnnotations={enableAnnotations} />
                 </div>
             )}
             {primaryLinks.length > 0 && (
-                <ul className="hidden ml-auto lg:flex lg:items-center gap-x-10" {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}>
+                <ul className="hidden ml-auto lg:flex lg:items-center gap-x-10 absolute right-[50px]" {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}>
                     <ListOfLinks links={primaryLinks} colors={colors} enableAnnotations={enableAnnotations} />
                 </ul>
             )}

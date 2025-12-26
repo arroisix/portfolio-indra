@@ -35,20 +35,28 @@ export default function FeaturedItem(props) {
             )}
             data-sb-field-path={fieldPath}
         >
-            <div className={classNames('w-full', 'flex', mapFlexDirectionStyles(flexDirection, hasTextContent, hasImage), 'gap-6')}>
+            <div className={classNames('w-full', 'flex', mapFlexDirectionStyles(flexDirection, hasTextContent, hasImage), {
+                'gap-6': flexDirection !== 'col' || styles?.self?.textAlign !== 'center',
+                'gap-[56px]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                'items-center': flexDirection === 'col' && styles?.self?.textAlign === 'center'
+            })}>
                 {hasImage && (
                     <ImageBlock
                         {...image}
                         className={classNames('flex', mapStyles({ justifyContent: styles?.self?.justifyContent ?? 'flex-start' }), {
-                            'xs:w-[28.4%] xs:shrink-0': hasTextContent && (flexDirection === 'row' || flexDirection === 'row-reversed')
+                            'xs:w-[28.4%] xs:shrink-0': hasTextContent && (flexDirection === 'row' || flexDirection === 'row-reverse')
                         })}
                         {...(fieldPath && { 'data-sb-field-path': '.image' })}
                     />
                 )}
                 {hasTextContent && (
                     <div
-                        className={classNames('w-full', {
-                            'xs:grow': hasImage && (flexDirection === 'row' || flexDirection === 'row-reversed')
+                        className={classNames('flex', 'flex-col', {
+                            'w-full': !(flexDirection === 'col' && styles?.self?.textAlign === 'center'),
+                            'w-[250px]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                            'xs:grow': hasImage && (flexDirection === 'row' || flexDirection === 'row-reverse'),
+                            'items-center': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                            'text-center': flexDirection === 'col' && styles?.self?.textAlign === 'center'
                         })}
                     >
                         {tagline && (
@@ -58,8 +66,10 @@ export default function FeaturedItem(props) {
                         )}
                         {title && (
                             <TitleTag
-                                className={classNames('h3', {
-                                    'mt-2': tagline
+                                className={classNames({
+                                    'font-epilogue font-semibold text-[27px] leading-[42px] text-[#2d2d2d]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                                    'h3': !(flexDirection === 'col' && styles?.self?.textAlign === 'center'),
+                                    'mt-2': tagline && !(flexDirection === 'col' && styles?.self?.textAlign === 'center')
                                 })}
                                 {...(fieldPath && { 'data-sb-field-path': '.title' })}
                             >
@@ -79,8 +89,11 @@ export default function FeaturedItem(props) {
                         {text && (
                             <Markdown
                                 options={{ forceBlock: true, forceWrapper: true }}
-                                className={classNames('sb-markdown', {
-                                    'mt-4': tagline || title || subtitle
+                                className={classNames({
+                                    'font-epilogue font-normal text-[17px] leading-[27px] text-[#2d2d2d]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                                    'sb-markdown': !(flexDirection === 'col' && styles?.self?.textAlign === 'center'),
+                                    'mt-[19px]': flexDirection === 'col' && styles?.self?.textAlign === 'center' && title,
+                                    'mt-4': !(flexDirection === 'col' && styles?.self?.textAlign === 'center') && (tagline || title || subtitle)
                                 })}
                                 {...(fieldPath && { 'data-sb-field-path': '.text' })}
                             >
