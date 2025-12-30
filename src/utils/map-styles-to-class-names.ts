@@ -89,6 +89,10 @@ const TAILWIND_MAP = {
         center: 'justify-center'
     },
     margin: function (value) {
+        // for string values like 'm-0', 'mx-4', etc. - return as is
+        if (typeof value === 'string') {
+            return value;
+        }
         // for tailwind margins - ['twt0:16', 'twb0:16'], the value will be array ['mt-0', 'mb-4']
         if (Array.isArray(value)) {
             return value.join(' ');
@@ -115,6 +119,10 @@ const TAILWIND_MAP = {
         return '';
     },
     padding: function (value) {
+        // for string values like 'p-0', 'px-4', etc. - return as is
+        if (typeof value === 'string') {
+            return value;
+        }
         // for tailwind paddings - ['twt0:16', 'twb0:16'], the value will be array ['pt-0', 'pb-4']
         if (Array.isArray(value)) {
             return value.join(' ');

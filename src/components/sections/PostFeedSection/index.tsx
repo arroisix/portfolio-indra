@@ -40,12 +40,22 @@ export default function PostFeedSection(props) {
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
-            <div className={classNames('w-full', 'flex', 'flex-col', mapStyles({ alignItems: styles?.self?.justifyContent ?? 'flex-start' }))}>
+            <div className={classNames(
+                'w-full', 
+                'flex', 
+                'flex-col',
+                elementId === 'work' 
+                    ? 'items-center' 
+                    : mapStyles({ alignItems: styles?.self?.justifyContent ?? 'flex-start' })
+            )}>
                 {badge && <Badge {...badge} className="w-full max-w-sectionBody" {...(enableAnnotations && { 'data-sb-field-path': '.badge' })} />}
                 {title && (
                     <TitleBlock
                         {...title}
-                        className={classNames('w-full', 'max-w-sectionBody', { 'mt-4': badge?.label })}
+                        className={classNames('w-full', 'max-w-sectionBody', {
+                            'mt-4': badge?.label,
+                            'font-epilogue text-section-title text-center text-dark mb-16': elementId === 'work'
+                        })}
                         {...(enableAnnotations && { 'data-sb-field-path': '.title' })}
                     />
                 )}
@@ -79,6 +89,7 @@ export default function PostFeedSection(props) {
                     hasSectionTitle={!!title?.text}
                     hasAnnotations={enableAnnotations}
                     annotatePosts={annotatePosts}
+                    elementId={elementId}
                 />
                 {actions.length > 0 && (
                     <div
@@ -104,16 +115,16 @@ export default function PostFeedSection(props) {
 }
 
 function PostFeedVariants(props) {
-    const { variant = 'three-col-grid', ...rest } = props;
+    const { variant = 'three-col-grid', elementId, ...rest } = props;
     switch (variant) {
         case 'two-col-grid':
-            return <PostFeedTwoColGrid {...rest} />;
+            return <PostFeedTwoColGrid {...rest} elementId={elementId} />;
         case 'small-list':
-            return <PostFeedSmallList {...rest} />;
+            return <PostFeedSmallList {...rest} elementId={elementId} />;
         case 'big-list':
-            return <PostFeedBigList {...rest} />;
+            return <PostFeedBigList {...rest} elementId={elementId} />;
         default:
-            return <PostFeedThreeColGrid {...rest} />;
+            return <PostFeedThreeColGrid {...rest} elementId={elementId} />;
     }
 }
 
@@ -129,15 +140,27 @@ function PostFeedThreeColGrid(props) {
         hoverEffect,
         colors,
         hasAnnotations,
-        annotatePosts
+        annotatePosts,
+        elementId
     } = props;
     if (posts.length === 0) {
         return null;
     }
     return (
         <div
-            className={classNames('w-full', 'grid', 'gap-10', 'sm:grid-cols-2', 'lg:grid-cols-3', {
-                'mt-12': hasTopMargin
+            className={classNames('w-full', 'grid', {
+                'gap-x-work-gap-x': elementId === 'work',
+                'gap-y-work-gap-y': elementId === 'work',
+                'gap-10': elementId !== 'work',
+                'sm:grid-cols-2': elementId !== 'work',
+                'lg:grid-cols-3': elementId !== 'work',
+                'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3': elementId === 'work',
+                'mx-auto': elementId === 'work',
+                'max-w-7xl': elementId === 'work',
+                'justify-center': elementId === 'work',
+                'items-start': elementId === 'work',
+                'mt-12': hasTopMargin && elementId !== 'work',
+                'mt-0': elementId === 'work'
             })}
             {...(hasAnnotations && annotatePosts && { 'data-sb-field-path': '.posts' })}
         >
@@ -171,7 +194,8 @@ function PostFeedTwoColGrid(props) {
         hoverEffect,
         colors,
         hasAnnotations,
-        annotatePosts
+        annotatePosts,
+        elementId
     } = props;
     if (posts.length === 0) {
         return null;
@@ -211,7 +235,8 @@ function PostFeedSmallList(props) {
         hoverEffect,
         colors,
         hasAnnotations,
-        annotatePosts
+        annotatePosts,
+        elementId
     } = props;
     if (posts.length === 0) {
         return null;
@@ -251,7 +276,8 @@ function PostFeedBigList(props) {
         hoverEffect,
         colors,
         hasAnnotations,
-        annotatePosts
+        annotatePosts,
+        elementId
     } = props;
     if (posts.length === 0) {
         return null;

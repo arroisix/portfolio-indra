@@ -1,41 +1,15 @@
 ---
-title: Blog
+title: Work
 slug: /blog
 numOfPostsPerPage: 8
-enableSearch: true
-topSections:
-  - title:
-      text: Featured Post
-      color: text-dark
-      type: TitleBlock
-    subtitle: This is the subtitle
-    posts:
-      - content/pages/blog/top-ten-lessons-we-learned.md
-    showThumbnail: true
-    showExcerpt: true
-    showDate: true
-    showAuthor: true
-    variant: big-list
-    colors: bg-light-fg-dark
-    styles:
-      self:
-        padding:
-          - pt-28
-          - pb-0
-          - pl-4
-          - pr-4
-        justifyContent: flex-start
-    type: FeaturedPostsSection
-    hoverEffect: move-up
+enableSearch: false
+topSections: []
 styles:
   title:
     textAlign: center
 seo:
-  metaTitle: Blog - Demo site
-  metaDescription: >-
-    This is the blog of the demo site where we post about technology, product,
-    and design.
-  socialImage: /images/img-placeholder.svg
+  metaTitle: Work - Indra
+  metaDescription: Case studies and projects by Indra, Product Designer.
   type: Seo
 type: PostFeedLayout
 bottomSections: []
@@ -45,11 +19,11 @@ postFeed:
   subtitle: null
   showThumbnail: true
   showExcerpt: true
-  showDate: true
-  showAuthor: true
+  showDate: false
+  showAuthor: false
   actions: []
   elementId: null
   variant: three-col-grid
   colors: bg-light-fg-dark
-  hoverEffect: move-up
+  hoverEffect: spread
 ---

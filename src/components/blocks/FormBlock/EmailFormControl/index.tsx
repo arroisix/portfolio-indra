@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 export default function EmailFormControl(props) {
-    const { name, label, hideLabel, isRequired, placeholder, width = 'full' } = props;
+    const { name, label, hideLabel, isRequired, placeholder, width = 'full', hasError, isShaking, onFieldChange } = props;
     const fieldPath = props['data-sb-field-path'];
     const labelId = `${name}-label`;
     const attr: React.InputHTMLAttributes<HTMLInputElement> = {};
@@ -19,7 +19,8 @@ export default function EmailFormControl(props) {
     return (
         <div
             className={classNames('sb-form-control', 'w-full', {
-                'sm:w-formField': width === '1/2'
+                'sm:w-formField': width === '1/2',
+                'form-field-error': isShaking
             })}
             data-sb-field-path={fieldPath}
         >
@@ -35,12 +36,19 @@ export default function EmailFormControl(props) {
             )}
             <input
                 id={name}
-                className="sb-input text-inherit bg-transparent border-b border-current w-full py-2 focus:outline-none"
+                className={classNames(
+                    'sb-input text-inherit bg-transparent border rounded-lg w-full py-2 px-3 focus:outline-none transition-colors duration-200',
+                    hasError ? 'border-red-400' : 'border-current'
+                )}
                 type="email"
                 name={name}
+                onChange={onFieldChange}
                 {...attr}
                 {...(fieldPath && { 'data-sb-field-path': '.name#@id .name#@name' })}
             />
+            {hasError && (
+                <p className="error-message">This field is required</p>
+            )}
         </div>
     );
 }

@@ -21,7 +21,7 @@ export default function FeaturedItem(props) {
                 'sb-card',
                 colors,
                 styles?.self?.margin ? mapStyles({ margin: styles?.self?.margin }) : undefined,
-                styles?.self?.padding ? mapStyles({ padding: styles?.self?.padding }) : undefined,
+                flexDirection === 'col' && styles?.self?.textAlign === 'center' ? undefined : (styles?.self?.padding ? mapStyles({ padding: styles?.self?.padding }) : undefined),
                 styles?.self?.borderWidth && styles?.self?.borderWidth !== 0 && styles?.self?.borderStyle !== 'none'
                     ? mapStyles({
                           borderWidth: styles?.self?.borderWidth,
@@ -29,23 +29,32 @@ export default function FeaturedItem(props) {
                           borderColor: styles?.self?.borderColor ?? 'border-primary'
                       })
                     : undefined,
-                styles?.self?.borderRadius ? mapStyles({ borderRadius: styles?.self?.borderRadius }) : undefined,
+                flexDirection === 'col' && styles?.self?.textAlign === 'center' ? undefined : (styles?.self?.borderRadius ? mapStyles({ borderRadius: styles?.self?.borderRadius }) : undefined),
                 styles?.self?.textAlign ? mapStyles({ textAlign: styles?.self?.textAlign }) : undefined,
-                'overflow-hidden'
+                flexDirection === 'col' && styles?.self?.textAlign === 'center' ? 'overflow-visible' : 'overflow-hidden'
             )}
+            style={flexDirection === 'col' && styles?.self?.textAlign === 'center' ? {
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                paddingBottom: '24px',
+                paddingTop: '0',
+                borderRadius: '17px'
+            } : undefined}
             data-sb-field-path={fieldPath}
         >
             <div className={classNames('w-full', 'flex', mapFlexDirectionStyles(flexDirection, hasTextContent, hasImage), {
                 'gap-6': flexDirection !== 'col' || styles?.self?.textAlign !== 'center',
-                'gap-[56px]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                'gap-14': flexDirection === 'col' && styles?.self?.textAlign === 'center',
                 'items-center': flexDirection === 'col' && styles?.self?.textAlign === 'center'
             })}>
                 {hasImage && (
                     <ImageBlock
                         {...image}
                         className={classNames('flex', mapStyles({ justifyContent: styles?.self?.justifyContent ?? 'flex-start' }), {
-                            'xs:w-[28.4%] xs:shrink-0': hasTextContent && (flexDirection === 'row' || flexDirection === 'row-reverse')
+                            'xs:w-[28.4%] xs:shrink-0': hasTextContent && (flexDirection === 'row' || flexDirection === 'row-reverse'),
+                            '-mt-8': flexDirection === 'col' && styles?.self?.textAlign === 'center'
                         })}
+                        imageClassName="w-full h-full object-cover object-center"
                         {...(fieldPath && { 'data-sb-field-path': '.image' })}
                     />
                 )}
@@ -67,7 +76,7 @@ export default function FeaturedItem(props) {
                         {title && (
                             <TitleTag
                                 className={classNames({
-                                    'font-epilogue font-semibold text-[27px] leading-[42px] text-[#2d2d2d]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                                    'font-epilogue text-featured-title text-dark': flexDirection === 'col' && styles?.self?.textAlign === 'center',
                                     'h3': !(flexDirection === 'col' && styles?.self?.textAlign === 'center'),
                                     'mt-2': tagline && !(flexDirection === 'col' && styles?.self?.textAlign === 'center')
                                 })}
@@ -90,9 +99,9 @@ export default function FeaturedItem(props) {
                             <Markdown
                                 options={{ forceBlock: true, forceWrapper: true }}
                                 className={classNames({
-                                    'font-epilogue font-normal text-[17px] leading-[27px] text-[#2d2d2d]': flexDirection === 'col' && styles?.self?.textAlign === 'center',
+                                    'font-epilogue text-body text-dark': flexDirection === 'col' && styles?.self?.textAlign === 'center',
                                     'sb-markdown': !(flexDirection === 'col' && styles?.self?.textAlign === 'center'),
-                                    'mt-[19px]': flexDirection === 'col' && styles?.self?.textAlign === 'center' && title,
+                                    'mt-5': flexDirection === 'col' && styles?.self?.textAlign === 'center' && title,
                                     'mt-4': !(flexDirection === 'col' && styles?.self?.textAlign === 'center') && (tagline || title || subtitle)
                                 })}
                                 {...(fieldPath && { 'data-sb-field-path': '.text' })}

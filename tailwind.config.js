@@ -2,7 +2,15 @@ const plugin = require('tailwindcss/plugin');
 const themeStyle = require('./content/data/style.json');
 
 module.exports = {
-    content: ['./src/**/*.{js,ts,jsx,tsx}', './content/**/*', './.sourcebit-nextjs-cache.json'],
+    darkMode: 'class',
+    content: [
+        './src/**/*.{js,ts,jsx,tsx}', 
+        './content/**/*.{md,json}',
+        '!./content/**/*.png',
+        '!./.sourcebit-nextjs-cache.json',
+        '!./**/.next/**',
+        '!./**/node_modules/**'
+    ],
     safelist: [
         'text-neutral',
         'text-light',
@@ -12,43 +20,52 @@ module.exports = {
     ],
     theme: {
         extend: {
-            boxShadow: {
-                header: '0px 2px 8px rgba(27, 32, 50, .08)'
-            },
             colors: {
                 light: themeStyle.light,
                 dark: themeStyle.dark,
                 neutral: themeStyle.neutral,
                 neutralAlt: themeStyle.neutralAlt,
-                primary: themeStyle.primary
+                primary: themeStyle.primary,
+                inputBg: '#f3f3f3',
+                // Dark mode colors
+                darkBg: '#121212',
+                darkSurface: '#1e1e1e',
+                darkSurfaceAlt: '#2d2d2d',
+                darkText: '#e0e0e0',
+                darkTextMuted: '#a0a0a0'
             },
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                serif: ['Roboto Slab', 'serif']
+                epilogue: ['Epilogue', 'sans-serif']
             },
-            gridTemplateColumns: {
-                16: 'repeat(16, minmax(0, 1fr))'
+            fontWeight: {
+                normal: '400',
+                medium: '500',
+                semibold: '600',
+                bold: '700'
             },
-            gridColumnStart: {
-                span4: 'span 4'
+            fontSize: {
+                'body': ['17px', { lineHeight: '27px' }],
+                'card-title': ['20px', { lineHeight: '30px' }],
+                'featured-title': ['27px', { lineHeight: '42px' }],
+                'section-title': ['32px', { lineHeight: '42px' }],
+                'hero-subtitle': ['48px', { lineHeight: '1' }],
+                'hero-title': ['64px', { lineHeight: '1.2' }],
+                'hero-title-mobile': ['48px', { lineHeight: '1.2' }]
             },
-            gridColumnEnd: {
-                neg3: '-3',
-                span4: 'span 4'
+            spacing: {
+                'input-x': '30px',
+                'input-y': '21px',
+                'footer-top': '210px',
+                'footer-gap': '190px',
+                'work-gap-x': '150px',
+                'work-gap-y': '135px',
+                'card-gap': '25px'
             },
             maxWidth: {
                 sectionBody: '846px'
             },
-            padding: {
-                '2/3': '66.666%',
-                '3/4': '75%',
-                '9/16': '56.25%'
-            },
             screens: {
                 xs: '480px'
-            },
-            width: {
-                formField: 'calc(50% - 1rem)'
             }
         }
     },
@@ -64,72 +81,50 @@ module.exports = {
                 'h1,.h1': {
                     fontSize: theme(`fontSize.${themeStyle.h1.size}`),
                     fontWeight: theme(`fontWeight.${themeStyle.h1.weight}`),
-                    letterSpacing: theme(`letterSpacing.${themeStyle.h1.letterSpacing}`),
-                    textDecoration: themeStyle.h1.decoration,
-                    textTransform: themeStyle.h1.case
+                    letterSpacing: theme(`letterSpacing.${themeStyle.h1.letterSpacing}`)
                 },
                 'h2,.h2': {
                     fontSize: theme(`fontSize.${themeStyle.h2.size}`),
                     fontWeight: theme(`fontWeight.${themeStyle.h2.weight}`),
-                    letterSpacing: theme(`letterSpacing.${themeStyle.h2.letterSpacing}`),
-                    textDecoration: themeStyle.h2.decoration,
-                    textTransform: themeStyle.h2.case
+                    letterSpacing: theme(`letterSpacing.${themeStyle.h2.letterSpacing}`)
                 },
                 'h3,.h3': {
                     fontSize: theme(`fontSize.${themeStyle.h3.size}`),
                     fontWeight: theme(`fontWeight.${themeStyle.h3.weight}`),
-                    letterSpacing: theme(`letterSpacing.${themeStyle.h3.letterSpacing}`),
-                    textDecoration: themeStyle.h3.decoration,
-                    textTransform: themeStyle.h3.case
+                    letterSpacing: theme(`letterSpacing.${themeStyle.h3.letterSpacing}`)
                 },
                 'h4,.h4': {
                     fontSize: theme(`fontSize.${themeStyle.h4.size}`),
                     fontWeight: theme(`fontWeight.${themeStyle.h4.weight}`),
-                    letterSpacing: theme(`letterSpacing.${themeStyle.h4.letterSpacing}`),
-                    textDecoration: themeStyle.h4.decoration,
-                    textTransform: themeStyle.h4.case
+                    letterSpacing: theme(`letterSpacing.${themeStyle.h4.letterSpacing}`)
                 },
                 h5: {
                     fontSize: theme(`fontSize.${themeStyle.h5.size}`),
                     fontWeight: theme(`fontWeight.${themeStyle.h5.weight}`),
-                    letterSpacing: theme(`letterSpacing.${themeStyle.h5.letterSpacing}`),
-                    textDecoration: themeStyle.h5.decoration,
-                    textTransform: themeStyle.h5.case
+                    letterSpacing: theme(`letterSpacing.${themeStyle.h5.letterSpacing}`)
                 },
                 h6: {
                     fontSize: theme(`fontSize.${themeStyle.h6.size}`),
                     fontWeight: theme(`fontWeight.${themeStyle.h6.weight}`),
-                    letterSpacing: theme(`letterSpacing.${themeStyle.h6.letterSpacing}`),
-                    textDecoration: themeStyle.h6.decoration,
-                    textTransform: themeStyle.h6.case
+                    letterSpacing: theme(`letterSpacing.${themeStyle.h6.letterSpacing}`)
                 }
             });
             addComponents({
                 '.sb-component-button-primary': {
                     borderRadius: theme(`borderRadius.${themeStyle.buttonPrimary.borderRadius}`),
-                    boxShadow: theme(`boxShadow.${themeStyle.buttonPrimary.shadow}`),
                     fontWeight: themeStyle.buttonPrimary.weight,
-                    letterSpacing: theme(`letterSpacing.${themeStyle.buttonPrimary.letterSpacing}`),
-                    padding: `${themeStyle.buttonPrimary.verticalPadding}px ${themeStyle.buttonPrimary.horizontalPadding}px`,
-                    textTransform: themeStyle.buttonPrimary.case
+                    padding: `${themeStyle.buttonPrimary.verticalPadding}px ${themeStyle.buttonPrimary.horizontalPadding}px`
                 },
                 '.sb-component-button-secondary': {
                     borderRadius: theme(`borderRadius.${themeStyle.buttonSecondary.borderRadius}`),
-                    boxShadow: theme(`boxShadow.${themeStyle.buttonSecondary.shadow}`),
                     fontWeight: themeStyle.buttonSecondary.weight,
-                    letterSpacing: theme(`letterSpacing.${themeStyle.buttonSecondary.letterSpacing}`),
-                    padding: `${themeStyle.buttonSecondary.verticalPadding}px ${themeStyle.buttonSecondary.horizontalPadding}px`,
-                    textTransform: themeStyle.buttonSecondary.case
+                    padding: `${themeStyle.buttonSecondary.verticalPadding}px ${themeStyle.buttonSecondary.horizontalPadding}px`
                 },
                 '.sb-component-link-primary': {
-                    fontWeight: themeStyle.linkPrimary.weight,
-                    letterSpacing: theme(`letterSpacing.${themeStyle.linkPrimary.letterSpacing}`),
-                    textTransform: themeStyle.linkPrimary.case
+                    fontWeight: themeStyle.linkPrimary.weight
                 },
                 '.sb-component-link-secondary': {
-                    fontWeight: themeStyle.linkSecondary.weight,
-                    letterSpacing: theme(`letterSpacing.${themeStyle.linkSecondary.letterSpacing}`),
-                    textTransform: themeStyle.linkSecondary.case
+                    fontWeight: themeStyle.linkSecondary.weight
                 }
             });
         })

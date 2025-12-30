@@ -40,7 +40,22 @@ export function resolveStaticProps(urlPath, data) {
 
 const StaticPropsResolvers = {
     PostLayout: (props, data, debugContext) => {
-        return resolveReferences(props, ['author', 'category'], data.objects, debugContext);
+        const resolvedProps = resolveReferences(props, ['author', 'category'], data.objects, debugContext);
+        // Get other posts for "Related Projects" section
+        let allPosts = getAllPostsSorted(data.objects);
+        if (!process.env.stackbitPreview) {
+            allPosts = allPosts.filter(isPublished);
+        }
+        // Exclude current post and limit to 2
+        const currentPostId = props.__metadata?.id;
+        const otherPosts = allPosts
+            .filter(post => post.__metadata?.id !== currentPostId)
+            .slice(0, 2);
+        const resolvedOtherPosts = resolveReferences(otherPosts, ['author', 'category'], data.objects);
+        return {
+            ...resolvedProps,
+            relatedPosts: resolvedOtherPosts
+        };
     },
     PostFeedLayout: (props, data) => {
         const numOfPostsPerPage = props.numOfPostsPerPage ?? 10;

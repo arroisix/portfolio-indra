@@ -8,6 +8,8 @@ import SubmitButtonFormControl from './SubmitButtonFormControl';
 export default function FormBlock(props) {
     const formRef = React.createRef<HTMLFormElement>();
     const { fields = [], elementId, submitButton, className, styles = {}, 'data-sb-field-path': fieldPath } = props;
+    const [errors, setErrors] = React.useState<Record<string, boolean>>({});
+    const [shakeFields, setShakeFields] = React.useState<Record<string, boolean>>({});
 
     if (fields.length === 0) {
         return null;
@@ -16,9 +18,42 @@ export default function FormBlock(props) {
     function handleSubmit(event) {
         event.preventDefault();
 
-        const data = new FormData(formRef.current);
+        const form = formRef.current;
+        const newErrors: Record<string, boolean> = {};
+        const newShakeFields: Record<string, boolean> = {};
+        let hasErrors = false;
+
+        fields.forEach((field) => {
+            if (field.isRequired) {
+                const input = form.elements.namedItem(field.name) as HTMLInputElement | HTMLTextAreaElement;
+                if (input && !input.value.trim()) {
+                    newErrors[field.name] = true;
+                    newShakeFields[field.name] = true;
+                    hasErrors = true;
+                }
+            }
+        });
+
+        setErrors(newErrors);
+        setShakeFields(newShakeFields);
+
+        // Remove shake animation after it completes
+        if (hasErrors) {
+            setTimeout(() => {
+                setShakeFields({});
+            }, 500);
+            return;
+        }
+
+        const data = new FormData(form);
         const value = Object.fromEntries(data.entries());
         alert(`Form data: ${JSON.stringify(value)}`);
+    }
+
+    function handleFieldChange(name: string) {
+        if (errors[name]) {
+            setErrors((prev) => ({ ...prev, [name]: false }));
+        }
     }
 
     return (
@@ -44,6 +79,7 @@ export default function FormBlock(props) {
             onSubmit={handleSubmit}
             ref={formRef}
             data-sb-field-path= {fieldPath}
+            noValidate
         >
             <div
                 className={classNames('w-full', 'flex', 'flex-wrap', 'gap-8', mapStyles({ justifyContent: styles?.self?.justifyContent ?? 'flex-start' }))}
@@ -59,7 +95,16 @@ export default function FormBlock(props) {
                     if (!FormControl) {
                         throw new Error(`no component matching the form field model name: ${modelName}`);
                     }
-                    return <FormControl key={index} {...field} {...(fieldPath && { 'data-sb-field-path': `.${index}` })} />;
+                    return (
+                        <FormControl
+                            key={index}
+                            {...field}
+                            hasError={errors[field.name]}
+                            isShaking={shakeFields[field.name]}
+                            onFieldChange={() => handleFieldChange(field.name)}
+                            {...(fieldPath && { 'data-sb-field-path': `.${index}` })}
+                        />
+                    );
                 })}
             </div>
             {submitButton && (

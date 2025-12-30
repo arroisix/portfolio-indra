@@ -8,9 +8,10 @@ import { getDataAttrs } from '../../../utils/get-data-attrs';
 import Section from '../Section';
 import TitleBlock from '../../blocks/TitleBlock';
 import { Action, Badge } from '../../atoms';
+import Link from '../../atoms/Link';
 
 export default function GenericSection(props) {
-    const { elementId, colors, backgroundImage, badge, title, subtitle, text, actions = [], media, styles = {}, enableAnnotations } = props;
+    const { elementId, colors, backgroundImage, badge, title, subtitle, text, actions = [], media, backButton, styles = {}, enableAnnotations } = props;
     const flexDirection = styles?.self?.flexDirection ?? 'row';
     const alignItems = styles?.self?.alignItems ?? 'flex-start';
     const justifyContent = styles?.self?.justifyContent ?? 'flex-start';
@@ -29,14 +30,14 @@ export default function GenericSection(props) {
         >
             <div
                 className={classNames(
-                    elementId === 'about-header' ? 'w-full lg:w-fit' : 'w-full',
+                    elementId === 'about-header' ? 'w-full lg:w-fit mx-auto' : 'w-full',
                     'flex',
                     elementId === 'about-header' ? 'flex-col lg:flex-row lg:justify-center items-center' : mapFlexDirectionStyles(flexDirection, hasTextContent, hasMedia, justifyContent),
                     /* handle horizontal positioning of content on small screens or when direction is col or col-reverse, mapping justifyContent to alignItems instead since it's a flex column */
                     elementId === 'about-header' ? undefined : mapStyles({ alignItems: justifyContent }),
                     /* handle vertical positioning of content on large screens if it's a two col layout */
                     elementId === 'about-header' ? undefined : hasMedia && hasTextContent && hasXDirection ? mapAlignItemsStyles(alignItems) : undefined,
-                    'gap-x-[70px]',
+                    'gap-x-16',
                     'gap-y-16'
                 )}
             >
@@ -61,6 +62,26 @@ export default function GenericSection(props) {
                             'lg:max-w-[27.5rem]': hasMedia && hasXDirection
                         })}
                     >
+                        {backButton && (
+                            <div className="mb-6">
+                                <Link href={backButton.url} className="back-to-work-btn">
+                                    <svg
+                                        className="back-chevron"
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <polyline points="15 18 9 12 15 6"></polyline>
+                                    </svg>
+                                    <span>{backButton.label}</span>
+                                </Link>
+                            </div>
+                        )}
                         {badge && <Badge {...badge} {...(enableAnnotations && { 'data-sb-field-path': '.badge' })} />}
                         {title && (
                             <TitleBlock
@@ -72,10 +93,10 @@ export default function GenericSection(props) {
                         {subtitle && (
                             <p
                                 className={classNames(
-                                    elementId === 'about-header' 
-                                        ? 'font-epilogue font-bold text-[48px] leading-[48px] text-[#2d2d2d]' 
+                                    elementId === 'about-header'
+                                        ? 'font-epilogue font-bold text-hero-subtitle text-dark'
                                         : 'text-lg sm:text-2xl',
-                                    styles?.subtitle ? mapStyles(styles?.subtitle) : undefined, 
+                                    styles?.subtitle ? mapStyles(styles?.subtitle) : undefined,
                                     {
                                         'mt-4': badge?.label || (title?.text && elementId !== 'about-header'),
                                         'mt-6': elementId === 'about-header' && title?.text
@@ -89,7 +110,7 @@ export default function GenericSection(props) {
                         {text && (
                             <Markdown
                                 options={{ forceBlock: true, forceWrapper: true }}
-                                className={classNames('sb-markdown', 'font-epilogue font-normal text-[17px] leading-[27px] text-[#2d2d2d]', styles?.text ? mapStyles(styles?.text) : undefined, {
+                                className={classNames('sb-markdown', 'font-epilogue text-body text-dark', styles?.text ? mapStyles(styles?.text) : undefined, {
                                     'mt-6': badge?.label || title?.text || subtitle,
                                     'w-full': elementId === 'about-header'
                                 })}

@@ -1,76 +1,15 @@
 ---
-title: Case study 3
+title: Reviving Bukalapak's Broadcast Feature
 slug: case-study-3
-date: '2021-11-18'
-excerpt: >-
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante lorem,
-  tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at auctor sapien.
-  Etiam at cursus enim. Suspendisse sed augue tortor. Nunc eu magna vitae lorem
-  pellentesque fermentum. Sed in facilisis dui.
+date: '2021-05-15'
+excerpt: Bukalapak
 featuredImage:
-  url: >-
-    /images/img-placeholder.svg
-  altText: Case study 3
+  url: /images/1c181206a78d4afdb16e1247c6b02fe1bb25fd2d.png
+  altText: Sebar Promosi
   styles:
     self:
-      borderRadius: x-large
+      borderRadius: none
   type: ImageBlock
-bottomSections:
-  - title: Divider
-    colors: bg-light-fg-dark
-    styles:
-      self:
-        padding:
-          - pt-7
-          - pl-7
-          - pb-7
-          - pr-7
-    type: DividerSection
-  - items:
-      - title: About Company
-        tagline: This is the tagline
-        subtitle: >-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante
-          lorem, tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at
-          auctor sapien.
-        image:
-          url: /images/telus-logo.svg
-          altText: Company logo
-          styles:
-            self:
-              margin:
-                - ml-3
-          type: ImageBlock
-        colors: bg-light-fg-dark
-        styles:
-          self:
-            padding:
-              - pt-6
-              - pl-6
-              - pb-6
-              - pr-6
-            textAlign: left
-            borderColor: border-neutralAlt
-            borderStyle: none
-            borderWidth: 0
-            borderRadius: none
-            flexDirection: row
-        type: FeaturedItem
-    variant: small-list
-    colors: bg-light-fg-dark
-    styles:
-      self:
-        margin:
-          - mb-20
-        padding:
-          - pt-0
-          - pl-0
-          - pb-0
-          - pr-0
-        justifyContent: center
-      subtitle:
-        textAlign: center
-    type: FeaturedItemsSection
 isFeatured: true
 colors: bg-light-fg-dark
 styles:
@@ -81,26 +20,258 @@ styles:
       - pb-5
       - pr-5
     textAlign: center
-    borderColor: border-light
-    borderStyle: none
-    borderWidth: 0
-    borderRadius: none
-    flexDirection: col
 type: PostLayout
 ---
 
-> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante lorem, tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at auctor sapien. Etiam at cursus enim. Suspendisse sed augue tortor.
+*Transforming a dormant broadcast feature into a high-converting seller engagement tool.*
 
-Nunc eu magna vitae lorem pellentesque fermentum. Sed in facilisis dui. Nulla molestie risus in mi dapibus, eget porta lorem semper. Donec sed facilisis nibh. Curabitur eget dui in libero euismod commodo nec sit amet est. Etiam id ipsum aliquam, vehicula erat sit amet, consequat tortor.
+## Project Info
 
-Etiam facilisis lacus nec pretium lobortis. Praesent dapibus justo non efficitur efficitur. Nullam viverra justo arcu, eget egestas tortor pretium id. Sed imperdiet mattis eleifend. Vivamus suscipit et neque imperdiet venenatis. In malesuada sed urna eget vehicula. Donec fermentum tortor sit amet nisl elementum fringilla. Pellentesque dapibus suscipit faucibus. Nullam malesuada sed urna quis rutrum.
+| Company | Product | My Role | Timeline |
+|---------|---------|---------|----------|
+| Bukalapak (5M+ sellers) | Sebar Promosi | Lead Product Designer | Q1–Q2 2021 |
 
-> Donec facilisis lorem id maximus mattis. Vestibulum quis elit magna. Vestibulum accumsan blandit consequat. Phasellus quis posuere quam.
->
-> _By Laura Gómez - Product Marketing Manager_
+**Team:** 1 PM, 2 Engineers, 1 Data Analyst, 1 Researcher
 
-Vestibulum ullamcorper risus auctor eleifend consequat. Vivamus mollis in tellus ac ullamcorper. Vestibulum sit amet bibendum ipsum, vitae rutrum ex. Nullam cursus, urna et dapibus aliquam, urna leo euismod metus, eu luctus justo mi eget mauris. Proin felis leo, volutpat et purus in, lacinia luctus eros. Pellentesque lobortis massa scelerisque lorem ullamcorper, sit amet elementum nulla scelerisque. In volutpat efficitur nulla, aliquam ornare lectus ultricies ac. Mauris sagittis ornare dictum. Nulla vel felis ut purus fermentum pretium. Sed id lectus ac diam aliquet venenatis. Etiam ac auctor enim. Nunc velit mauris, viverra vel orci ut, egestas rhoncus diam. Morbi scelerisque nibh tellus, vel varius urna malesuada sed. Etiam ultricies sem consequat, posuere urna non, maximus ex. Mauris gravida diam sed augue condimentum pulvinar vel ac dui. Integer vel convallis justo.
+---
 
-Nam rutrum magna sed pellentesque lobortis. Etiam quam mauris, iaculis eget ex ac, rutrum scelerisque nisl. Cras finibus dictum ex sed tincidunt. Morbi facilisis neque porta, blandit mauris quis, pharetra odio. Aliquam dictum quam quis elit auctor, at vestibulum ex pulvinar. Quisque lobortis a lectus quis faucibus. Nulla vitae pellentesque nibh, et fringilla erat. Praesent placerat ac est at tincidunt. Praesent ultricies a ex at ultrices. Etiam sed tincidunt elit. Nulla sagittis neque neque, ultrices dignissim sapien pellentesque faucibus. Donec tempor orci sed consectetur dictum. Ut viverra ut enim ac semper. Integer lacinia sem in arcu tempor faucibus eget non urna. Praesent vel nunc eu libero aliquet interdum non vitae elit. Maecenas pharetra ipsum dolor, et iaculis elit ornare ac.
+## The Problem
 
-Aenean scelerisque ullamcorper est aliquet blandit. Donec ac tellus enim. Vivamus quis leo mattis, varius arcu at, convallis diam. Donec ac leo at nunc viverra molestie ac viverra nisi. Proin interdum at turpis at varius. Nunc sit amet ex suscipit, convallis ligula eu, pretium turpis. Sed ultricies neque vel mi malesuada, et mollis risus lobortis. Sed condimentum venenatis mauris, id elementum dolor gravida ac. Sed sodales tempus neque, quis iaculis arcu tincidunt ut. Donec vitae faucibus dui. In hac habitasse platea dictumst. Donec erat ex, ullamcorper a massa a, porttitor porta ligula.
+Sebar Promosi was a 2017 broadcast feature that had become largely unused despite a massive seller base.
+
+| Metric | Value |
+|--------|-------|
+| Daily Active Users | <1000 out of 5M+ sellers |
+| Conversion Rate | <5% in Q1 2021 |
+
+**Key Issues:**
+- Outdated UX, unclear value, and no guidance on who to target
+- Sellers feared spamming buyers and hurting their reputation
+
+---
+
+## Why It Mattered
+
+### Business
+
+- Q1 direction: increase seller transactions
+- Dormant feature represented wasted potential
+- Past rushed projects delivered features nobody used
+
+### Sellers
+
+- No clear way to find high-potential buyers
+- High risk of feeling "spammy"
+- Manual, time-consuming message creation
+
+---
+
+## Approach: Validate First, Build Second
+
+Instead of committing 8+ weeks to a CRM dashboard, I advocated for a **2-week PoC** to test market demand.
+
+### What We Did
+
+- Cross-functional alignment on target segments, success metrics, constraints
+- Seller interviews (high-performers & new sellers) to uncover blockers
+- Lightweight PoC: landing page + Typeform to gauge real interest
+- Rapid iteration based on user feedback
+
+### Why This Mattered
+
+- Prevented potentially 8+ weeks of wasted development on wrong direction
+- PoC data (50%+ submission, 74% voucher interest) gave concrete evidence to proceed
+- Built team confidence: validation, not assumption-driven
+- Shifted focus from "build CRM" → "solve targeting problem"
+
+---
+
+## 5 Key Insights from PoC
+
+**1. Advanced sellers >> passive sellers**
+High-performers showed 3x more engagement. Focus strategy: target analytical sellers first.
+
+**2. Spam fear is the #1 blocker**
+
+> "I don't want to spam my customers, but I don't know which buyers want to hear from me."
+
+→ Design implication: **quotas + disabled states**
+
+**3. Segment clarity = confidence**
+Sellers made faster decisions when definitions were explicit.
+→ Design implication: **surface segment definitions + real-time counts**
+
+**4. Templates save 70% composition time**
+Pre-filled content > blank text box.
+→ Design implication: **category-driven templates**
+
+**5. Visual chat > text-only**
+Banners + product cards + vouchers drove 2.5x higher engagement.
+→ Design implication: **visual-rich message cards on buyer side**
+
+---
+
+## Three Design Principles
+
+### 1. Informed Choice
+
+**Insight:** Sellers needed clarity on who to target.
+
+**Design:** Surface 5 buyer segments with real definitions + counts so sellers choose intentionally, not blindly.
+
+### 2. Anti-Spam by Design
+
+**Insight:** Spam fear is the #1 blocker to adoption.
+
+**Design:** Daily quotas per segment + disabled button states to prevent over-broadcasting and protect buyer inbox.
+
+### 3. Minimal Friction
+
+**Insight:** Manual message composition is slow and tedious.
+
+**Design:** Pre-filled templates by promo category + optional attachments to keep composition fast.
+
+---
+
+## Design Solutions
+
+### Segment Selection (Core of Feature)
+
+Sellers choose which buyer segment to broadcast to. This is where segment clarity + quotas drive confident, non-spammy behavior.
+
+**5 Segments in priority order:**
+1. New Buyers
+2. Browsers
+3. Cart Abandoners
+4. Returning Buyers
+5. Favoriters
+
+**Each segment shows:**
+- Name and definition (e.g., "Pembeli baru pertama kali belanja")
+- Real-time count
+- Daily quota status
+- Disabled state if quota exhausted
+
+**Anti-spam mechanism:** 1 free broadcast per day per segment. Once quota used, button disabled with clear label "Kuota Habis"
+
+### Template-Driven Message Composition
+
+Instead of blank text box, sellers select a promo category which pre-fills title + body. Result: **70% faster message creation**, higher quality output.
+
+**Promo categories:**
+- Diskon
+- Stok Terbatas
+- Promo Toko
+- Umum (general)
+
+**Features:**
+- Pre-filled content sellers can customize
+- Character counts guide clarity (min 50 chars)
+- Visual banner selection matching promo type
+
+> **Why templates work:** PoC data showed 74% of sellers wanted guidance on message composition.
+
+### Optional Attachments
+
+Sellers can optionally attach products and vouchers to make the promotion more compelling.
+
+- Product attachment with image, price, and discount
+- Voucher attachment with code, min. spend, and benefits
+- Based on PoC: >60% of sellers chose to attach vouchers
+
+### Scheduling
+
+- Time picker limited to business hours (08:00–19:00)
+- Clear confirmation about send time and conditions
+- Reassurance link to terms & conditions
+
+---
+
+## Buyer-Side Experience
+
+Old feature: text-only messages. New feature: visual banners + product cards + vouchers.
+
+| Before (Text-Only) | After (Visual) |
+|-------------------|----------------|
+| Plain text with hyperlinks | Personalized greeting with buyer name |
+| Low attention-grabbing power | Product card: image, name, price, discount |
+| Hard to differentiate promotions | Voucher: code + min. purchase + copyable |
+| Poor conversion | Transparency footer explaining why buyer got message |
+
+**Result:** 2.5x higher engagement
+
+---
+
+## Landing Page Redesign
+
+### Before
+
+- Small, squished cards in 2-column grid
+- Visual noise, multiple colors & styles
+- Lacked benefit hierarchy
+- No segment counts or proof
+
+### After
+
+- Single-column layout, larger touch targets
+- Benefit hierarchy: "Tepat Sasaran" → "Tingkatkan Transaksi" → "Gratis" → "Cepat"
+- Real-time segment counts (e.g., "12 new buyers")
+- Clear CTA: "Mulai sekarang"
+
+---
+
+## Results & Impact
+
+Post-launch (May 2021):
+
+| Metric | Result |
+|--------|--------|
+| Daily Landing Page Visits | **+1025%** (from ~1K to ~10K) |
+| Conversion Rate | **40%** (up from <5%) |
+| Chat Read Rate | **11.25%** (vs ~3% in old feature) |
+
+### Additional Validation
+
+- 50%+ of PoC sellers submitted interest Typeform
+- 74% of sellers wanted to attach vouchers
+- Message volume: <500/day (honest assessment: quota system may be restrictive)
+
+---
+
+## My Ownership (End-to-End Design Lead)
+
+**Problem validation:** Pushed back on stakeholder's "build CRM dashboard" assumption. Advocated for PoC-first approach. Proved it prevented wasted engineering.
+
+**PoC design:** Designed minimal landing page + Typeform that validated 50%+ seller interest in targeting tools.
+
+**Research synthesis:** Conducted seller interviews with research team. Distilled "spam fear" as #1 blocker → shaped anti-spam quota feature.
+
+**Feature ideation:** Led ideation on 5 segments, quota system, template categories, buyer-side visuals. Made trade-off decisions (e.g., single-column layout for scannability).
+
+**Cross-functional leadership:** Collaborated with PM on prioritization, Data on segment definitions, Engineers on feasibility, keeping timeline tight.
+
+---
+
+## What I Learned
+
+### Key Learnings
+
+**1. Validate assumptions before full build**
+PoC prevented 8+ weeks of potentially wasted development.
+→ Always spend 1–2 weeks on concept validation before greenlight.
+
+**2. The real problem is often invisible in the UI**
+Sebar Promosi failed not because of bad design, but because sellers couldn't see WHO to target.
+→ Conduct user interviews BEFORE design comps, ask "What's stopping you?" not "What do you think?"
+
+**3. Design constraints create unintended side effects**
+Anti-spam quotas solved the spam problem but may limit utility for power users.
+→ Build post-launch monitoring dashboard within 2 weeks of launch.
+
+**4. Template-driven experiences scale better than manual workflows**
+70% faster message creation = higher adoption.
+→ Default to structured inputs over free-form text.
+
+**5. Improving buyer experience directly boosts seller adoption**
+Visual chat improvements created feedback loop: sellers saw better results → more confidence → more usage.
+→ Always measure full funnel (seller action → buyer outcome).

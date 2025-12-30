@@ -38,6 +38,10 @@ export default function ImageBlock(props) {
                         : undefined,
                     styles?.self?.borderRadius ? mapStyles({ borderRadius: styles?.self?.borderRadius }) : undefined
                 )}
+                style={{
+                    width: imageClassName?.includes('w-full') ? '100%' : styles?.self?.width,
+                    height: styles?.self?.height
+                }}
                 src={url}
                 alt={altText}
             />

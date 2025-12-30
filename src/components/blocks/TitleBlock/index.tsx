@@ -22,7 +22,11 @@ export default function TitleBlock(props) {
             )}
             data-sb-field-path={fieldPath}
         >
-            <span {...(fieldPath && { 'data-sb-field-path': '.text' })}>{text}</span>
+            <span
+                className={classNames('flex', { 'justify-center': styles?.self?.textAlign === 'center' })}
+                {...(fieldPath && { 'data-sb-field-path': '.text' })}
+                dangerouslySetInnerHTML={{ __html: text }}
+            />
         </h2>
     );
 }

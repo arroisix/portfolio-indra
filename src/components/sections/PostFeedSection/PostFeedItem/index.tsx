@@ -23,32 +23,62 @@ export default function PostFeedItem(props) {
     const TitleTag = hasSectionTitle ? 'h3' : 'h2';
     const flexDirection = post.styles?.self?.flexDirection ?? 'col';
     const hasThumbnail = !!(showThumbnail && post.featuredImage?.url);
+    const isSpreadEffect = hoverEffect === 'spread';
 
     return (
         <Link
             href={getPageUrl(post)}
             className={classNames(
                 'sb-card',
-                'block',
-                post.colors ?? 'bg-light-fg-dark',
+                'flex',
+                'justify-center',
+                isSpreadEffect ? 'items-start' : 'items-center',
+                isSpreadEffect ? 'bg-transparent' : (post.colors ?? 'bg-light-fg-dark'),
                 post.styles?.self?.margin ? mapStyles({ margin: post.styles?.self?.margin }) : undefined,
-                post.styles?.self?.padding ? mapStyles({ padding: post.styles?.self?.padding }) : undefined,
-                post.styles?.self?.borderWidth && post.styles?.self?.borderWidth !== 0 && post.styles?.self?.borderStyle !== 'none'
+                post.styles?.self?.padding && !isSpreadEffect ? mapStyles({ padding: post.styles?.self?.padding }) : undefined,
+                post.styles?.self?.borderWidth && post.styles?.self?.borderWidth !== 0 && post.styles?.self?.borderStyle !== 'none' && !isSpreadEffect
                     ? mapStyles({
                           borderWidth: post.styles?.self?.borderWidth,
                           borderStyle: post.styles?.self?.borderStyle,
                           borderColor: post.styles?.self?.borderColor ?? 'border-primary'
                       })
                     : undefined,
-                post.styles?.self?.borderRadius ? mapStyles({ borderRadius: post.styles?.self?.borderRadius }) : undefined,
+                post.styles?.self?.borderRadius && !isSpreadEffect ? mapStyles({ borderRadius: post.styles?.self?.borderRadius }) : undefined,
                 post.styles?.self?.textAlign ? mapStyles({ textAlign: post.styles?.self?.textAlign }) : undefined,
-                'overflow-hidden',
+                isSpreadEffect ? '' : 'overflow-hidden',
                 mapCardHoverStyles(hoverEffect, sectionColors)
             )}
             {...(hasAnnotations && { 'data-sb-object-id': post.__metadata?.id })}
         >
-            <div className={classNames('w-full', 'flex', mapFlexDirectionStyles(flexDirection, hasThumbnail), 'gap-6')}>
-                {hasThumbnail && (
+            <div className={classNames('w-full', 'flex', mapFlexDirectionStyles(flexDirection, hasThumbnail), isSpreadEffect ? 'gap-0' : 'gap-6')}>
+                {hasThumbnail && isSpreadEffect ? (
+                    <div className="folder-container">
+                        {/* Background images that peek out */}
+                        <div className="folder-bg-image folder-bg-1">
+                            <ImageBlock
+                                {...post.featuredImage}
+                                imageClassName="w-full h-full object-cover"
+                            />
+                        </div>
+                        <div className="folder-bg-image folder-bg-2">
+                            <ImageBlock
+                                {...post.featuredImage}
+                                imageClassName="w-full h-full object-cover"
+                            />
+                        </div>
+                        {/* Folder in front */}
+                        <div className="folder-front">
+                            <div className="folder-tab"></div>
+                            <div className="folder-body">
+                                <ImageBlock
+                                    {...post.featuredImage}
+                                    imageClassName="w-full h-full object-cover"
+                                    {...(hasAnnotations && { 'data-sb-field-path': 'featuredImage' })}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                ) : hasThumbnail ? (
                     <ImageBlock
                         {...post.featuredImage}
                         className={classNames({
@@ -58,13 +88,16 @@ export default function PostFeedItem(props) {
                         imageClassName="w-full h-full object-cover"
                         {...(hasAnnotations && { 'data-sb-field-path': 'featuredImage' })}
                     />
-                )}
+                ) : null}
                 <div
-                    className={classNames('w-full', 'flex', 'flex-col', 'gap-[10px]', {
-                        'xs:grow': hasThumbnail && (flexDirection === 'row' || flexDirection === 'row-reverse')
+                    className={classNames('w-full', 'flex', 'flex-col', 'gap-2.5', {
+                        'xs:grow': hasThumbnail && (flexDirection === 'row' || flexDirection === 'row-reverse'),
+                        'items-center': flexDirection === 'col' && post.styles?.self?.textAlign === 'center',
+                        'text-center': flexDirection === 'col' && post.styles?.self?.textAlign === 'center',
+                        'mt-4': isSpreadEffect
                     })}
                 >
-                    <TitleTag className="font-epilogue font-semibold text-[20px] leading-[30px] text-[#2d2d2d]">
+                    <TitleTag className="font-epilogue text-card-title text-dark">
                         <span
                             className={classNames(mapCardTitleHoverStyles(hoverEffect, post.colors))}
                             {...(hasAnnotations && { 'data-sb-field-path': 'title' })}
@@ -73,7 +106,7 @@ export default function PostFeedItem(props) {
                         </span>
                     </TitleTag>
                     {showExcerpt && post.excerpt && (
-                        <p className="font-epilogue font-normal text-[17px] leading-[27px] text-[#2d2d2d]" {...(hasAnnotations && { 'data-sb-field-path': 'excerpt' })}>
+                        <p className="font-epilogue text-body text-dark" {...(hasAnnotations && { 'data-sb-field-path': 'excerpt' })}>
                             {post.excerpt}
                         </p>
                     )}
@@ -144,6 +177,8 @@ function mapCardHoverStyles(hoverEffect: string, colors: string) {
             return colors === 'bg-dark-fg-light'
                 ? 'transition duration-200 ease-in hover:shadow-2xl hover:shadow-black/60 hover:-translate-y-1.5'
                 : 'transition duration-200 ease-in hover:shadow-2xl hover:-translate-y-1.5';
+        case 'spread':
+            return 'card-spread-effect';
         default:
             return null;
     }

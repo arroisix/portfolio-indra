@@ -1,75 +1,15 @@
 ---
-title: Case study 2
+title: Designing Story Mode for DailyFriend.AI
 slug: case-study-2
-date: '2022-02-16'
-excerpt: >-
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante lorem,
-  tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at auctor sapien.
-  Etiam at cursus enim. Suspendisse sed augue tortor. Nunc eu magna vitae lorem
-  pellentesque fermentum. Sed in facilisis dui.
+date: '2024-09-22'
+excerpt: DailyFriend.ai
 featuredImage:
-  url: /images/img-placeholder.svg
-  altText: Case study 2
+  url: /images/377b6eb61994520b4f3ffb7d006ca39069e2b096.png
+  altText: DailyFriend Story Mode
   styles:
     self:
-      borderRadius: x-large
+      borderRadius: none
   type: ImageBlock
-bottomSections:
-  - title: Divider
-    colors: bg-light-fg-dark
-    styles:
-      self:
-        padding:
-          - pt-7
-          - pl-7
-          - pb-7
-          - pr-7
-    type: DividerSection
-  - items:
-      - title: About Company
-        tagline: This is the tagline
-        subtitle: >-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante
-          lorem, tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at
-          auctor sapien.
-        image:
-          url: /images/telus-logo.svg
-          altText: Company logo
-          styles:
-            self:
-              margin:
-                - ml-3
-          type: ImageBlock
-        colors: bg-light-fg-dark
-        styles:
-          self:
-            padding:
-              - pt-6
-              - pl-6
-              - pb-6
-              - pr-6
-            textAlign: left
-            borderColor: border-neutralAlt
-            borderStyle: none
-            borderWidth: 0
-            borderRadius: none
-            flexDirection: row
-        type: FeaturedItem
-    variant: small-list
-    colors: bg-light-fg-dark
-    styles:
-      self:
-        margin:
-          - mb-20
-        padding:
-          - pt-0
-          - pl-0
-          - pb-0
-          - pr-0
-        justifyContent: center
-      subtitle:
-        textAlign: center
-    type: FeaturedItemsSection
 isFeatured: true
 colors: bg-light-fg-dark
 styles:
@@ -80,24 +20,214 @@ styles:
       - pb-5
       - pr-5
     textAlign: center
-    borderColor: border-light
-    borderStyle: none
-    borderWidth: 0
-    borderRadius: none
-    flexDirection: col
 type: PostLayout
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante lorem, tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at auctor sapien. Etiam at cursus enim. Suspendisse sed augue tortor. Nunc eu magna vitae lorem pellentesque fermentum. Sed in facilisis dui. Nulla molestie risus in mi dapibus, eget porta lorem semper. Donec sed facilisis nibh. Curabitur eget dui in libero euismod commodo nec sit amet est. Etiam id ipsum aliquam, vehicula erat sit amet, consequat tortor.
+*Turning moments of curiosity into meaningful engagement through conversational storytelling*
 
-![](/images/img-placeholder.svg)
+## Project Info
 
-Etiam facilisis lacus nec pretium lobortis. Praesent dapibus justo non efficitur efficitur. Nullam viverra justo arcu, eget egestas tortor pretium id. Sed imperdiet mattis eleifend. Vivamus suscipit et neque imperdiet venenatis. In malesuada sed urna eget vehicula. Donec fermentum tortor sit amet nisl elementum fringilla. Pellentesque dapibus suscipit faucibus. Nullam malesuada sed urna quis rutrum. Donec facilisis lorem id maximus mattis. Vestibulum quis elit magna. Vestibulum accumsan blandit consequat. Phasellus quis posuere quam.
+| Year | Role | Duration | Platform |
+|------|------|----------|----------|
+| 2024 | UX Designer | 6 weeks | iOS & Android |
 
-Vestibulum ullamcorper risus auctor eleifend consequat. Vivamus mollis in tellus ac ullamcorper. Vestibulum sit amet bibendum ipsum, vitae rutrum ex. Nullam cursus, urna et dapibus aliquam, urna leo euismod metus, eu luctus justo mi eget mauris. Proin felis leo, volutpat et purus in, lacinia luctus eros. Pellentesque lobortis massa scelerisque lorem ullamcorper, sit amet elementum nulla scelerisque. In volutpat efficitur nulla, aliquam ornare lectus ultricies ac. Mauris sagittis ornare dictum. Nulla vel felis ut purus fermentum pretium. Sed id lectus ac diam aliquet venenatis. Etiam ac auctor enim. Nunc velit mauris, viverra vel orci ut, egestas rhoncus diam. Morbi scelerisque nibh tellus, vel varius urna malesuada sed. Etiam ultricies sem consequat, posuere urna non, maximus ex. Mauris gravida diam sed augue condimentum pulvinar vel ac dui. Integer vel convallis justo.
+---
 
-> Nam rutrum magna sed pellentesque lobortis. Etiam quam mauris, iaculis eget ex ac, rutrum scelerisque nisl. Cras finibus dictum ex sed tincidunt. Morbi facilisis neque porta, blandit mauris quis, pharetra odio. Aliquam dictum quam quis elit auctor, at vestibulum ex pulvinar. Quisque lobortis a lectus quis faucibus. Nulla vitae pellentesque nibh, et fringilla erat. Praesent placerat ac est at tincidunt. Praesent ultricies a ex at ultrices.
->
-> _By Gordon Red - Director of IT_
+## Context: The Engagement Cliff
 
-Aenean scelerisque ullamcorper est aliquet blandit. Donec ac tellus enim. Vivamus quis leo mattis, varius arcu at, convallis diam. Donec ac leo at nunc viverra molestie ac viverra nisi. Proin interdum at turpis at varius. Nunc sit amet ex suscipit, convallis ligula eu, pretium turpis. Sed ultricies neque vel mi malesuada, et mollis risus lobortis. Sed condimentum venenatis mauris, id elementum dolor gravida ac. Sed sodales tempus neque, quis iaculis arcu tincidunt ut. Donec vitae faucibus dui. In hac habitasse platea dictumst. Donec erat ex, ullamcorper a massa a, porttitor porta ligula.
+New users loved DailyFriend's warmth, but engagement dropped sharply after day 3. The root cause? Users needed new, **emotionally rewarding reasons** to return daily.
+
+| Metric | Value |
+|--------|-------|
+| Drop-off after Day 3 | 62% |
+| Avg session duration | 2.3 min |
+
+> **Hypothesis:** A creative feature could transform DailyFriend from chatbot → **creative companion**
+
+*Source: Internal analytics, 30-day cohort (n≈2,500 users)*
+
+---
+
+## Discovery: How It Started
+
+During exploratory user sessions, the PM (Pun Pun) and cofounder (Arri) noticed a consistent pattern: **users naturally asked DailyFriend to tell stories**.
+
+> "This wasn't a one-time request — it was observed behavior across multiple sessions."
+> — Arri Ciptadi, Cofounder
+
+### The Spark
+
+*"What if DailyFriend didn't just chat, but told stories? Audio stories. With illustrations."*
+
+**My Role:** Take this concept and shape it into a complete, usable, validated experience.
+
+---
+
+## Research Phase 1: Understanding Users
+
+**Method:** Semi-Structured Interviews (n=7)
+
+### Key Findings
+
+| Finding | Insight |
+|---------|---------|
+| 5 out of 7 | Mentioned desire for control (pause, change, stop mid-story) |
+| Two use contexts | Parents at bedtime with children, and non-parents during commute/wind-down |
+| Primary motivation | Emotional relaxation & closeness, not education |
+| Key expectation | Conversational, flexible — not passive playback |
+
+> "I want to be able to say 'make the dragon friendlier' and have it change."
+> — Parent, 34
+
+---
+
+## Research Phase 2: Signal Validation
+
+**Method:** Follow-up Survey (n=12) — Directional signals, not statistical validation
+
+- **Frequency:** Most respondents read/listen to stories **2-3x per week**
+- **Format Preference:** Strong preference for **audio or audio+visual** over text-only
+- **Control Importance:** Rated **highly important** (4-5 out of 5)
+
+> **Takeaway:** Small sample, but consistent signal — users want audio stories with interactive control, not passive playback.
+
+---
+
+## Core Insight
+
+> "Users see storytelling not as passive consumption, but as **interactive imagination**. They want control and flexibility—the ability to shape the experience in real-time."
+
+This directly shaped the interaction model: **push-to-talk, clear state indicators, user-driven flow.**
+
+---
+
+## Design Principles
+
+### 1. Conversational, Not Linear
+Stories feel like a dialog with AI, not a static audio track. Users can interject, redirect, ask questions.
+
+### 2. Clear Control Boundaries
+Users always know: when AI is speaking vs. when AI is listening. No ambiguity in interaction states.
+
+### 3. Lightweight Emotional Impact
+Stories are pleasant and calming, not demanding long commitment. Perfect for bedtime or short breaks.
+
+---
+
+## Key Design Decision: Solving for Control
+
+Prototype testing revealed users immediately asked: **"Can I change the story mid-way?"**
+
+### Options Explored
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Auto Continuation | Natural flow | Ambiguous control |
+| Always Listening | Intuitive | Noisy & error-prone |
+| **Push-to-Talk** ✓ | Explicit & predictable, Clear states | — |
+
+**Decision:** Visible, pulsing mic button + voice hint to signal listening state. Users know exactly when to speak.
+
+---
+
+## Core User Flow
+
+1. **User Prompt** — "Tell me a story about a dragon"
+2. **AI Generates** — Story + illustration
+3. **AI Narrates** — Audio playback
+4. **User Can Interrupt** — Push-to-talk to change *(the magic moment)*
+5. **Story Saved** — To library/archive
+
+> **Key differentiator:** Step 4 is the magic — users aren't passive listeners, they're co-creators.
+
+---
+
+## Execution: Bringing It to Life
+
+### My Responsibilities
+- End-to-end interaction design & IA
+- Mic button behavior & state management
+- Voice hints & onboarding flow
+- Collaboration with dev & design studio
+- Prototype testing (7 participants)
+
+### External Partners
+**Orenji Studio** handled visual design, illustrations, motion & transitions.
+
+> **Clear ownership:** I owned the interaction model and UX decisions. Visual polish was outsourced to specialists.
+
+---
+
+## Final Design: Key Screens
+
+![Prompt Entry](/images/placeholder-prompt.png)
+*User starts a new story*
+
+![Story Playing + Mic Active](/images/placeholder-story.png)
+*Push-to-talk interaction*
+
+![Story Library](/images/placeholder-library.png)
+*Saved stories archive*
+
+*Visual design by Orenji Studio • Interaction design by Satrio*
+
+---
+
+## Results: Launch Impact
+
+| Metric | Before | After | Change |
+|--------|--------|-------|--------|
+| Avg Session Duration | 2.3 min | 4.8 min | **+109%** |
+| 7-Day Retention | 28% | 41% | **+13 pp** |
+| Daily Active Users | — | — | **+32%** |
+
+> "Story Mode is now part of our bedtime routine. My daughter asks for 'one more story' every night."
+> — Parent user, App Store review
+
+**Measurement Context:** 4-week post-launch period. Metrics are directional — other factors (marketing, seasonal) may contribute. No A/B test isolation.
+
+*Source: Internal analytics, 4 weeks post-launch*
+
+---
+
+## Bonus: An Unexpected Discovery
+
+One user generated **100+ stories in a single week**.
+
+### What It Revealed
+- Extremely high emotional stickiness
+- Unsustainable image generation costs at scale
+- Signal for monetization opportunity
+
+### Business Response
+**Introduced Premium Tier** — Unlimited story creation for subscribers + limited free access for casual users.
+
+> **Design insight:** Power users aren't just metrics — they reveal both opportunities (monetization) and constraints (cost management) that shape product strategy.
+
+---
+
+## Reflection: What I Learned
+
+### Key Learnings
+
+**Small insights can become big features**
+Observed user behavior (not just feedback) led to a core engagement driver.
+
+**Interaction boundaries matter in conversational UX**
+Clarity on "listening vs. speaking" states is critical for trust.
+
+**Lightweight research is enough for directional decisions**
+Small mixed-method studies worked for a 6-week sprint timeline.
+
+**Power users reveal both opportunity and constraint**
+Monitor them closely — they show what to optimize and what costs to manage.
+
+### What I'd Do Differently
+
+With more time, I would have conducted larger-sample usability testing (15-20 users) to validate the push-to-talk decision with higher confidence, and set up proper A/B testing post-launch to better attribute engagement changes specifically to Story Mode.
+
+---
+
+## Closing
+
+Story Mode transformed DailyFriend from a place to chat into a space to imagine, listen, and connect.
