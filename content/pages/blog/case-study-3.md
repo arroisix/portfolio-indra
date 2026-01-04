@@ -1,14 +1,26 @@
 ---
-title: Reviving Bukalapak's Broadcast Feature
+title: Reviving Bukalapak's Promotion Broadcast Feature
 slug: case-study-3
 date: '2021-05-15'
 excerpt: Bukalapak
 featuredImage:
-  url: /images/1c181206a78d4afdb16e1247c6b02fe1bb25fd2d.png
+  url: /images/bukalapak.png
   altText: Sebar Promosi
   styles:
     self:
       borderRadius: none
+  type: ImageBlock
+secondaryImage:
+  url: /images/bukalapak-2.png
+  altText: Sebar Promosi Secondary
+  type: ImageBlock
+heroImage:
+  url: /images/hero-bukalapak.png
+  altText: Bukalapak Hero Background
+  type: ImageBlock
+heroImageMobile:
+  url: /images/hero-bukalapak-mobile.png
+  altText: Bukalapak Hero Background Mobile
   type: ImageBlock
 isFeatured: true
 colors: bg-light-fg-dark
@@ -23,12 +35,12 @@ styles:
 type: PostLayout
 ---
 
-*Transforming a dormant broadcast feature into a high-converting seller engagement tool.*
+_Transforming a dormant broadcast feature into a high-converting seller engagement tool._
 
 ## Project Info
 
-| Company | Product | My Role | Timeline |
-|---------|---------|---------|----------|
+| Company                 | Product       | My Role               | Timeline   |
+| ----------------------- | ------------- | --------------------- | ---------- |
 | Bukalapak (5M+ sellers) | Sebar Promosi | Lead Product Designer | Q1–Q2 2021 |
 
 **Team:** 1 PM, 2 Engineers, 1 Data Analyst, 1 Researcher
@@ -39,12 +51,13 @@ type: PostLayout
 
 Sebar Promosi was a 2017 broadcast feature that had become largely unused despite a massive seller base.
 
-| Metric | Value |
-|--------|-------|
+| Metric             | Value                    |
+| ------------------ | ------------------------ |
 | Daily Active Users | <1000 out of 5M+ sellers |
-| Conversion Rate | <5% in Q1 2021 |
+| Conversion Rate    | <5% in Q1 2021           |
 
 **Key Issues:**
+
 - Outdated UX, unclear value, and no guidance on who to target
 - Sellers feared spamming buyers and hurting their reputation
 
@@ -140,6 +153,7 @@ Banners + product cards + vouchers drove 2.5x higher engagement.
 Sellers choose which buyer segment to broadcast to. This is where segment clarity + quotas drive confident, non-spammy behavior.
 
 **5 Segments in priority order:**
+
 1. New Buyers
 2. Browsers
 3. Cart Abandoners
@@ -147,6 +161,7 @@ Sellers choose which buyer segment to broadcast to. This is where segment clarit
 5. Favoriters
 
 **Each segment shows:**
+
 - Name and definition (e.g., "Pembeli baru pertama kali belanja")
 - Real-time count
 - Daily quota status
@@ -159,12 +174,14 @@ Sellers choose which buyer segment to broadcast to. This is where segment clarit
 Instead of blank text box, sellers select a promo category which pre-fills title + body. Result: **70% faster message creation**, higher quality output.
 
 **Promo categories:**
+
 - Diskon
 - Stok Terbatas
 - Promo Toko
 - Umum (general)
 
 **Features:**
+
 - Pre-filled content sellers can customize
 - Character counts guide clarity (min 50 chars)
 - Visual banner selection matching promo type
@@ -191,12 +208,12 @@ Sellers can optionally attach products and vouchers to make the promotion more c
 
 Old feature: text-only messages. New feature: visual banners + product cards + vouchers.
 
-| Before (Text-Only) | After (Visual) |
-|-------------------|----------------|
-| Plain text with hyperlinks | Personalized greeting with buyer name |
-| Low attention-grabbing power | Product card: image, name, price, discount |
-| Hard to differentiate promotions | Voucher: code + min. purchase + copyable |
-| Poor conversion | Transparency footer explaining why buyer got message |
+| Before (Text-Only)               | After (Visual)                                       |
+| -------------------------------- | ---------------------------------------------------- |
+| Plain text with hyperlinks       | Personalized greeting with buyer name                |
+| Low attention-grabbing power     | Product card: image, name, price, discount           |
+| Hard to differentiate promotions | Voucher: code + min. purchase + copyable             |
+| Poor conversion                  | Transparency footer explaining why buyer got message |
 
 **Result:** 2.5x higher engagement
 
@@ -224,11 +241,11 @@ Old feature: text-only messages. New feature: visual banners + product cards + v
 
 Post-launch (May 2021):
 
-| Metric | Result |
-|--------|--------|
-| Daily Landing Page Visits | **+1025%** (from ~1K to ~10K) |
-| Conversion Rate | **40%** (up from <5%) |
-| Chat Read Rate | **11.25%** (vs ~3% in old feature) |
+| Metric                    | Result                             |
+| ------------------------- | ---------------------------------- |
+| Daily Landing Page Visits | **+1025%** (from ~1K to ~10K)      |
+| Conversion Rate           | **40%** (up from <5%)              |
+| Chat Read Rate            | **11.25%** (vs ~3% in old feature) |
 
 ### Additional Validation
 

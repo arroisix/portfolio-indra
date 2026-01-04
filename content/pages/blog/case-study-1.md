@@ -4,11 +4,23 @@ slug: case-study-1
 date: '2024-06-15'
 excerpt: Gradient Academy
 featuredImage:
-  url: /images/47bdbfe5b8d0e4f6a0dbd3e1cedb3cd7bdb88f23.png
+  url: /images/gradient.png
   altText: UTBK Landing Page
   styles:
     self:
       borderRadius: none
+  type: ImageBlock
+secondaryImage:
+  url: /images/gradient-2.png
+  altText: UTBK Landing Page Secondary
+  type: ImageBlock
+heroImage:
+  url: /images/hero-gradient.png
+  altText: Gradient Hero Background
+  type: ImageBlock
+heroImageMobile:
+  url: /images/hero-gradient-mobile.png
+  altText: Gradient Hero Background Mobile
   type: ImageBlock
 isFeatured: true
 colors: bg-light-fg-dark
@@ -23,13 +35,13 @@ styles:
 type: PostLayout
 ---
 
-*Designing Gradient's first landing page for high school students preparing for Indonesia's national university entrance exam.*
+_Designing Gradient's first landing page for high school students preparing for Indonesia's national university entrance exam._
 
 ## Project Info
 
-| Role | Timeline | Status | Company |
-|------|----------|--------|---------|
-| Product Designer (Solo) | 4 weeks | In Development | Gradient Academy |
+| Role                    | Timeline | Status         | Company          |
+| ----------------------- | -------- | -------------- | ---------------- |
+| Product Designer (Solo) | 4 weeks  | In Development | Gradient Academy |
 
 ---
 
@@ -45,11 +57,11 @@ Design a landing page that converts high school students — a completely new au
 
 ### Timeline Constraint
 
-| Date | Milestone |
-|------|-----------|
-| 12 Jan | Registration Opens (our launch deadline) |
-| 25 Mar | UTBK Registration (peak urgency) |
-| 21-30 Apr | UTBK Exam Days |
+| Date      | Milestone                                |
+| --------- | ---------------------------------------- |
+| 12 Jan    | Registration Opens (our launch deadline) |
+| 25 Mar    | UTBK Registration (peak urgency)         |
+| 21-30 Apr | UTBK Exam Days                           |
 
 > **Constraint:** 4 weeks to research, design, and hand off to dev
 
@@ -66,12 +78,12 @@ Design a landing page that converts high school students — a completely new au
 
 ### Strategic Research Tradeoff
 
-| ❌ User Interviews First? | ✓ Desk Research Instead |
-|---------------------------|-------------------------|
-| 2-3 weeks to recruit + conduct | 1-2 weeks total |
-| Blocks content team | 1,200+ data points |
-| Only 8-10 perspectives | Authentic user language |
-| Delays design direction | Enables parallelization |
+| ❌ User Interviews First?      | ✓ Desk Research Instead |
+| ------------------------------ | ----------------------- |
+| 2-3 weeks to recruit + conduct | 1-2 weeks total         |
+| Blocks content team            | 1,200+ data points      |
+| Only 8-10 perspectives         | Authentic user language |
+| Delays design direction        | Enables parallelization |
 
 > **Philosophy:** "Generate hypotheses fast with scalable research, validate with focused interviews post-design."
 
@@ -81,11 +93,11 @@ Design a landing page that converts high school students — a completely new au
 
 Understanding UTBK students through existing user voices.
 
-| Source | Data Points | Details |
-|--------|-------------|---------|
-| TikTok Posts | 346 | Keywords: UTBK, gagal UTBK, tryout, SNBT |
-| App Reviews | 867 | From Ruangguru, Pahamify, Analitica |
-| Academic Papers | 7 | UTBK anxiety, learning strategies, TPS research |
+| Source          | Data Points | Details                                         |
+| --------------- | ----------- | ----------------------------------------------- |
+| TikTok Posts    | 346         | Keywords: UTBK, gagal UTBK, tryout, SNBT        |
+| App Reviews     | 867         | From Ruangguru, Pahamify, Analitica             |
+| Academic Papers | 7           | UTBK anxiety, learning strategies, TPS research |
 
 > **1,213 total data points analyzed** — Real patterns from 1,000+ student voices, not just 8-10 interview subjects
 
@@ -169,11 +181,11 @@ Competitor weaknesses = Gradient's opportunity.
 
 ### Competitor Pain Points (from 867 app reviews)
 
-| Competitor | Issues |
-|------------|--------|
-| Ruangguru | Video buffering, skor tidak akurat, materi terlalu umum |
-| Pahamify | App crash, pembahasan dangkal, harga mahal |
-| Analitica | UI outdated, prediksi skor ngaco, analytics terbatas |
+| Competitor | Issues                                                  |
+| ---------- | ------------------------------------------------------- |
+| Ruangguru  | Video buffering, skor tidak akurat, materi terlalu umum |
+| Pahamify   | App crash, pembahasan dangkal, harga mahal              |
+| Analitica  | UI outdated, prediksi skor ngaco, analytics terbatas    |
 
 ### Gradient's Edge
 
@@ -189,12 +201,12 @@ Competitor weaknesses = Gradient's opportunity.
 
 How research directly shaped design decisions.
 
-| Insight | Design Decision |
-|---------|-----------------|
-| "Students don't understand what UTBK is" | Created "Apa itu UTBK?" modal with comparison table |
-| "Users don't trust tryout scores" | Created "Apa itu IRT?" explainer to demystify scoring |
-| "First-time users need guidance, not features" | Hero leads with education before pushing tryout CTA |
-| "Trust is a barrier" | Free tryout + testimonials prominently placed |
+| Insight                                        | Design Decision                                       |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| "Students don't understand what UTBK is"       | Created "Apa itu UTBK?" modal with comparison table   |
+| "Users don't trust tryout scores"              | Created "Apa itu IRT?" explainer to demystify scoring |
+| "First-time users need guidance, not features" | Hero leads with education before pushing tryout CTA   |
+| "Trust is a barrier"                           | Free tryout + testimonials prominently placed         |
 
 ---
 
@@ -205,6 +217,7 @@ Low-fidelity explorations to align with stakeholders on layout and hierarchy.
 ### Process
 
 Before jumping to high-fidelity design, I created wireframes in **Whimsical** to:
+
 - Align with stakeholders on information hierarchy
 - Explore different hero messaging angles
 - Test layout variations before committing to visual design
@@ -218,11 +231,11 @@ Before jumping to high-fidelity design, I created wireframes in **Whimsical** to
 
 ### Hero Messaging Variants Explored
 
-| Variant | Focus |
-|---------|-------|
-| "Masuk PTN Impian dengan Persiapan UTBK yang Terarah" | Structured preparation |
-| "Belajar UTBK Jadi Jelas, Terarah, dan Anti-Stress" | Anxiety reduction |
-| "Tryout Akurat, Rekomendasi Tepat, Skor UTBK Naik Terarah" | Accuracy & results |
+| Variant                                                    | Focus                  |
+| ---------------------------------------------------------- | ---------------------- |
+| "Masuk PTN Impian dengan Persiapan UTBK yang Terarah"      | Structured preparation |
+| "Belajar UTBK Jadi Jelas, Terarah, dan Anti-Stress"        | Anxiety reduction      |
+| "Tryout Akurat, Rekomendasi Tepat, Skor UTBK Naik Terarah" | Accuracy & results     |
 
 > **Final Decision:** Combined aspiration ("Kampus Impian") with action ("Mulai dari Sini") — balancing emotional appeal with clear next step.
 >
@@ -252,7 +265,7 @@ Page structure designed around user journey.
 ## Final Design
 
 ![Landing Page Hero](/images/placeholder-utbk-hero.png)
-*"Masuk Kampus Impian, Mulai dari Sini"*
+_"Masuk Kampus Impian, Mulai dari Sini"_
 
 ### Hero Elements
 
@@ -294,6 +307,6 @@ The 4-week crunch actually improved research quality. Forced to choose desk rese
 - **Post-Launch Validation:** 5-8 user interviews with SMA students
 - **A/B Testing:** Test hero messaging variants
 
-| Target Launch | Status |
-|---------------|--------|
+| Target Launch           | Status         |
+| ----------------------- | -------------- |
 | Before January 12, 2026 | In Development |

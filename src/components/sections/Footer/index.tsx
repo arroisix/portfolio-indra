@@ -122,8 +122,8 @@ export default function Footer(props) {
                 <div className="pt-16 md:pt-footer-top px-6 md:px-10">
                     <div className="grid md:grid-cols-2 gap-12 md:gap-footer-gap">
                         {(title || text) && (
-                            <div className="flex flex-col gap-8 md:gap-16">
-                                <div className="flex flex-col gap-6 md:gap-10">
+                            <div className="flex flex-col items-center md:items-start gap-8 md:gap-16">
+                                <div className="flex flex-col items-center md:items-start gap-6 md:gap-10 text-center md:text-left">
                                     {title && (
                                         <h2 className="font-epilogue text-section-title text-dark" {...(enableAnnotations && { 'data-sb-field-path': 'title' })}>
                                             {title}
@@ -140,7 +140,7 @@ export default function Footer(props) {
                                     )}
                                 </div>
                                 {socialLinks.length > 0 && (
-                                    <div className="flex items-center" {...(enableAnnotations && { 'data-sb-field-path': 'socialLinks' })}>
+                                    <div className="flex items-center justify-center md:justify-start" {...(enableAnnotations && { 'data-sb-field-path': 'socialLinks' })}>
                                         {socialLinks.map((link, index) => (
                                             <div key={index} className="w-9 h-9">
                                                 <Social {...link} {...(enableAnnotations && { 'data-sb-field-path': `.${index}` })} />
@@ -188,7 +188,7 @@ export default function Footer(props) {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="glow-on-hover"
+                                    className="glow-on-hover mx-auto md:mx-0"
                                 >
                                     {isSubmitting ? 'Sending...' : 'Submit'}
                                 </button>

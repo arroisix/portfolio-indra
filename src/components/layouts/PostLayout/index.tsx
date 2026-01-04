@@ -11,12 +11,13 @@ export default function PostLayout(props) {
     const { page, site } = props;
     const BaseLayout = getBaseLayoutComponent(page.baseLayout, site.baseLayout);
     const { enableAnnotations = true } = site;
-    const { title, date, author, excerpt, heroImage, markdown_content, bottomSections = [], relatedPosts = [] } = page;
+    const { title, date, author, excerpt, heroImage, heroImageMobile, markdown_content, bottomSections = [], relatedPosts = [] } = page;
     const dateTimeAttr = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
     const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
     // Use heroImage if provided, otherwise use a default placeholder
-    const backgroundImage = heroImage?.url || '/images/hero-placeholder.jpg';
+    const desktopImage = heroImage?.url || '/images/hero-placeholder.jpg';
+    const mobileImage = heroImageMobile?.url || desktopImage;
 
     return (
         <BaseLayout page={page} site={site}>
@@ -25,28 +26,12 @@ export default function PostLayout(props) {
                 <section
                     className="post-hero relative min-h-screen flex flex-col justify-end"
                     style={{
-                        backgroundImage: `url(${backgroundImage})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
+                        '--hero-desktop': `url(${desktopImage})`,
+                        '--hero-mobile': `url(${mobileImage})`,
+                    } as React.CSSProperties}
                 >
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
-
-                    {/* Back Button - positioned at top center */}
-                    <div className="absolute top-8 left-0 right-0 px-4 sm:px-8 z-10">
-                        <div className="mx-auto max-w-4xl text-center">
-                            <Link
-                                href="/#work"
-                                className="back-to-work-btn"
-                            >
-                                <svg className="back-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="15 18 9 12 15 6"></polyline>
-                                </svg>
-                                <span>Back</span>
-                            </Link>
-                        </div>
-                    </div>
 
                     {/* Hero Content - positioned at bottom, centered */}
                     <div className="relative z-10 px-4 sm:px-8 pb-16 sm:pb-24">

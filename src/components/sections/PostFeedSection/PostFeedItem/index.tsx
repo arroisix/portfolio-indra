@@ -62,21 +62,12 @@ export default function PostFeedItem(props) {
                         </div>
                         <div className="folder-bg-image folder-bg-2">
                             <ImageBlock
-                                {...post.featuredImage}
+                                {...(post.secondaryImage?.url ? post.secondaryImage : post.featuredImage)}
                                 imageClassName="w-full h-full object-cover"
                             />
                         </div>
-                        {/* Folder in front */}
-                        <div className="folder-front">
-                            <div className="folder-tab"></div>
-                            <div className="folder-body">
-                                <ImageBlock
-                                    {...post.featuredImage}
-                                    imageClassName="w-full h-full object-cover"
-                                    {...(hasAnnotations && { 'data-sb-field-path': 'featuredImage' })}
-                                />
-                            </div>
-                        </div>
+                        {/* Folder in front - single element with clip-path */}
+                        <div className="folder-shape"></div>
                     </div>
                 ) : hasThumbnail ? (
                     <ImageBlock

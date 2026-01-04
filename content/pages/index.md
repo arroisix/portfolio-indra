@@ -30,94 +30,34 @@ sections:
         alignItems: center
         flexDirection: row
         justifyContent: center
-  - type: FeaturedItemsSection
-    title:
-      text: ''
-      color: text-dark
-      styles:
-        self:
-          textAlign: left
-      type: TitleBlock
-    subtitle: ''
-    items:
-      - type: FeaturedItem
-        title: Product design
-        subtitle: ''
-        text: >
-          Designing end-to-end product flows from problem discovery to shipped features.
-        image:
-          url: /images/055255c6ceb49614ba6988a0223fd7e2985c0899.png
-          altText: Product design
-          type: ImageBlock
-          styles:
-            self:
-              width: 130px
-              height: 130px
-        actions: []
-        elementId: null
-        colors: bg-neutralAlt-fg-dark
-        styles:
-          self:
-            padding: p-0
-            borderRadius: none
-            flexDirection: col
-            justifyContent: flex-start
-            textAlign: center
-      - type: FeaturedItem
-        title: Design System
-        subtitle: ''
-        text: >
-          Building scalable design systems that keep teams aligned and products consistent.
-        image:
-          url: /images/ef0e728c667a86a82828d813318b2123cfaba295.png
-          altText: Art direction
-          type: ImageBlock
-          styles:
-            self:
-              width: 130px
-              height: 130px
-        actions: []
-        elementId: null
-        colors: bg-neutralAlt-fg-dark
-        styles:
-          self:
-            padding: p-0
-            borderRadius: none
-            flexDirection: col
-            justifyContent: flex-start
-            textAlign: center
-      - type: FeaturedItem
-        title: Icon Design
-        subtitle: ''
-        text: >
-          Crafting clear, functional icons that improve usability and visual clarity.
-        image:
-          url: /images/e9583ed8e7c789943e5fbd16d335cbaa65fdfff0.png
-          altText: Visual design
-          type: ImageBlock
-          styles:
-            self:
-              width: 130px
-              height: 130px
-        actions: []
-        elementId: null
-        colors: bg-neutralAlt-fg-dark
-        styles:
-          self:
-            padding: p-0
-            borderRadius: none
-            flexDirection: col
-            justifyContent: flex-start
-            textAlign: center
-    actions: []
-    elementId: skills
-    variant: three-col-grid
+  - type: CardCarouselSection
+    elementId: showcase
     colors: bg-white-fg-dark
-    styles:
-      self:
-        justifyContent: flex-start
-      subtitle:
-        textAlign: left
+    cards:
+      - image: /images/showcase-portrait-1.png
+        alt: Work 1
+        shape: portrait
+      - image: /images/showcase-landscape-1.png
+        alt: Work 2
+        shape: landscape
+      - image: /images/showcase-square-1.png
+        alt: Work 3
+        shape: square
+      - image: /images/showcase-landscape-2.png
+        alt: Work 4
+        shape: landscape
+      - image: /images/showcase-portrait-2.png
+        alt: Work 5
+        shape: portrait
+      - image: /images/showcase-square-2.png
+        alt: Work 6
+        shape: square
+      - image: /images/showcase-portrait-3.png
+        alt: Work 7
+        shape: portrait
+      - image: /images/showcase-landscape-3.png
+        alt: Work 8
+        shape: landscape
 
   - type: ExperienceSection
     title:
@@ -127,7 +67,7 @@ sections:
         self:
           textAlign: center
       type: TitleBlock
-    subtitle: My journey in tech, from unicorn startups to AI-first companies
+    subtitle: ''
     items:
       - company: DailyFriend.ai
         role: Product Designer
@@ -155,7 +95,7 @@ sections:
           - pr-8
 
   - title:
-      text: My latest work
+      text: Study Case
       color: text-dark
       styles:
         self:

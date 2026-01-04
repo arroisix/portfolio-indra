@@ -54,7 +54,7 @@ export default function PostFeedSection(props) {
                         {...title}
                         className={classNames('w-full', 'max-w-sectionBody', {
                             'mt-4': badge?.label,
-                            'font-epilogue text-section-title text-center text-dark mb-16': elementId === 'work'
+                            'font-epilogue text-4xl md:text-5xl font-semibold text-center text-dark mb-16': elementId === 'work'
                         })}
                         {...(enableAnnotations && { 'data-sb-field-path': '.title' })}
                     />

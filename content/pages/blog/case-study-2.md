@@ -4,11 +4,23 @@ slug: case-study-2
 date: '2024-09-22'
 excerpt: DailyFriend.ai
 featuredImage:
-  url: /images/377b6eb61994520b4f3ffb7d006ca39069e2b096.png
+  url: /images/dailyfriend.png
   altText: DailyFriend Story Mode
   styles:
     self:
       borderRadius: none
+  type: ImageBlock
+secondaryImage:
+  url: /images/dailyfriend-2.png
+  altText: DailyFriend Story Mode Secondary
+  type: ImageBlock
+heroImage:
+  url: /images/hero-dailyfriend.png
+  altText: DailyFriend Hero Background
+  type: ImageBlock
+heroImageMobile:
+  url: /images/hero-dailyfriend-mobile.png
+  altText: DailyFriend Hero Background Mobile
   type: ImageBlock
 isFeatured: true
 colors: bg-light-fg-dark
@@ -23,13 +35,13 @@ styles:
 type: PostLayout
 ---
 
-*Turning moments of curiosity into meaningful engagement through conversational storytelling*
+_Turning moments of curiosity into meaningful engagement through conversational storytelling_
 
 ## Project Info
 
-| Year | Role | Duration | Platform |
-|------|------|----------|----------|
-| 2024 | UX Designer | 6 weeks | iOS & Android |
+| Year | Role        | Duration | Platform      |
+| ---- | ----------- | -------- | ------------- |
+| 2024 | UX Designer | 6 weeks  | iOS & Android |
 
 ---
 
@@ -37,14 +49,14 @@ type: PostLayout
 
 New users loved DailyFriend's warmth, but engagement dropped sharply after day 3. The root cause? Users needed new, **emotionally rewarding reasons** to return daily.
 
-| Metric | Value |
-|--------|-------|
-| Drop-off after Day 3 | 62% |
+| Metric               | Value   |
+| -------------------- | ------- |
+| Drop-off after Day 3 | 62%     |
 | Avg session duration | 2.3 min |
 
 > **Hypothesis:** A creative feature could transform DailyFriend from chatbot → **creative companion**
 
-*Source: Internal analytics, 30-day cohort (n≈2,500 users)*
+_Source: Internal analytics, 30-day cohort (n≈2,500 users)_
 
 ---
 
@@ -57,7 +69,7 @@ During exploratory user sessions, the PM (Pun Pun) and cofounder (Arri) noticed 
 
 ### The Spark
 
-*"What if DailyFriend didn't just chat, but told stories? Audio stories. With illustrations."*
+_"What if DailyFriend didn't just chat, but told stories? Audio stories. With illustrations."_
 
 **My Role:** Take this concept and shape it into a complete, usable, validated experience.
 
@@ -69,12 +81,12 @@ During exploratory user sessions, the PM (Pun Pun) and cofounder (Arri) noticed 
 
 ### Key Findings
 
-| Finding | Insight |
-|---------|---------|
-| 5 out of 7 | Mentioned desire for control (pause, change, stop mid-story) |
-| Two use contexts | Parents at bedtime with children, and non-parents during commute/wind-down |
-| Primary motivation | Emotional relaxation & closeness, not education |
-| Key expectation | Conversational, flexible — not passive playback |
+| Finding            | Insight                                                                    |
+| ------------------ | -------------------------------------------------------------------------- |
+| 5 out of 7         | Mentioned desire for control (pause, change, stop mid-story)               |
+| Two use contexts   | Parents at bedtime with children, and non-parents during commute/wind-down |
+| Primary motivation | Emotional relaxation & closeness, not education                            |
+| Key expectation    | Conversational, flexible — not passive playback                            |
 
 > "I want to be able to say 'make the dragon friendlier' and have it change."
 > — Parent, 34
@@ -104,12 +116,15 @@ This directly shaped the interaction model: **push-to-talk, clear state indicato
 ## Design Principles
 
 ### 1. Conversational, Not Linear
+
 Stories feel like a dialog with AI, not a static audio track. Users can interject, redirect, ask questions.
 
 ### 2. Clear Control Boundaries
+
 Users always know: when AI is speaking vs. when AI is listening. No ambiguity in interaction states.
 
 ### 3. Lightweight Emotional Impact
+
 Stories are pleasant and calming, not demanding long commitment. Perfect for bedtime or short breaks.
 
 ---
@@ -120,11 +135,11 @@ Prototype testing revealed users immediately asked: **"Can I change the story mi
 
 ### Options Explored
 
-| Option | Pros | Cons |
-|--------|------|------|
-| Auto Continuation | Natural flow | Ambiguous control |
-| Always Listening | Intuitive | Noisy & error-prone |
-| **Push-to-Talk** ✓ | Explicit & predictable, Clear states | — |
+| Option             | Pros                                 | Cons                |
+| ------------------ | ------------------------------------ | ------------------- |
+| Auto Continuation  | Natural flow                         | Ambiguous control   |
+| Always Listening   | Intuitive                            | Noisy & error-prone |
+| **Push-to-Talk** ✓ | Explicit & predictable, Clear states | —                   |
 
 **Decision:** Visible, pulsing mic button + voice hint to signal listening state. Users know exactly when to speak.
 
@@ -135,7 +150,7 @@ Prototype testing revealed users immediately asked: **"Can I change the story mi
 1. **User Prompt** — "Tell me a story about a dragon"
 2. **AI Generates** — Story + illustration
 3. **AI Narrates** — Audio playback
-4. **User Can Interrupt** — Push-to-talk to change *(the magic moment)*
+4. **User Can Interrupt** — Push-to-talk to change _(the magic moment)_
 5. **Story Saved** — To library/archive
 
 > **Key differentiator:** Step 4 is the magic — users aren't passive listeners, they're co-creators.
@@ -145,6 +160,7 @@ Prototype testing revealed users immediately asked: **"Can I change the story mi
 ## Execution: Bringing It to Life
 
 ### My Responsibilities
+
 - End-to-end interaction design & IA
 - Mic button behavior & state management
 - Voice hints & onboarding flow
@@ -152,6 +168,7 @@ Prototype testing revealed users immediately asked: **"Can I change the story mi
 - Prototype testing (7 participants)
 
 ### External Partners
+
 **Orenji Studio** handled visual design, illustrations, motion & transitions.
 
 > **Clear ownership:** I owned the interaction model and UX decisions. Visual polish was outsourced to specialists.
@@ -161,32 +178,32 @@ Prototype testing revealed users immediately asked: **"Can I change the story mi
 ## Final Design: Key Screens
 
 ![Prompt Entry](/images/placeholder-prompt.png)
-*User starts a new story*
+_User starts a new story_
 
 ![Story Playing + Mic Active](/images/placeholder-story.png)
-*Push-to-talk interaction*
+_Push-to-talk interaction_
 
 ![Story Library](/images/placeholder-library.png)
-*Saved stories archive*
+_Saved stories archive_
 
-*Visual design by Orenji Studio • Interaction design by Satrio*
+_Visual design by Orenji Studio • Interaction design by Satrio_
 
 ---
 
 ## Results: Launch Impact
 
-| Metric | Before | After | Change |
-|--------|--------|-------|--------|
-| Avg Session Duration | 2.3 min | 4.8 min | **+109%** |
-| 7-Day Retention | 28% | 41% | **+13 pp** |
-| Daily Active Users | — | — | **+32%** |
+| Metric               | Before  | After   | Change     |
+| -------------------- | ------- | ------- | ---------- |
+| Avg Session Duration | 2.3 min | 4.8 min | **+109%**  |
+| 7-Day Retention      | 28%     | 41%     | **+13 pp** |
+| Daily Active Users   | —       | —       | **+32%**   |
 
 > "Story Mode is now part of our bedtime routine. My daughter asks for 'one more story' every night."
 > — Parent user, App Store review
 
 **Measurement Context:** 4-week post-launch period. Metrics are directional — other factors (marketing, seasonal) may contribute. No A/B test isolation.
 
-*Source: Internal analytics, 4 weeks post-launch*
+_Source: Internal analytics, 4 weeks post-launch_
 
 ---
 
@@ -195,11 +212,13 @@ Prototype testing revealed users immediately asked: **"Can I change the story mi
 One user generated **100+ stories in a single week**.
 
 ### What It Revealed
+
 - Extremely high emotional stickiness
 - Unsustainable image generation costs at scale
 - Signal for monetization opportunity
 
 ### Business Response
+
 **Introduced Premium Tier** — Unlimited story creation for subscribers + limited free access for casual users.
 
 > **Design insight:** Power users aren't just metrics — they reveal both opportunities (monetization) and constraints (cost management) that shape product strategy.
