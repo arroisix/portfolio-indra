@@ -2,34 +2,17 @@
 title: Home
 slug: /
 sections:
-  - type: GenericSection
-    title:
-      text: <span class="font-extralight">Hello, I'm</span> <span class="font-extrabold italic">Indra.</span>
-      color: text-dark
-      type: TitleBlock
-    text: >
-      Senior Product Designer specializing in UI/UX and interaction design. I help companies build products that are easy to use, accessible, and delightful.
-    actions: []
-    media:
+  - type: HeroSection
+    elementId: hero
+    backgroundImage:
       url: /images/profile.webp
-      altText: Profile photo
-      elementId: ''
-      type: ImageBlock
-      styles:
-        self:
-          borderRadius: full
-          borderWidth: 1.5
-          borderStyle: solid
-          borderColor: border-dark
-          width: 100%
-          height: 195px
-    elementId: about-header
+      altText: Phoropter hero image
+    title: "Hello, I'm"
+    titleHighlight: "Indra."
+    subtitle: "Senior Product Designer specializing in UI/UX and interaction design."
+    textPosition: left
+    textVerticalPosition: bottom
     colors: bg-light-fg-dark
-    styles:
-      self:
-        alignItems: center
-        flexDirection: row
-        justifyContent: center
   - type: CardCarouselSection
     elementId: showcase
     colors: bg-white-fg-dark
