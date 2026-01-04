@@ -40,18 +40,6 @@ export default function HeroSection(props: HeroSectionProps) {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const textAlignClass = {
-        left: 'items-start text-left',
-        center: 'items-center text-center',
-        right: 'items-end text-right',
-    }[textPosition];
-
-    const verticalAlignClass = {
-        top: 'justify-start pt-32',
-        center: 'justify-center',
-        bottom: 'justify-end pb-16 md:pb-24',
-    }[textVerticalPosition];
-
     return (
         <Section
             elementId={elementId}
@@ -60,52 +48,36 @@ export default function HeroSection(props: HeroSectionProps) {
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
-            <div className="hero-container relative w-full min-h-[80vh] md:min-h-[90vh] overflow-hidden">
-                {/* Background Image */}
-                {backgroundImage?.url && (
-                    <>
-                        {/* Desktop Image */}
-                        <div className="absolute inset-0 hidden md:block">
+            <div className="hero-container relative w-full">
+                {/* Centered Image Container */}
+                <div className="hero-image-wrapper">
+                    {backgroundImage?.url && (
+                        <div className="hero-image-container">
                             {isLoading && (
                                 <div className="absolute inset-0 skeleton-loading" />
                             )}
                             <Image
                                 src={backgroundImage.url}
-                                alt={backgroundImage.altText || 'Hero background'}
-                                fill
+                                alt={backgroundImage.altText || 'Hero image'}
+                                width={1200}
+                                height={1200}
                                 priority
                                 className={classNames(
-                                    'object-cover object-center transition-opacity duration-500',
+                                    'hero-image transition-opacity duration-500',
                                     isLoading ? 'opacity-0' : 'opacity-100'
                                 )}
                                 onLoad={() => setIsLoading(false)}
                             />
                         </div>
-                        {/* Mobile Image */}
-                        <div className="absolute inset-0 md:hidden">
-                            <Image
-                                src={backgroundImageMobile?.url || backgroundImage.url}
-                                alt={backgroundImageMobile?.altText || backgroundImage.altText || 'Hero background'}
-                                fill
-                                priority
-                                className="object-cover object-center"
-                            />
-                        </div>
-                    </>
-                )}
+                    )}
+                </div>
 
                 {/* Text Overlay */}
-                <div
-                    className={classNames(
-                        'relative z-10 flex flex-col h-full min-h-[80vh] md:min-h-[90vh] px-6 md:px-16 lg:px-24',
-                        textAlignClass,
-                        verticalAlignClass
-                    )}
-                >
+                <div className="hero-text-wrapper">
                     <div className="hero-text-container">
                         <h1 className="hero-title font-epilogue">
                             <span className="font-extralight">{title}</span>
-                            {' '}
+                            <br />
                             <span className="font-extrabold italic">{titleHighlight}</span>
                         </h1>
                         {subtitle && (

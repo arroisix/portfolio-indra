@@ -1021,6 +1021,11 @@
     /* Hero Section Styles */
     .sb-component-hero-section {
         padding: 0 !important;
+        background-color: #f5f5f0;
+    }
+
+    :root.dark .sb-component-hero-section {
+        background-color: #1a1a1a;
     }
 
     .sb-component-hero-section > div {
@@ -1029,29 +1034,54 @@
     }
 
     .hero-container {
-        background-color: #f5f5f0;
+        position: relative;
+        min-height: 85vh;
     }
 
-    :root.dark .hero-container {
-        background-color: #1a1a1a;
+    .hero-image-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 80px;
+    }
+
+    .hero-image-container {
+        position: relative;
+        max-width: 800px;
+        width: 90%;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .hero-text-wrapper {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 24px 40px 40px;
+        z-index: 10;
     }
 
     .hero-text-container {
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border-radius: 24px;
-        padding: 32px 40px;
-        max-width: 500px;
+        border-radius: 20px;
+        padding: 28px 32px;
+        max-width: 340px;
     }
 
     :root.dark .hero-text-container {
-        background: rgba(18, 18, 18, 0.7);
+        background: rgba(18, 18, 18, 0.85);
     }
 
     .hero-title {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        line-height: 1.1;
+        font-size: 2.5rem;
+        line-height: 1.15;
         color: #1a1a1a;
     }
 
@@ -1060,9 +1090,10 @@
     }
 
     .hero-subtitle {
-        font-size: clamp(1rem, 2vw, 1.25rem);
-        color: #666;
-        max-width: 400px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #555;
+        max-width: 280px;
     }
 
     :root.dark .hero-subtitle {
@@ -1070,9 +1101,36 @@
     }
 
     @media (max-width: 768px) {
+        .hero-container {
+            min-height: auto;
+        }
+
+        .hero-image-wrapper {
+            padding-top: 100px;
+        }
+
+        .hero-image-container {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .hero-text-wrapper {
+            position: relative;
+            padding: 20px 20px 40px;
+        }
+
         .hero-text-container {
             padding: 24px 28px;
-            border-radius: 20px;
+            border-radius: 16px;
+            max-width: 100%;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            max-width: 100%;
         }
     }
 }
