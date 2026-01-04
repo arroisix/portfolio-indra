@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import Image from 'next/image';
 import classNames from 'classnames';
 import Section from '../Section';
 import { getDataAttrs } from '../../../utils/get-data-attrs';
@@ -15,6 +17,38 @@ interface CardCarouselSectionProps {
     cards?: CarouselCard[];
     styles?: any;
     enableAnnotations?: boolean;
+}
+
+function CarouselImage({ src, alt, shape }: { src: string; alt: string; shape: string }) {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const dimensions = {
+        portrait: { width: 300, height: 400 },
+        landscape: { width: 400, height: 300 },
+        square: { width: 350, height: 350 },
+    };
+
+    const { width, height } = dimensions[shape as keyof typeof dimensions] || dimensions.portrait;
+
+    return (
+        <div className="relative w-full h-full">
+            {isLoading && (
+                <div className="absolute inset-0 skeleton-loading rounded-xl" />
+            )}
+            <Image
+                src={src}
+                alt={alt}
+                width={width}
+                height={height}
+                className={classNames(
+                    'carousel-card-image transition-opacity duration-300',
+                    isLoading ? 'opacity-0' : 'opacity-100'
+                )}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+            />
+        </div>
+    );
 }
 
 export default function CardCarouselSection(props: CardCarouselSectionProps) {
@@ -57,10 +91,10 @@ export default function CardCarouselSection(props: CardCarouselSectionProps) {
                                 '--rotation': `${getRotation(index)}deg`,
                             } as React.CSSProperties}
                         >
-                            <img
+                            <CarouselImage
                                 src={card.image}
                                 alt={card.alt || `Card ${(index % cards.length) + 1}`}
-                                className="carousel-card-image"
+                                shape={card.shape || 'portrait'}
                             />
                         </div>
                     ))}

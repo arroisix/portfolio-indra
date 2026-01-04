@@ -986,4 +986,35 @@
             animation-duration: 35s;
         }
     }
+
+    /* Skeleton Loading Animation */
+    .skeleton-loading {
+        background: linear-gradient(
+            90deg,
+            rgba(200, 200, 200, 0.2) 0%,
+            rgba(200, 200, 200, 0.4) 50%,
+            rgba(200, 200, 200, 0.2) 100%
+        );
+        background-size: 200% 100%;
+        animation: skeleton-shimmer 1.5s ease-in-out infinite;
+    }
+
+    :root.dark .skeleton-loading {
+        background: linear-gradient(
+            90deg,
+            rgba(60, 60, 60, 0.3) 0%,
+            rgba(80, 80, 80, 0.5) 50%,
+            rgba(60, 60, 60, 0.3) 100%
+        );
+        background-size: 200% 100%;
+    }
+
+    @keyframes skeleton-shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
 }
