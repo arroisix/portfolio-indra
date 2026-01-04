@@ -4,14 +4,14 @@ slug: case-study-3
 date: '2021-05-15'
 excerpt: Bukalapak
 featuredImage:
-  url: /images/bukalapak.png
+  url: /images/bukalapak.webp
   altText: Sebar Promosi
   styles:
     self:
       borderRadius: none
   type: ImageBlock
 secondaryImage:
-  url: /images/bukalapak-2.png
+  url: /images/bukalapak-2.webp
   altText: Sebar Promosi Secondary
   type: ImageBlock
 heroImage:

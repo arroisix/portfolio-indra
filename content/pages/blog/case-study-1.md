@@ -4,14 +4,14 @@ slug: case-study-1
 date: '2024-06-15'
 excerpt: Gradient Academy
 featuredImage:
-  url: /images/gradient.png
+  url: /images/gradient.webp
   altText: UTBK Landing Page
   styles:
     self:
       borderRadius: none
   type: ImageBlock
 secondaryImage:
-  url: /images/gradient-2.png
+  url: /images/gradient-2.webp
   altText: UTBK Landing Page Secondary
   type: ImageBlock
 heroImage:

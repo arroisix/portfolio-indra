@@ -11,7 +11,7 @@ sections:
       Senior Product Designer specializing in UI/UX and interaction design. I help companies build products that are easy to use, accessible, and delightful.
     actions: []
     media:
-      url: /images/profile.png
+      url: /images/profile.webp
       altText: Profile photo
       elementId: ''
       type: ImageBlock
@@ -34,28 +34,28 @@ sections:
     elementId: showcase
     colors: bg-white-fg-dark
     cards:
-      - image: /images/showcase-portrait-1.png
+      - image: /images/showcase-portrait-1.webp
         alt: Work 1
         shape: portrait
-      - image: /images/showcase-landscape-1.png
+      - image: /images/showcase-landscape-1.webp
         alt: Work 2
         shape: landscape
-      - image: /images/showcase-square-1.png
+      - image: /images/showcase-square-1.webp
         alt: Work 3
         shape: square
-      - image: /images/showcase-landscape-2.png
+      - image: /images/showcase-landscape-2.webp
         alt: Work 4
         shape: landscape
-      - image: /images/showcase-portrait-2.png
+      - image: /images/showcase-portrait-2.webp
         alt: Work 5
         shape: portrait
-      - image: /images/showcase-square-2.png
+      - image: /images/showcase-square-2.webp
         alt: Work 6
         shape: square
-      - image: /images/showcase-portrait-3.png
+      - image: /images/showcase-portrait-3.webp
         alt: Work 7
         shape: portrait
-      - image: /images/showcase-landscape-3.png
+      - image: /images/showcase-landscape-3.webp
         alt: Work 8
         shape: landscape
 
@@ -122,7 +122,7 @@ sections:
 seo:
   metaTitle: Home - Designer & Unicorn Trainer
   metaDescription: Portfolio showcasing my work in UX/UI design, development, and product strategy.
-  socialImage: /images/profile.jpg
+  socialImage: /images/profile.webp
   type: Seo
 type: PageLayout
 ---

@@ -4,14 +4,14 @@ slug: case-study-2
 date: '2024-09-22'
 excerpt: DailyFriend.ai
 featuredImage:
-  url: /images/dailyfriend.png
+  url: /images/dailyfriend.webp
   altText: DailyFriend Story Mode
   styles:
     self:
       borderRadius: none
   type: ImageBlock
 secondaryImage:
-  url: /images/dailyfriend-2.png
+  url: /images/dailyfriend-2.webp
   altText: DailyFriend Story Mode Secondary
   type: ImageBlock
 heroImage:
