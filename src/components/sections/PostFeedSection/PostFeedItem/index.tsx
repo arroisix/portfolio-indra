@@ -53,7 +53,9 @@ export default function PostFeedItem(props) {
             <div className={classNames('w-full', 'flex', mapFlexDirectionStyles(flexDirection, hasThumbnail), isSpreadEffect ? 'gap-0' : 'gap-6')}>
                 {hasThumbnail && isSpreadEffect ? (
                     <div className="folder-container">
-                        {/* Background images that peek out */}
+                        {/* Blue folder back */}
+                        <div className="folder-back"></div>
+                        {/* Images peeking out from folder */}
                         <div className="folder-bg-image folder-bg-1">
                             <ImageBlock
                                 {...post.featuredImage}
@@ -66,7 +68,7 @@ export default function PostFeedItem(props) {
                                 imageClassName="w-full h-full object-cover"
                             />
                         </div>
-                        {/* Folder in front - single element with clip-path */}
+                        {/* Folder front - frosted glass */}
                         <div className="folder-shape"></div>
                     </div>
                 ) : hasThumbnail ? (

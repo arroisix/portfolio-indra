@@ -2,7 +2,7 @@
 title: Designing Story Mode for DailyFriend.AI
 slug: case-study-2
 date: '2024-09-22'
-excerpt: DailyFriend.ai
+excerpt: Turning moments of curiosity into meaningful engagement through conversational storytelling for an AI companion app.
 featuredImage:
   url: /images/dailyfriend.webp
   altText: DailyFriend Story Mode

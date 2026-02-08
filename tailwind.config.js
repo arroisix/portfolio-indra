@@ -2,7 +2,6 @@ const plugin = require('tailwindcss/plugin');
 const themeStyle = require('./content/data/style.json');
 
 module.exports = {
-    darkMode: 'class',
     content: [
         './src/**/*.{js,ts,jsx,tsx}', 
         './content/**/*.{md,json}',
@@ -26,16 +25,13 @@ module.exports = {
                 neutral: themeStyle.neutral,
                 neutralAlt: themeStyle.neutralAlt,
                 primary: themeStyle.primary,
-                inputBg: '#f3f3f3',
-                // Dark mode colors
-                darkBg: '#121212',
-                darkSurface: '#1e1e1e',
-                darkSurfaceAlt: '#2d2d2d',
-                darkText: '#e0e0e0',
-                darkTextMuted: '#a0a0a0'
+                inputBg: '#f3f3f3'
             },
             fontFamily: {
-                epilogue: ['Epilogue', 'sans-serif']
+                epilogue: ['Epilogue', 'sans-serif'],
+                inter: ['Inter', 'sans-serif'],
+                jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+                mono: ['JetBrains Mono', 'monospace']
             },
             fontWeight: {
                 normal: '400',

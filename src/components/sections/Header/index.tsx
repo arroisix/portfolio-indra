@@ -4,227 +4,86 @@ import { createPortal } from 'react-dom';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
 
-import { mapStylesToClassNames as mapStyles } from '../../../utils/map-styles-to-class-names';
-import { Link, Action } from '../../atoms';
-import ImageBlock from '../../blocks/ImageBlock';
-import ChevronDownIcon from '../../svgs/chevron-down';
-import CloseIcon from '../../svgs/close';
-import MenuIcon from '../../svgs/menu';
+import { Link } from '../../atoms';
 
 export default function Header(props) {
-    const { colors = 'bg-light-fg-dark', styles = {}, enableAnnotations } = props;
+    const { primaryLinks = [], enableAnnotations } = props;
     return (
         <header
             className={classNames(
                 'sb-component',
                 'sb-component-header',
-                colors,
                 'fixed',
-                'top-0',
-                'left-1/2',
-                '-translate-x-1/2',
-                'backdrop-blur-[22px]',
-                'header-glass',
-                'rounded-b-2xl',
-                'max-w-[1280px]',
-                'w-full',
-                'h-20',
-                styles?.self?.margin ? mapStyles({ padding: styles?.self?.margin }) : undefined,
-                'z-50'
+                'top-6',
+                'right-8',
+                'bg-white/80',
+                'backdrop-blur-md',
+                'rounded-full',
+                'px-6',
+                'py-3',
+                'border',
+                'border-gray-200',
+                'z-50',
+                'shadow-sm'
             )}
             {...(enableAnnotations && { 'data-sb-object-id': props?.__metadata?.id })}
         >
-            <div className={classNames(
-                'mx-auto',
-                'max-w-7xl',
-                'h-full',
-                'flex',
-                'items-center',
-                styles?.self?.padding ? mapStyles({ padding: styles?.self?.padding }) : 'pl-[40px] pr-[24px]'
-            )}>
-                <Link href="#main" className="sr-only">
-                    Skip to main content
+            <nav className="flex items-center gap-8">
+                <Link href="/" className="font-jakarta font-semibold text-lg text-gray-900">
+                    Indra
                 </Link>
-                <HeaderVariants {...props} />
-            </div>
+                {primaryLinks.length > 0 && (
+                    <div className="hidden md:flex items-center gap-6">
+                        {primaryLinks.map((link, index) => (
+                            <NavLink
+                                key={index}
+                                link={link}
+                                enableAnnotations={enableAnnotations}
+                                index={index}
+                            />
+                        ))}
+                    </div>
+                )}
+                {primaryLinks.length > 0 && <MobileMenu {...props} />}
+            </nav>
         </header>
     );
 }
 
-function HeaderVariants(props) {
-    const { variant = 'logo-left-primary-nav-left', ...rest } = props;
-    switch (variant) {
-        case 'logo-left-primary-nav-centered':
-            return <HeaderLogoLeftPrimaryCentered {...rest} />;
-        case 'logo-left-primary-nav-right':
-            return <HeaderLogoLeftPrimaryRight {...rest} />;
-        case 'logo-centered-primary-nav-left':
-            return <HeaderLogoCenteredPrimaryLeft {...rest} />;
-        case 'logo-centered-primary-nav-centered':
-            return <HeaderLogoCenteredPrimaryCentered {...rest} />;
-        default:
-            return <HeaderLogoLeftPrimaryLeft {...rest} />;
-    }
-}
+function NavLink({ link, enableAnnotations, index }) {
+    const isHashLink = link.url?.startsWith('#');
 
-function HeaderLogoLeftPrimaryLeft(props) {
-    const { title, logo, primaryLinks = [], secondaryLinks = [], colors = 'bg-light-fg-dark', enableAnnotations } = props;
-    return (
-        <div className="relative flex items-center w-full">
-            {(title || logo?.url) && (
-                <div className="mr-10">
-                    <SiteLogoLink title={title} logo={logo} enableAnnotations={enableAnnotations} />
-                </div>
-            )}
-            {primaryLinks.length > 0 && (
-                <ul className="hidden mr-10 gap-x-10 lg:flex lg:items-center" {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}>
-                    <ListOfLinks links={primaryLinks} colors={colors} enableAnnotations={enableAnnotations} />
-                </ul>
-            )}
-            <div className="hidden ml-auto lg:flex lg:items-center gap-x-4">
-                {secondaryLinks.length > 0 && (
-                    <ul className="flex gap-x-2.5 items-center" {...(enableAnnotations && { 'data-sb-field-path': 'secondaryLinks' })}>
-                        <ListOfLinks links={secondaryLinks} enableAnnotations={enableAnnotations} />
-                    </ul>
-                )}
-            </div>
-            {(primaryLinks.length > 0 || secondaryLinks.length > 0) && <MobileMenu {...props} />}
-        </div>
-    );
-}
+    const handleClick = (e: React.MouseEvent) => {
+        if (isHashLink) {
+            e.preventDefault();
+            const element = document.querySelector(link.url);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
 
-function HeaderLogoLeftPrimaryCentered(props) {
-    const { title, logo, primaryLinks = [], secondaryLinks = [], colors = 'bg-light-fg-dark', enableAnnotations } = props;
     return (
-        <div className="relative flex items-center w-full">
-            {(title || logo?.url) && (
-                <div className="mr-10">
-                    <SiteLogoLink title={title} logo={logo} enableAnnotations={enableAnnotations} />
-                </div>
-            )}
-            {primaryLinks.length > 0 && (
-                <ul
-                    className="absolute hidden w-auto -translate-x-1/2 -translate-y-1/2 lg:flex lg:items-center gap-x-10 left-1/2 top-1/2"
-                    {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}
-                >
-                    <ListOfLinks links={primaryLinks} colors={colors} enableAnnotations={enableAnnotations} />
-                </ul>
-            )}
-            <div className="hidden ml-auto lg:flex lg:items-center gap-x-4">
-                {secondaryLinks.length > 0 && (
-                    <ul className="flex items-center gap-x-2.5" {...(enableAnnotations && { 'data-sb-field-path': 'secondaryLinks' })}>
-                        <ListOfLinks links={secondaryLinks} enableAnnotations={enableAnnotations} />
-                    </ul>
-                )}
-            </div>
-            {(primaryLinks.length > 0 || secondaryLinks.length > 0) && <MobileMenu {...props} />}
-        </div>
-    );
-}
-
-function HeaderLogoLeftPrimaryRight(props) {
-    const { title, logo, primaryLinks = [], secondaryLinks = [], colors = 'bg-light-fg-dark', enableAnnotations } = props;
-    return (
-        <div className="relative flex items-center justify-start w-full">
-            {(title || logo?.url) && (
-                <div className="absolute left-0">
-                    <SiteLogoLink title={title} logo={logo} enableAnnotations={enableAnnotations} />
-                </div>
-            )}
-            {primaryLinks.length > 0 && (
-                <ul className="hidden ml-auto lg:flex lg:items-center gap-x-10 absolute right-0" {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}>
-                    <ListOfLinks links={primaryLinks} colors={colors} enableAnnotations={enableAnnotations} />
-                </ul>
-            )}
-            <div className="absolute right-0 hidden lg:flex lg:items-center gap-x-4">
-                {secondaryLinks.length > 0 && (
-                    <ul
-                        className={classNames('flex', 'items-center', 'gap-x-2.5')}
-                        {...(enableAnnotations && { 'data-sb-field-path': 'secondaryLinks' })}
-                    >
-                        <ListOfLinks links={secondaryLinks} enableAnnotations={enableAnnotations} />
-                    </ul>
-                )}
-            </div>
-            {(primaryLinks.length > 0 || secondaryLinks.length > 0) && <MobileMenu {...props} />}
-        </div>
-    );
-}
-
-function HeaderLogoCenteredPrimaryLeft(props) {
-    const { title, logo, primaryLinks = [], secondaryLinks = [], colors = 'bg-light-fg-dark', enableAnnotations } = props;
-    return (
-        <div className="relative flex items-center w-full">
-            {(title || logo?.url) && (
-                <div className="mr-10 lg:mr-0 lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2">
-                    <SiteLogoLink title={title} logo={logo} enableAnnotations={enableAnnotations} />
-                </div>
-            )}
-            {primaryLinks.length > 0 && (
-                <ul className="hidden lg:flex lg:items-center gap-x-10" {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}>
-                    <ListOfLinks links={primaryLinks} colors={colors} enableAnnotations={enableAnnotations} />
-                </ul>
-            )}
-            <div className="hidden ml-auto lg:flex lg:items-center gap-x-4">
-                {secondaryLinks.length > 0 && (
-                    <ul className="flex items-center gap-x-2.5" {...(enableAnnotations && { 'data-sb-field-path': 'secondaryLinks' })}>
-                        <ListOfLinks links={secondaryLinks} enableAnnotations={enableAnnotations} />
-                    </ul>
-                )}
-            </div>
-            {(primaryLinks.length > 0 || secondaryLinks.length > 0) && <MobileMenu {...props} />}
-        </div>
-    );
-}
-
-function HeaderLogoCenteredPrimaryCentered(props) {
-    const { title, logo, primaryLinks = [], secondaryLinks = [], colors = 'bg-light-fg-dark', enableAnnotations } = props;
-    return (
-        <>
-            <div className="relative flex items-center w-full">
-                {(title || logo?.url) && (
-                    <div className="mr-10 lg:mr-0 lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2">
-                        <SiteLogoLink title={title} logo={logo} enableAnnotations={enableAnnotations} />
-                    </div>
-                )}
-                <div className="hidden ml-auto lg:flex lg:items-center gap-x-4">
-                    {secondaryLinks.length > 0 && (
-                        <ul className="flex items-center gap-x-2.5" {...(enableAnnotations && { 'data-sb-field-path': 'secondaryLinks' })}>
-                            <ListOfLinks links={secondaryLinks} enableAnnotations={enableAnnotations} />
-                        </ul>
-                    )}
-                </div>
-                {(primaryLinks.length > 0 || secondaryLinks.length > 0) && <MobileMenu {...props} />}
-            </div>
-            {primaryLinks.length > 0 && (
-                <ul
-                    className="hidden mt-4 lg:flex lg:items-center lg:justify-center gap-x-10"
-                    {...(enableAnnotations && { 'data-sb-field-path': 'primaryLinks' })}
-                >
-                    <ListOfLinks links={primaryLinks} colors={colors} enableAnnotations={enableAnnotations} />
-                </ul>
-            )}
-        </>
+        <Link
+            href={link.url}
+            onClick={isHashLink ? handleClick : undefined}
+            className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            {...(enableAnnotations && { 'data-sb-field-path': `.primaryLinks.${index}` })}
+        >
+            {link.label}
+        </Link>
     );
 }
 
 function MobileMenu(props) {
-    const { primaryLinks = [], secondaryLinks = [] } = props;
+    const { primaryLinks = [] } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [mounted, setMounted] = useState(false);
-    const [isDark, setIsDark] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
         setMounted(true);
-        setIsDark(document.documentElement.classList.contains('dark'));
-
-        const observer = new MutationObserver(() => {
-            setIsDark(document.documentElement.classList.contains('dark'));
-        });
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        return () => observer.disconnect();
     }, []);
 
     useEffect(() => {
@@ -260,9 +119,11 @@ function MobileMenu(props) {
             setIsMenuOpen(false);
             setIsClosing(false);
             document.body.style.overflow = 'unset';
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+            if (href.startsWith('#')) {
+                const element = document.querySelector(href);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         }, 300);
     };
@@ -280,21 +141,20 @@ function MobileMenu(props) {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: isDark ? 'rgba(18, 18, 18, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
                 opacity: isClosing ? 0 : 1,
                 transition: 'opacity 0.3s ease-in-out',
             }}
         >
-            {/* Close button with morph animation */}
             <button
                 onClick={toggleMenu}
                 aria-label="Close Menu"
                 style={{
                     position: 'absolute',
-                    top: '18px',
-                    right: '40px',
+                    top: '24px',
+                    right: '32px',
                     padding: '12px',
                     background: 'none',
                     border: 'none',
@@ -306,27 +166,25 @@ function MobileMenu(props) {
                 }}
             >
                 <div style={{ width: '24px', height: '24px', position: 'relative' }}>
-                    {/* Line 1 - rotates to form X */}
                     <span
                         style={{
                             position: 'absolute',
                             left: 0,
                             width: '100%',
                             height: '2px',
-                            backgroundColor: isDark ? '#ffffff' : '#1a1a1a',
+                            backgroundColor: '#1a1a1a',
                             top: '11px',
                             transform: 'rotate(45deg)',
                             transformOrigin: 'center',
                         }}
                     />
-                    {/* Line 2 - rotates to form X */}
                     <span
                         style={{
                             position: 'absolute',
                             left: 0,
                             width: '100%',
                             height: '2px',
-                            backgroundColor: isDark ? '#ffffff' : '#1a1a1a',
+                            backgroundColor: '#1a1a1a',
                             top: '11px',
                             transform: 'rotate(-45deg)',
                             transformOrigin: 'center',
@@ -347,7 +205,6 @@ function MobileMenu(props) {
             >
                 {primaryLinks.map((link, index) => {
                     const isHashLink = link.url?.startsWith('#');
-                    const isMailto = link.url?.startsWith('mailto:');
 
                     if (isHashLink) {
                         return (
@@ -355,10 +212,10 @@ function MobileMenu(props) {
                                 key={index}
                                 onClick={() => handleLinkClick(link.url)}
                                 style={{
-                                    fontFamily: 'Epilogue, sans-serif',
-                                    fontSize: '36px',
+                                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                                    fontSize: '32px',
                                     fontWeight: 600,
-                                    color: isDark ? '#ffffff' : '#1a1a1a',
+                                    color: '#1a1a1a',
                                     background: 'none',
                                     border: 'none',
                                     cursor: 'pointer',
@@ -377,10 +234,10 @@ function MobileMenu(props) {
                             key={index}
                             href={link.url}
                             style={{
-                                fontFamily: 'Epilogue, sans-serif',
-                                fontSize: '36px',
+                                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                                fontSize: '32px',
                                 fontWeight: 600,
-                                color: isDark ? '#ffffff' : '#1a1a1a',
+                                color: '#1a1a1a',
                                 textDecoration: 'none',
                                 transition: 'transform 0.2s ease',
                             }}
@@ -397,8 +254,7 @@ function MobileMenu(props) {
     ) : null;
 
     return (
-        <div className="ml-auto lg:hidden flex items-center">
-            {/* Hamburger button - only visible when menu is closed */}
+        <div className="md:hidden flex items-center">
             <button
                 aria-label="Open Menu"
                 className="p-2 focus:outline-none relative w-10 h-10"
@@ -416,159 +272,16 @@ function MobileMenu(props) {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: '24px',
-                        height: '18px',
+                        width: '20px',
+                        height: '14px',
                     }}
                 >
-                    <span style={{ position: 'absolute', left: 0, top: '0px', width: '100%', height: '2px', backgroundColor: 'currentColor' }} />
-                    <span style={{ position: 'absolute', left: 0, top: '8px', width: '100%', height: '2px', backgroundColor: 'currentColor' }} />
-                    <span style={{ position: 'absolute', left: 0, top: '16px', width: '100%', height: '2px', backgroundColor: 'currentColor' }} />
+                    <span style={{ position: 'absolute', left: 0, top: '0px', width: '100%', height: '2px', backgroundColor: '#1a1a1a' }} />
+                    <span style={{ position: 'absolute', left: 0, top: '6px', width: '100%', height: '2px', backgroundColor: '#1a1a1a' }} />
+                    <span style={{ position: 'absolute', left: 0, top: '12px', width: '100%', height: '2px', backgroundColor: '#1a1a1a' }} />
                 </div>
             </button>
             {menuOverlay}
         </div>
-    );
-}
-
-function SiteLogoLink({ title, logo, enableAnnotations }) {
-    return (
-        <Link href="/" className="flex items-center">
-            {logo && <ImageBlock {...logo} {...(enableAnnotations && { 'data-sb-field-path': 'logo' })} />}
-            {title && (
-                <span className="h4" {...(enableAnnotations && { 'data-sb-field-path': 'title' })}>
-                    {title}
-                </span>
-            )}
-        </Link>
-    );
-}
-
-function ListOfLinks(props) {
-    const { links = [], colors, enableAnnotations, inMobileMenu = false } = props;
-
-    return (
-        <>
-            {links.map((link, index) => {
-                if (link.__metadata.modelName === 'SubNav') {
-                    return (
-                        <LinkWithSubnav
-                            key={index}
-                            link={link}
-                            inMobileMenu={inMobileMenu}
-                            colors={colors}
-                            {...(enableAnnotations && { 'data-sb-field-path': `.${index}` })}
-                        />
-                    );
-                } else {
-                    return (
-                        <li
-                            key={index}
-                            className={classNames(inMobileMenu ? 'border-t' : 'py-2', {
-                                'py-4': inMobileMenu && link.__metadata.modelName === 'Button'
-                            })}
-                        >
-                            <Action
-                                {...link}
-                                className={classNames('whitespace-nowrap', inMobileMenu ? 'w-full' : 'text-sm', {
-                                    'justify-start py-3': inMobileMenu && link.__metadata.modelName === 'Link'
-                                })}
-                                {...(enableAnnotations && { 'data-sb-field-path': `.${index}` })}
-                            />
-                        </li>
-                    );
-                }
-            })}
-        </>
-    );
-}
-
-function LinkWithSubnav(props) {
-    const { link, colors, inMobileMenu = false } = props;
-    const [isSubNavOpen, setIsSubNavOpen] = useState(false);
-    const router = useRouter();
-    const fieldPath = props['data-sb-field-path'];
-
-    useEffect(() => {
-        const handleRouteChange = () => {
-            setIsSubNavOpen(false);
-            document.body.style.overflow = 'unset';
-        };
-        router.events.on('routeChangeStart', handleRouteChange);
-
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChange);
-        };
-    }, [router.events]);
-
-    return (
-        <li
-            className={classNames('relative', inMobileMenu ? 'border-t py-3' : 'py-2 group')}
-            onMouseLeave={
-                !process.env.stackbitPreview && !inMobileMenu
-                    ? () => {
-                          setIsSubNavOpen(false);
-                      }
-                    : undefined
-            }
-            data-sb-field-path={fieldPath}
-        >
-            <button
-                aria-expanded={isSubNavOpen ? 'true' : 'false'}
-                onMouseOver={
-                    !process.env.stackbitPreview && !inMobileMenu
-                        ? () => {
-                              setIsSubNavOpen(true);
-                          }
-                        : undefined
-                }
-                onClick={() => setIsSubNavOpen((prev) => !prev)}
-                className={classNames(
-                    'sb-component',
-                    'sb-component-block',
-                    'sb-component-link',
-                    link.labelStyle === 'secondary' ? 'sb-component-link-secondary' : 'sb-component-link-primary',
-                    'inline-flex',
-                    'items-center',
-                    inMobileMenu ? 'w-full' : 'text-sm',
-                    {
-                        'group-hover:no-underline hover:no-underline': !inMobileMenu && (link.labelStyle ?? 'primary') === 'primary',
-                        'group-hover:text-primary': !inMobileMenu && link.labelStyle === 'secondary'
-                    }
-                )}
-            >
-                <span {...(fieldPath && { 'data-sb-field-path': '.label' })}>{link.label}</span>
-                <ChevronDownIcon
-                    className={classNames('fill-current', 'shrink-0', 'h-4', 'w-4', isSubNavOpen && 'rotate-180', inMobileMenu ? 'ml-auto' : 'ml-1')}
-                />
-            </button>
-            {(link.links ?? []).length > 0 && (
-                <ul
-                    className={classNames(
-                        colors,
-                        inMobileMenu ? 'p-4 space-y-3' : 'absolute top-full left-0 w-44 border-t border-primary shadow-header z-10 px-6 pt-5 pb-6 space-y-4',
-                        isSubNavOpen ? 'block' : 'hidden'
-                    )}
-                    {...(fieldPath && { 'data-sb-field-path': '.links' })}
-                >
-                    <ListOfSubNavLinks links={link.links} hasAnnotations={!!fieldPath} inMobileMenu={inMobileMenu} />
-                </ul>
-            )}
-        </li>
-    );
-}
-
-function ListOfSubNavLinks({ links = [], hasAnnotations, inMobileMenu = false }) {
-    return (
-        <>
-            {links.map((link, index) => (
-                <li key={index}>
-                    <Action
-                        {...link}
-                        className={classNames(inMobileMenu ? 'w-full justify-start' : 'text-sm')}
-                        {...(hasAnnotations && { 'data-sb-field-path': `.${index}` })}
-                    />
-                </li>
-            ))}
-        </>
     );
 }

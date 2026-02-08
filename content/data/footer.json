@@ -1,13 +1,25 @@
 {
     "logo": null,
-    "title": "Let's work together",
-    "text": "From product design to design systems, I help teams build consistent and usable digital experiences.",
+    "title": null,
+    "text": null,
     "primaryLinks": null,
     "secondaryLinks": null,
     "socialLinks": [
         {
+            "altText": "LinkedIn",
+            "url": "https://linkedin.com",
+            "icon": "linkedin",
+            "type": "Social"
+        },
+        {
+            "altText": "GitHub",
+            "url": "https://github.com",
+            "icon": "github",
+            "type": "Social"
+        },
+        {
             "altText": "Dribbble",
-            "url": "https://dribbble.com/animaapp",
+            "url": "https://dribbble.com",
             "icon": "dribbble",
             "type": "Social"
         }

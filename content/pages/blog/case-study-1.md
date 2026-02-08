@@ -2,7 +2,7 @@
 title: Designing UTBK Landing Page for a New User Segment
 slug: case-study-1
 date: '2024-06-15'
-excerpt: Gradient Academy
+excerpt: Designing Gradient's first landing page for high school students preparing for Indonesia's national university entrance exam.
 featuredImage:
   url: /images/gradient.webp
   altText: UTBK Landing Page

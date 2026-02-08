@@ -19,11 +19,10 @@ export default function PostLayout(props) {
     const desktopImage = heroImage?.url || '/images/hero-placeholder.jpg';
     const mobileImage = heroImageMobile?.url || desktopImage;
 
-    return (
-        <BaseLayout page={page} site={site}>
-            <main id="main" className="sb-layout sb-post-layout">
-                {/* Full Viewport Hero Section */}
-                <section
+    const caseStudyContent = (
+        <main id="main" className="sb-layout sb-post-layout">
+            {/* Full Viewport Hero Section */}
+            <section
                     className="post-hero relative min-h-screen flex flex-col justify-end"
                     style={{
                         '--hero-desktop': `url(${desktopImage})`,
@@ -131,7 +130,12 @@ export default function PostLayout(props) {
                         })}
                     </div>
                 )}
-            </main>
+        </main>
+    );
+
+    return (
+        <BaseLayout page={page} site={site}>
+            {caseStudyContent}
         </BaseLayout>
     );
 }

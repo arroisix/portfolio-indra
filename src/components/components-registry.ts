@@ -32,6 +32,9 @@ export function getComponent(key: string): ComponentType {
  */
 const components = {
     HeroSection: dynamic(() => import('./sections/HeroSection')),
+    PortfolioSection: dynamic(() => import('./sections/PortfolioSection')),
+    CTASection: dynamic(() => import('./sections/CTASection')),
+    SocialLinksSection: dynamic(() => import('./sections/SocialLinksSection')),
     CardCarouselSection: dynamic(() => import('./sections/CardCarouselSection')),
     TimelineSection: dynamic(() => import('./sections/TimelineSection')),
     ExperienceSection: dynamic(() => import('./sections/ExperienceSection')),

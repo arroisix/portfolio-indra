@@ -1,25 +1,20 @@
-import { useState } from 'react';
-import Image from 'next/image';
 import classNames from 'classnames';
 import Section from '../Section';
 import { getDataAttrs } from '../../../utils/get-data-attrs';
+import { Link } from '../../atoms';
+
+interface HeroAction {
+    label: string;
+    url: string;
+    style?: 'primary' | 'secondary';
+}
 
 interface HeroSectionProps {
     elementId?: string;
     colors?: string;
-    backgroundImage?: {
-        url: string;
-        altText?: string;
-    };
-    backgroundImageMobile?: {
-        url: string;
-        altText?: string;
-    };
     title?: string;
-    titleHighlight?: string;
     subtitle?: string;
-    textPosition?: 'left' | 'center' | 'right';
-    textVerticalPosition?: 'top' | 'center' | 'bottom';
+    actions?: HeroAction[];
     styles?: any;
     enableAnnotations?: boolean;
 }
@@ -28,17 +23,14 @@ export default function HeroSection(props: HeroSectionProps) {
     const {
         elementId,
         colors,
-        backgroundImage,
-        backgroundImageMobile,
-        title = "Hello, I'm",
-        titleHighlight = "Indra.",
-        subtitle,
-        textPosition = 'left',
-        textVerticalPosition = 'bottom',
+        title = "Senior Product Designer",
+        subtitle = "Crafting intuitive digital experiences through user-centered design and thoughtful interaction patterns.",
+        actions = [],
         styles = {},
     } = props;
 
-    const [isLoading, setIsLoading] = useState(true);
+    // Filter out "Get in touch" style buttons, only show secondary actions like "View work"
+    const filteredActions = actions.filter(action => action.style === 'secondary');
 
     return (
         <Section
@@ -48,46 +40,36 @@ export default function HeroSection(props: HeroSectionProps) {
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
-            <div className="hero-container relative w-full">
-                {/* Centered Image Container */}
-                <div className="hero-image-wrapper">
-                    {backgroundImage?.url && (
-                        <div className="hero-image-container">
-                            {isLoading && (
-                                <div className="absolute inset-0 skeleton-loading" />
-                            )}
-                            <Image
-                                src={backgroundImage.url}
-                                alt={backgroundImage.altText || 'Hero image'}
-                                width={1200}
-                                height={1200}
-                                priority
-                                className={classNames(
-                                    'hero-image transition-opacity duration-500',
-                                    isLoading ? 'opacity-0' : 'opacity-100'
-                                )}
-                                onLoad={() => setIsLoading(false)}
-                            />
+            <div className="min-h-[80vh] flex items-center justify-center px-6">
+                <div className="text-center max-w-4xl">
+                    <h1 className="font-jakarta text-5xl md:text-7xl font-bold tracking-tight mb-6 text-gray-900">
+                        {title}
+                    </h1>
+                    {subtitle && (
+                        <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                            {subtitle}
+                        </p>
+                    )}
+                    {filteredActions.length > 0 && (
+                        <div className="flex items-center justify-center gap-4 flex-wrap">
+                            {filteredActions.map((action, index) => (
+                                <HeroButton key={index} action={action} />
+                            ))}
                         </div>
                     )}
                 </div>
-
-                {/* Text Overlay */}
-                <div className="hero-text-wrapper">
-                    <div className="hero-text-container">
-                        <h1 className="hero-title font-epilogue">
-                            <span className="font-extralight">{title}</span>
-                            <br />
-                            <span className="font-extrabold italic">{titleHighlight}</span>
-                        </h1>
-                        {subtitle && (
-                            <p className="hero-subtitle font-epilogue mt-4">
-                                {subtitle}
-                            </p>
-                        )}
-                    </div>
-                </div>
             </div>
         </Section>
+    );
+}
+
+function HeroButton({ action }: { action: HeroAction }) {
+    return (
+        <Link
+            href={action.url}
+            className="inline-flex items-center justify-center px-6 py-3 rounded-full font-medium text-sm transition-all duration-200 border border-gray-300 text-gray-900 hover:bg-gray-50"
+        >
+            {action.label}
+        </Link>
     );
 }

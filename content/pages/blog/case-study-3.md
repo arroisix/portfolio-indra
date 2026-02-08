@@ -2,7 +2,7 @@
 title: Reviving Bukalapak's Promotion Broadcast Feature
 slug: case-study-3
 date: '2021-05-15'
-excerpt: Bukalapak
+excerpt: Transforming a dormant broadcast feature into a high-converting seller engagement tool for 5M+ sellers.
 featuredImage:
   url: /images/bukalapak.webp
   altText: Sebar Promosi

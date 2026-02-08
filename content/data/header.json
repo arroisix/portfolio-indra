@@ -1,17 +1,17 @@
 {
-    "title": "Logo",
+    "title": "Indra",
     "primaryLinks": [
         {
             "label": "Work",
             "altText": "Work",
-            "url": "/#work",
+            "url": "#work",
             "showIcon": false,
             "style": "secondary",
             "type": "Link"
         },
         {
-            "label": "Experiences",
-            "altText": "Experience",
+            "label": "About",
+            "altText": "About",
             "url": "/experience",
             "showIcon": false,
             "style": "secondary",
