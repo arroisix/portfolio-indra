@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -12,6 +12,8 @@
     }
     body {
         @apply text-base overflow-x-hidden bg-white text-gray-900;
+        font-family: 'Inter', sans-serif;
+        font-weight: 450;
     }
     h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, h6 {
         @apply break-words;
@@ -84,6 +86,17 @@
         transform: translateY(0);
     }
 
+    /* Post layout - ensure visibility */
+    .sb-post-layout {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .sb-post-layout section,
+    .sb-post-layout article {
+        opacity: 1;
+        transform: none;
+    }
+
     /* Hover effects */
     .sb-card { @apply transition-all duration-200 ease-in-out; }
     .sb-component-featured-item:hover .sb-card { transform: translateY(-5px); }
@@ -103,6 +116,54 @@
     @keyframes skeleton-shimmer {
         0% { background-position: 200% 0; }
         100% { background-position: -200% 0; }
+    }
+
+    /* Aurora Background Animation */
+    @keyframes aurora {
+        0% {
+            background-position: 50% 50%, 50% 50%;
+        }
+        100% {
+            background-position: 200% 50%, 200% 50%;
+        }
+    }
+
+    @keyframes aurora-fade-out {
+        0% {
+            opacity: 0.4;
+        }
+        60% {
+            opacity: 0.4;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .aurora-bg {
+        --aurora-1: repeating-linear-gradient(100deg, #FFF6A2 10%, #C3D7FF 20%, #E0EAFF 30%, #FFF6A2 40%, #C3D7FF 50%);
+        --aurora-2: repeating-linear-gradient(100deg, #E0EAFF 0%, #FFF6A2 15%, #C3D7FF 30%, #E0EAFF 45%, #FFF6A2 60%);
+        background-image: var(--aurora-1), var(--aurora-2);
+        background-size: 200% 200%, 200% 200%;
+        background-position: 50% 50%, 50% 50%;
+        filter: blur(50px);
+        opacity: 0.7;
+        animation:
+            aurora 12s linear infinite,
+            aurora-fade-out 3s ease-out forwards;
+    }
+
+    /* Aurora fade effect at top of portfolio section */
+    .aurora-fade {
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 246, 162, 0.3) 0%,
+            rgba(195, 215, 255, 0.2) 30%,
+            rgba(224, 234, 255, 0.1) 60%,
+            transparent 100%
+        );
+        filter: blur(30px);
+        animation: aurora-fade-out 3s ease-out forwards;
     }
 
     /* Pinterest-style Masonry Grid */
@@ -158,20 +219,33 @@
         transform: translateY(-2px);
     }
 
-    /* Hero Section Styles */
+    /* Hero Section Styles - ensure aurora can extend beyond */
     .sb-component-hero-section {
         padding: 0 !important;
-        background-color: #ffffff;
+        background-color: transparent !important;
+        overflow: visible !important;
+        z-index: 1;
     }
 
     .sb-component-hero-section > div {
         max-width: none !important;
         padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    /* Allow aurora to bleed through - remove clipping from all parent containers */
+    .sb-page-layout,
+    .sb-layout,
+    .sb-base,
+    .sb-page,
+    .sb-default-base-layout {
+        overflow: visible !important;
     }
 
     /* Portfolio Section Styles */
     .sb-component-portfolio-section {
-        background-color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, #ffffff 150px, #ffffff 100%);
+        position: relative;
     }
 
     /* Back to Work Button */

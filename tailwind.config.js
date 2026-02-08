@@ -34,7 +34,7 @@ module.exports = {
                 mono: ['JetBrains Mono', 'monospace']
             },
             fontWeight: {
-                normal: '400',
+                normal: '450',
                 medium: '500',
                 semibold: '600',
                 bold: '700'

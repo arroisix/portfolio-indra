@@ -4,8 +4,8 @@
     "neutral": "#FFFEF5",
     "neutralAlt": "#FFF9E6",
     "primary": "#F5D547",
-    "fontBody": "epilogue",
-    "fontHeadlines": "epilogue",
+    "fontBody": "inter",
+    "fontHeadlines": "inter",
     "h1": {
         "size": "6xl",
         "weight": "semibold",

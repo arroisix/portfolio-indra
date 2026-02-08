@@ -47,7 +47,7 @@ export default function TimelineSection(props: TimelineSectionProps) {
             <div className={classNames('w-full', 'flex', 'flex-col', mapStyles({ alignItems: styles?.self?.justifyContent ?? 'flex-start' }))}>
                 {/* Back Button - same style as blog */}
                 {backButton && (
-                    <div className="w-full max-w-4xl mb-8">
+                    <div className="w-full max-w-sectionBody mb-8">
                         <Link href={backButton.url} className="back-to-work-btn">
                             <svg
                                 className="back-chevron"
@@ -92,7 +92,7 @@ export default function TimelineSection(props: TimelineSectionProps) {
                 )}
                 {items.length > 0 && (
                     <div
-                        className={classNames('timeline-container', 'w-full', 'max-w-4xl', { 'mt-16': title?.text || subtitle, 'mt-4': !title?.text && !subtitle })}
+                        className={classNames('timeline-container', 'w-full', 'max-w-sectionBody', { 'mt-16': title?.text || subtitle, 'mt-4': !title?.text && !subtitle })}
                         {...(enableAnnotations && { 'data-sb-field-path': '.items' })}
                     >
                         {items.map((item, index) => (
@@ -113,12 +113,12 @@ export default function TimelineSection(props: TimelineSectionProps) {
 
 function TimelineItemComponent({ item, index, isLast }: { item: TimelineItem; index: number; isLast: boolean }) {
     return (
-        <div className={classNames('timeline-item', 'relative', 'flex', 'gap-6', 'md:gap-8', { 'pb-12 md:pb-16': !isLast })}>
+        <div className={classNames('timeline-item', 'relative', 'flex', 'gap-5', { 'pb-12 md:pb-14': !isLast })}>
             {/* Timeline line and logo/dot */}
-            <div className="timeline-marker flex flex-col items-center flex-shrink-0">
+            <div className="timeline-marker flex flex-col items-center flex-shrink-0 w-12 md:w-14">
                 {/* Logo or dot */}
                 {item.logo ? (
-                    <div className="timeline-logo w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white dark:bg-darkSurface shadow-lg flex items-center justify-center overflow-hidden z-10 border border-neutral/10 dark:border-darkSurfaceAlt">
+                    <div className="timeline-logo w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white shadow-md flex items-center justify-center overflow-hidden z-10 border border-gray-100">
                         <img
                             src={item.logo}
                             alt={item.subtitle || 'Company logo'}
@@ -126,18 +126,18 @@ function TimelineItemComponent({ item, index, isLast }: { item: TimelineItem; in
                         />
                     </div>
                 ) : (
-                    <div className="timeline-dot w-4 h-4 rounded-full bg-primary border-4 border-neutral dark:border-darkBg z-10 flex-shrink-0" />
+                    <div className="timeline-dot w-4 h-4 rounded-full bg-primary border-4 border-neutral z-10 flex-shrink-0" />
                 )}
                 {/* Connecting line */}
                 {!isLast && (
-                    <div className="timeline-line w-0.5 flex-grow bg-primary/20 mt-4" />
+                    <div className="timeline-line w-0.5 flex-grow bg-gray-200 mt-4" />
                 )}
             </div>
 
-            {/* Content card */}
-            <div className="timeline-content flex-grow pb-2">
-                {/* Header with date */}
-                <div className="flex flex-wrap items-center gap-3 mb-3">
+            {/* Content */}
+            <div className="timeline-content flex-grow pb-2 -mt-1">
+                {/* Date */}
+                <div className="flex flex-wrap items-center gap-3 mb-2">
                     <div className="timeline-date inline-block px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary uppercase tracking-wide">
                         {item.date}
                     </div>
@@ -157,11 +157,10 @@ function TimelineItemComponent({ item, index, isLast }: { item: TimelineItem; in
 
                 {/* Description */}
                 {item.description && (
-                    <p className="timeline-description text-base leading-relaxed opacity-75">
+                    <p className="timeline-description text-base leading-relaxed text-gray-600">
                         {item.description}
                     </p>
                 )}
-
             </div>
         </div>
     );

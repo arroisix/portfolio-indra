@@ -14,6 +14,9 @@ interface PortfolioCardProps {
             url: string;
             altText?: string;
         };
+        featuredVideo?: {
+            url: string;
+        };
         category?: string;
         aspectRatio?: 'tall' | 'medium' | 'short' | 'square';
     };
@@ -30,18 +33,29 @@ const ASPECT_RATIO_CLASSES = {
     square: 'aspect-square',
 };
 
+// Check if URL is a video
+const isVideoUrl = (url: string) => {
+    const videoExtensions = ['.mp4', '.webm', '.mov', '.ogg'];
+    return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+};
+
 export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
 
     const url = post.__metadata?.urlPath || '#';
     const title = post.title || 'Untitled';
-    const excerpt = post.excerpt || '';
+    const excerpt = post.excerpt || 'Brief description of this project goes here';
     const imageUrl = post.featuredImage?.url;
+    const videoUrl = post.featuredVideo?.url;
     const imageAlt = post.featuredImage?.altText || title;
 
     const aspectRatio = post.aspectRatio || ASPECT_RATIOS[index % ASPECT_RATIOS.length];
     const aspectClass = ASPECT_RATIO_CLASSES[aspectRatio];
+
+    // Determine if we should show video (either from featuredVideo or if featuredImage is a video)
+    const showVideo = videoUrl || (imageUrl && isVideoUrl(imageUrl));
+    const mediaVideoUrl = videoUrl || imageUrl;
 
     return (
         <div
@@ -52,10 +66,25 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
             <Link href={url} className="block">
                 {/* Card Container - WHITE background */}
                 <div className="portfolio-card-fm bg-white">
-                    {/* Image with padding inside card */}
+                    {/* Media with padding inside card */}
                     <div className="p-3 pb-0">
                         <div className={classNames('portfolio-card-image-wrap relative overflow-hidden rounded-xl', aspectClass)}>
-                            {imageUrl ? (
+                            {showVideo && mediaVideoUrl ? (
+                                // Video - autoplay, loop, muted, no controls
+                                <video
+                                    src={mediaVideoUrl}
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    className={classNames(
+                                        'absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out',
+                                        isHovered && 'scale-105'
+                                    )}
+                                    onLoadedData={() => setIsLoading(false)}
+                                />
+                            ) : imageUrl ? (
+                                // Image
                                 <>
                                     {isLoading && (
                                         <div className="absolute inset-0 skeleton-loading rounded-xl" />
@@ -78,6 +107,11 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
                                     <span className="text-gray-400 text-sm">No image</span>
                                 </div>
                             )}
+
+                            {/* Loading skeleton for video */}
+                            {showVideo && isLoading && (
+                                <div className="absolute inset-0 skeleton-loading rounded-xl" />
+                            )}
                         </div>
                     </div>
 
@@ -85,14 +119,12 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
                     <div className="p-4 pt-3 flex items-start justify-between gap-3">
                         {/* Left: Title + Description */}
                         <div className="flex-1 min-w-0">
-                            <h3 className="font-jakarta font-semibold text-base text-gray-900 mb-1">
+                            <h3 className="font-inter font-semibold text-base text-gray-900 mb-1">
                                 {title}
                             </h3>
-                            {excerpt && (
-                                <p className="text-sm text-gray-500 line-clamp-2">
-                                    {excerpt}
-                                </p>
-                            )}
+                            <p className="text-sm text-gray-500 line-clamp-2">
+                                {excerpt}
+                            </p>
                         </div>
 
                         {/* Right: Arrow icon - only visible on hover */}

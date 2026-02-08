@@ -85,30 +85,27 @@ export default function SocialLinksSection(props: SocialLinksSectionProps) {
             {...getDataAttrs(props)}
         >
             <div className="max-w-2xl mx-auto px-6 py-16">
-                <div className="space-y-6">
+                <div className="divide-y divide-gray-200">
                     {socialLinks.map((link, index) => (
                         <a
                             key={index}
                             href={link.url}
                             target={link.platform !== 'Email' ? '_blank' : undefined}
                             rel={link.platform !== 'Email' ? 'noopener noreferrer' : undefined}
-                            className="flex items-center gap-4 group"
+                            className="flex items-center justify-between py-4 group hover:opacity-70 transition-opacity"
                         >
-                            {/* Icon */}
-                            <span className="text-gray-400 group-hover:text-gray-900 transition-colors">
-                                <SocialIcon platform={link.platform} />
-                            </span>
+                            {/* Left: Icon + Platform Name */}
+                            <div className="flex items-center gap-3">
+                                <span className="text-gray-900">
+                                    <SocialIcon platform={link.platform} />
+                                </span>
+                                <span className="text-lg font-medium text-gray-900">
+                                    {link.platform}
+                                </span>
+                            </div>
 
-                            {/* Platform Name */}
-                            <span className="text-lg font-medium text-gray-900">
-                                {link.platform}
-                            </span>
-
-                            {/* Dashed Line */}
-                            <span className="flex-1 border-b border-dashed border-gray-300" />
-
-                            {/* Username */}
-                            <span className="text-gray-500 group-hover:text-gray-700 transition-colors">
+                            {/* Right: Username */}
+                            <span className="text-gray-500">
                                 {link.username}
                             </span>
                         </a>

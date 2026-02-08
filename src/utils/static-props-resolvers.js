@@ -103,5 +103,8 @@ const StaticPropsResolvers = {
     },
     FeaturedPeopleSection: (props, data, debugContext) => {
         return resolveReferences(props, ['people'], data.objects, debugContext);
+    },
+    PortfolioSection: (props, data, debugContext) => {
+        return resolveReferences(props, ['posts'], data.objects, debugContext);
     }
 };

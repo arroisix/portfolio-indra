@@ -1,167 +1,170 @@
 import * as React from 'react';
-import dayjs from 'dayjs';
-import Markdown from 'markdown-to-jsx';
+import Image from 'next/image';
 
 import { getBaseLayoutComponent } from '../../../utils/base-layout';
-import { getComponent } from '../../components-registry';
 import Link from '../../atoms/Link';
-import ImageBlock from '../../blocks/ImageBlock';
 
 export default function PostLayout(props) {
     const { page, site } = props;
     const BaseLayout = getBaseLayoutComponent(page.baseLayout, site.baseLayout);
     const { enableAnnotations = true } = site;
-    const { title, date, author, excerpt, heroImage, heroImageMobile, markdown_content, bottomSections = [], relatedPosts = [] } = page;
-    const dateTimeAttr = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
-    const formattedDate = dayjs(date).format('YYYY-MM-DD');
+    const {
+        title,
+        excerpt,
+        // Project overview fields
+        projectOverview = {},
+        workedOn = [],
+        // Gallery images/GIFs
+        gallery = [],
+    } = page;
 
-    // Use heroImage if provided, otherwise use a default placeholder
-    const desktopImage = heroImage?.url || '/images/hero-placeholder.jpg';
-    const mobileImage = heroImageMobile?.url || desktopImage;
+    const { website, team, createdAt } = projectOverview;
 
-    const caseStudyContent = (
-        <main id="main" className="sb-layout sb-post-layout">
-            {/* Full Viewport Hero Section */}
-            <section
-                    className="post-hero relative min-h-screen flex flex-col justify-end"
-                    style={{
-                        '--hero-desktop': `url(${desktopImage})`,
-                        '--hero-mobile': `url(${mobileImage})`,
-                    } as React.CSSProperties}
-                >
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+    return (
+        <BaseLayout page={page} site={site}>
+            <main id="main" className="sb-layout sb-post-layout bg-white">
+                {/* Back Button - Fixed at top */}
+                <div className="fixed top-6 left-6 z-50">
+                    <Link
+                        href="/"
+                        className="back-to-work-btn bg-white/80 backdrop-blur-md"
+                    >
+                        <svg
+                            className="back-chevron"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                        <span>Back</span>
+                    </Link>
+                </div>
 
-                    {/* Hero Content - positioned at bottom, centered */}
-                    <div className="relative z-10 px-4 sm:px-8 pb-16 sm:pb-24">
-                        <div className="mx-auto max-w-screen-2xl">
-                            <header className="max-w-4xl mx-auto text-center">
-                                <div className="mb-4 text-sm uppercase tracking-wider text-white/70">
-                                    <time dateTime={dateTimeAttr} {...(enableAnnotations && { 'data-sb-field-path': 'date' })}>
-                                        {formattedDate}
-                                    </time>
-                                    {author && (
-                                        <>
-                                            <span className="mx-2">|</span>
-                                            <PostAuthor author={author} enableAnnotations={enableAnnotations} />
-                                        </>
+                {/* Header Section */}
+                <section className="pt-32 pb-12 px-6">
+                    <div className="max-w-4xl mx-auto">
+                        {/* Title */}
+                        <h1
+                            className="font-inter text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6"
+                            {...(enableAnnotations && { 'data-sb-field-path': 'title' })}
+                        >
+                            {title}
+                        </h1>
+
+                        {/* Subtitle/Excerpt */}
+                        {excerpt && (
+                            <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-3xl">
+                                {excerpt}
+                            </p>
+                        )}
+                    </div>
+                </section>
+
+                {/* Project Overview Cards */}
+                <section className="px-6 pb-16">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {/* Project Overview Card */}
+                            <div className="bg-gray-50 rounded-2xl p-6">
+                                <h3 className="font-inter font-semibold text-gray-900 mb-4">
+                                    Project overview
+                                </h3>
+                                <div className="space-y-3">
+                                    {website && (
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-500">Website</span>
+                                            <a
+                                                href={website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-900 hover:text-gray-600 transition-colors"
+                                            >
+                                                {website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                                            </a>
+                                        </div>
+                                    )}
+                                    {team && (
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-500">Team</span>
+                                            <span className="text-gray-900">{team}</span>
+                                        </div>
+                                    )}
+                                    {createdAt && (
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-500">Created at</span>
+                                            <span className="text-gray-900">{createdAt}</span>
+                                        </div>
                                     )}
                                 </div>
-                                <h1
-                                    className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight"
-                                    {...(enableAnnotations && { 'data-sb-field-path': 'title' })}
-                                >
-                                    {title}
-                                </h1>
-                                {excerpt && (
-                                    <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
-                                        {excerpt}
-                                    </p>
-                                )}
-                            </header>
+                            </div>
+
+                            {/* What I Worked On Card */}
+                            {workedOn.length > 0 && (
+                                <div className="bg-gray-50 rounded-2xl p-6">
+                                    <h3 className="font-inter font-semibold text-gray-900 mb-4">
+                                        What I worked on:
+                                    </h3>
+                                    <ul className="space-y-2">
+                                        {workedOn.map((item, index) => (
+                                            <li key={index} className="flex items-start gap-2">
+                                                <span className="text-gray-400 mt-1">•</span>
+                                                <span className="text-gray-700">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </section>
 
-                <article className="px-4 py-16 sm:py-20">
-                    <div className="mx-auto max-w-screen-2xl">
-                        {markdown_content && (
-                            <Markdown
-                                options={{ forceBlock: true }}
-                                className="max-w-3xl mx-auto sb-markdown"
-                                {...(enableAnnotations && { 'data-sb-field-path': 'markdown_content' })}
-                            >
-                                {markdown_content}
-                            </Markdown>
-                        )}
-                    </div>
-                </article>
-                {relatedPosts.length > 0 && (
-                    <section className="related-projects-section px-4 py-16 sm:py-20 bg-neutral-fg-dark">
-                        <div className="mx-auto max-w-5xl">
-                            <h2 className="font-epilogue text-3xl sm:text-4xl font-semibold text-center mb-12">
-                                Want to see other projects?
-                            </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-                                {relatedPosts.map((post, index) => (
-                                    <Link
-                                        key={index}
-                                        href={post.__metadata?.urlPath}
-                                        className="related-project-card group block rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                                    >
-                                        {post.featuredImage?.url && (
-                                            <div className="aspect-square overflow-hidden">
-                                                <ImageBlock
-                                                    {...post.featuredImage}
-                                                    className="w-full h-full"
-                                                    imageClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                />
-                                            </div>
-                                        )}
-                                        <div className="p-5">
-                                            <h3 className="font-epilogue text-lg font-semibold group-hover:text-primary transition-colors">
-                                                {post.title}
-                                            </h3>
-                                            {post.excerpt && (
-                                                <p className="mt-2 text-sm opacity-70">{post.excerpt}</p>
-                                            )}
+                {/* Gallery - Images and GIFs */}
+                {gallery.length > 0 && (
+                    <section className="px-6 pb-16">
+                        <div className="max-w-6xl mx-auto space-y-6">
+                            {gallery.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className="relative rounded-2xl overflow-hidden bg-gray-100"
+                                >
+                                    {item.url?.endsWith('.gif') ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img
+                                            src={item.url}
+                                            alt={item.altText || `Project image ${index + 1}`}
+                                            className="w-full h-auto"
+                                        />
+                                    ) : (
+                                        <div className="relative aspect-[16/9]">
+                                            <Image
+                                                src={item.url}
+                                                alt={item.altText || `Project image ${index + 1}`}
+                                                fill
+                                                className="object-cover"
+                                                priority={index === 0}
+                                            />
                                         </div>
-                                    </Link>
-                                ))}
-                            </div>
+                                    )}
+                                    {item.caption && (
+                                        <p className="text-center text-sm text-gray-500 mt-3 px-4 pb-4">
+                                            {item.caption}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     </section>
                 )}
-                {bottomSections.length > 0 && (
-                    <div {...(enableAnnotations && { 'data-sb-field-path': 'bottomSections' })}>
-                        {bottomSections.map((section, index) => {
-                            const Component = getComponent(section.__metadata.modelName);
-                            if (!Component) {
-                                throw new Error(`no component matching the page section's model name: ${section.__metadata.modelName}`);
-                            }
-                            return (
-                                <Component
-                                    key={index}
-                                    {...section}
-                                    enableAnnotations={enableAnnotations}
-                                    {...(enableAnnotations && { 'data-sb-field-path': `bottomSections.${index}` })}
-                                />
-                            );
-                        })}
-                    </div>
-                )}
-        </main>
-    );
 
-    return (
-        <BaseLayout page={page} site={site}>
-            {caseStudyContent}
+                {/* Footer spacer */}
+                <div className="h-24" />
+            </main>
         </BaseLayout>
     );
 }
-
-function PostAuthor({ author, enableAnnotations }) {
-    const authorName = author.name && <span {...(enableAnnotations && { 'data-sb-field-path': '.name' })}>{author.name}</span>;
-    return author.slug ? (
-        <Link {...(enableAnnotations && { 'data-sb-field-path': 'author' })} href={`/blog/author/${author.slug}`}>
-            {authorName}
-        </Link>
-    ) : (
-        <span {...(enableAnnotations && { 'data-sb-field-path': 'author' })}>{authorName}</span>
-    );
-}
-
-/*
-function PostCategory({ category, enableAnnotations }) {
-    if (!category) {
-        return null;
-    }
-    return (
-        <div className="mb-4">
-            <Link {...(enableAnnotations && { 'data-sb-field-path': 'category' })} href={category.__metadata?.urlPath}>
-                {category.title}
-            </Link>
-        </div>
-    );
-}
-*/

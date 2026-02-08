@@ -8,6 +8,29 @@ import { Link } from '../../atoms';
 
 export default function Header(props) {
     const { primaryLinks = [], enableAnnotations } = props;
+    const router = useRouter();
+
+    // Check if we're on a blog detail page - check immediately from router
+    const isBlogPage = router.asPath.startsWith('/blog/') || router.pathname.startsWith('/blog/');
+    const [isHidden, setIsHidden] = useState(isBlogPage);
+
+    // Update hidden state on route changes
+    useEffect(() => {
+        const checkHiddenPage = () => {
+            const path = router.asPath;
+            const shouldHide = path.startsWith('/blog/');
+            setIsHidden(shouldHide);
+        };
+
+        checkHiddenPage();
+        router.events.on('routeChangeComplete', checkHiddenPage);
+        return () => router.events.off('routeChangeComplete', checkHiddenPage);
+    }, [router]);
+
+    if (isHidden) {
+        return null;
+    }
+
     return (
         <header
             className={classNames(
@@ -15,7 +38,8 @@ export default function Header(props) {
                 'sb-component-header',
                 'fixed',
                 'top-6',
-                'right-8',
+                'left-1/2',
+                '-translate-x-1/2',
                 'bg-white/80',
                 'backdrop-blur-md',
                 'rounded-full',
@@ -29,8 +53,8 @@ export default function Header(props) {
             {...(enableAnnotations && { 'data-sb-object-id': props?.__metadata?.id })}
         >
             <nav className="flex items-center gap-8">
-                <Link href="/" className="font-jakarta font-semibold text-lg text-gray-900">
-                    Indra
+                <Link href="/" className="flex items-center">
+                    <img src="/images/logo.svg" alt="Indra" className="h-7 w-7" />
                 </Link>
                 {primaryLinks.length > 0 && (
                     <div className="hidden md:flex items-center gap-6">
@@ -51,21 +75,29 @@ export default function Header(props) {
 }
 
 function NavLink({ link, enableAnnotations, index }) {
+    const router = useRouter();
     const isHashLink = link.url?.startsWith('#');
+    const isHomePage = router.asPath === '/' || router.asPath.startsWith('/#');
 
     const handleClick = (e: React.MouseEvent) => {
         if (isHashLink) {
             e.preventDefault();
-            const element = document.querySelector(link.url);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+            if (isHomePage) {
+                // Already on home, just scroll
+                const element = document.querySelector(link.url);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                // Navigate to home with hash
+                router.push('/' + link.url);
             }
         }
     };
 
     return (
         <Link
-            href={link.url}
+            href={isHashLink ? '/' + link.url : link.url}
             onClick={isHashLink ? handleClick : undefined}
             className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
             {...(enableAnnotations && { 'data-sb-field-path': `.primaryLinks.${index}` })}
@@ -113,6 +145,8 @@ function MobileMenu(props) {
         }
     };
 
+    const isHomePage = router.asPath === '/' || router.asPath.startsWith('/#');
+
     const handleLinkClick = (href: string) => {
         setIsClosing(true);
         setTimeout(() => {
@@ -120,9 +154,15 @@ function MobileMenu(props) {
             setIsClosing(false);
             document.body.style.overflow = 'unset';
             if (href.startsWith('#')) {
-                const element = document.querySelector(href);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                if (isHomePage) {
+                    // Already on home, just scroll
+                    const element = document.querySelector(href);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else {
+                    // Navigate to home with hash
+                    router.push('/' + href);
                 }
             }
         }, 300);

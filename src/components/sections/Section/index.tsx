@@ -45,6 +45,9 @@ export default function Section(props) {
         };
     }, [isRevealed]);
 
+    // Check if this is a hero section that needs overflow visible
+    const isHeroSection = className?.includes('sb-component-hero-section');
+
     return (
         <div
             ref={sectionRef}
@@ -57,6 +60,7 @@ export default function Section(props) {
                 className,
                 colors,
                 'relative',
+                isHeroSection && 'overflow-visible',
                 // Apply variant-specific classes
                 variant === 'about-header' && 'section-about-header flex justify-start items-center w-full',
                 variant === 'skills' && 'section-skills',

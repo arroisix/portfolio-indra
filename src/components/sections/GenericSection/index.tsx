@@ -15,7 +15,7 @@ export default function GenericSection(props) {
     const flexDirection = styles?.self?.flexDirection ?? 'row';
     const alignItems = styles?.self?.alignItems ?? 'flex-start';
     const justifyContent = styles?.self?.justifyContent ?? 'flex-start';
-    const hasTextContent = !!(badge?.url || title?.text || subtitle || text || actions.length > 0);
+    const hasTextContent = !!(badge?.url || title?.text || subtitle || text || actions.length > 0 || backButton);
     const hasMedia = !!(media && (media?.url || (media?.fields ?? []).length > 0));
     const hasXDirection = flexDirection === 'row' || flexDirection === 'row-reverse';
 

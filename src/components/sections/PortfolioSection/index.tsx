@@ -52,7 +52,10 @@ export default function PortfolioSection(props: PortfolioSectionProps) {
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
-            <div className="max-w-7xl mx-auto px-6">
+            {/* Aurora fade continuation from hero */}
+            <div className="aurora-fade absolute top-0 left-0 right-0 h-40 pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
                 {/* Pinterest-style Masonry Grid */}
                 <div
                     className="portfolio-masonry-grid"

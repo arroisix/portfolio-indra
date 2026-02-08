@@ -4,14 +4,14 @@
         {
             "label": "Work",
             "altText": "Work",
-            "url": "#work",
+            "url": "/work",
             "showIcon": false,
             "style": "secondary",
             "type": "Link"
         },
         {
-            "label": "About",
-            "altText": "About",
+            "label": "Experience",
+            "altText": "Experience",
             "url": "/experience",
             "showIcon": false,
             "style": "secondary",
@@ -20,7 +20,7 @@
         {
             "label": "Contact",
             "altText": "Contact",
-            "url": "mailto:hello@example.com",
+            "url": "#social",
             "showIcon": false,
             "style": "secondary",
             "type": "Link"

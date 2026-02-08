@@ -16,15 +16,13 @@ sections:
     colors: bg-light-fg-dark
     styles:
       self:
-        alignItems: center
+        alignItems: flex-start
         flexDirection: col
         justifyContent: center
-        textAlign: center
         padding:
           - pt-28
           - pb-8
-          - pl-8
-          - pr-8
+          - px-4
 
   - type: TimelineSection
     title:
@@ -153,8 +151,7 @@ sections:
         padding:
           - pt-12
           - pb-24
-          - pl-8
-          - pr-8
+          - px-4
 
 seo:
   metaTitle: Experience - Indra
