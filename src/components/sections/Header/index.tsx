@@ -10,21 +10,33 @@ export default function Header(props) {
     const { primaryLinks = [], enableAnnotations } = props;
     const router = useRouter();
 
-    // Check if we're on a blog detail page - check immediately from router
-    const isBlogPage = router.asPath.startsWith('/blog/') || router.pathname.startsWith('/blog/');
-    const [isHidden, setIsHidden] = useState(isBlogPage);
+    const shouldHidePath = (path: string) => {
+        return path.startsWith('/blog/') || path.startsWith('/experience') || path.startsWith('/work');
+    };
 
-    // Update hidden state on route changes
+    // Track hidden state
+    const [isHidden, setIsHidden] = useState(() => shouldHidePath(router.asPath));
+
     useEffect(() => {
-        const checkHiddenPage = () => {
-            const path = router.asPath;
-            const shouldHide = path.startsWith('/blog/');
-            setIsHidden(shouldHide);
+        // Hide immediately when navigation STARTS to a hidden page
+        const handleRouteStart = (url: string) => {
+            if (shouldHidePath(url)) {
+                setIsHidden(true);
+            }
         };
 
-        checkHiddenPage();
-        router.events.on('routeChangeComplete', checkHiddenPage);
-        return () => router.events.off('routeChangeComplete', checkHiddenPage);
+        // Show/hide when navigation completes
+        const handleRouteComplete = (url: string) => {
+            setIsHidden(shouldHidePath(url));
+        };
+
+        router.events.on('routeChangeStart', handleRouteStart);
+        router.events.on('routeChangeComplete', handleRouteComplete);
+
+        return () => {
+            router.events.off('routeChangeStart', handleRouteStart);
+            router.events.off('routeChangeComplete', handleRouteComplete);
+        };
     }, [router]);
 
     if (isHidden) {
@@ -38,21 +50,14 @@ export default function Header(props) {
                 'sb-component-header',
                 'fixed',
                 'top-6',
-                'left-1/2',
-                '-translate-x-1/2',
-                'bg-white/80',
-                'backdrop-blur-md',
-                'rounded-full',
-                'px-6',
-                'py-3',
-                'border',
-                'border-gray-200',
-                'z-50',
-                'shadow-sm'
+                'inset-x-0',
+                'flex',
+                'justify-center',
+                'z-50'
             )}
             {...(enableAnnotations && { 'data-sb-object-id': props?.__metadata?.id })}
         >
-            <nav className="flex items-center gap-8">
+            <nav className="flex items-center gap-8 bg-white/80 backdrop-blur-md rounded-full px-6 py-3 border border-gray-200 shadow-sm">
                 <Link href="/" className="flex items-center">
                     <img src="/images/logo.svg" alt="Indra" className="h-7 w-7" />
                 </Link>
@@ -119,14 +124,16 @@ function MobileMenu(props) {
     }, []);
 
     useEffect(() => {
-        const handleRouteChange = () => {
+        // Close menu only after route change COMPLETES (not on start)
+        // This keeps the menu overlay visible during page load
+        const handleRouteComplete = () => {
             setIsMenuOpen(false);
             setIsClosing(false);
             document.body.style.overflow = 'unset';
         };
-        router.events.on('routeChangeStart', handleRouteChange);
+        router.events.on('routeChangeComplete', handleRouteComplete);
         return () => {
-            router.events.off('routeChangeStart', handleRouteChange);
+            router.events.off('routeChangeComplete', handleRouteComplete);
         };
     }, [router.events]);
 

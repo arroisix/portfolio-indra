@@ -29,12 +29,12 @@ export default function HeroSection(props: HeroSectionProps) {
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
-            <div className="relative min-h-[80vh] flex items-center justify-center px-6 overflow-visible">
+            <div className="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
                 {/* Aurora Background - fades out after 3 seconds, extends below hero */}
-                <div className="aurora-bg absolute -inset-x-20 -top-20 -bottom-40 pointer-events-none" />
+                <div className="aurora-bg absolute inset-x-0 -top-20 -bottom-40 pointer-events-none" />
 
-                {/* Content - shifted down 10% */}
-                <div className="relative z-10 text-center max-w-4xl mt-[10vh]">
+                {/* Content - shifted down, more on mobile to avoid header collision */}
+                <div className="relative z-10 text-center max-w-4xl mt-[15vh] md:mt-[10vh]">
                     {/* Avatar */}
                     {avatarImage && (
                         <div className="mb-6 flex justify-center">

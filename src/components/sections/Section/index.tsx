@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import { mapStylesToClassNames as mapStyles } from '../../../utils/map-styles-to-class-names';
@@ -10,8 +9,6 @@ type SectionVariant = 'default' | 'about-header' | 'skills' | 'work';
 
 export default function Section(props) {
     const { elementId, className, colors = 'bg-light-fg-dark', backgroundImage, styles = {}, children } = props;
-    const [isRevealed, setIsRevealed] = useState(false);
-    const sectionRef = useRef<HTMLDivElement>(null);
 
     // Determine variant from elementId for backward compatibility
     const variant: SectionVariant =
@@ -19,48 +16,18 @@ export default function Section(props) {
         elementId === 'skills' ? 'skills' :
         elementId === 'work' ? 'work' : 'default';
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting && !isRevealed) {
-                        setIsRevealed(true);
-                    }
-                });
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => {
-            if (sectionRef.current) {
-                observer.unobserve(sectionRef.current);
-            }
-        };
-    }, [isRevealed]);
-
     // Check if this is a hero section that needs overflow visible
     const isHeroSection = className?.includes('sb-component-hero-section');
 
     return (
         <div
-            ref={sectionRef}
             id={elementId}
             className={classNames(
                 'sb-component',
                 'sb-component-section',
-                'scroll-reveal',
-                isRevealed && 'revealed',
                 className,
                 colors,
                 'relative',
-                isHeroSection && 'overflow-visible',
                 // Apply variant-specific classes
                 variant === 'about-header' && 'section-about-header flex justify-start items-center w-full',
                 variant === 'skills' && 'section-skills',

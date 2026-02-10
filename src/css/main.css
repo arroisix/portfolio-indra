@@ -50,6 +50,24 @@
         }
     }
 
+    /* Bouncy click animation - applied to all clickable elements */
+    @keyframes bouncy-click {
+        0% { transform: scale(1); }
+        40% { transform: scale(0.93); }
+        100% { transform: scale(1); }
+    }
+
+    .bouncy-click {
+        animation: bouncy-click 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+        transform-origin: center center !important;
+    }
+
+    /* Ensure clickable elements can animate */
+    button, a, [role="button"] {
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
     /* Buttons & Links */
     .sb-component-button {
         @apply inline-flex justify-center items-center text-center border transition duration-200 ease-in hover:-translate-y-1;
@@ -75,27 +93,7 @@
         @apply text-dark bg-white;
     }
 
-    /* Scroll reveal animation */
-    .scroll-reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    .scroll-reveal.revealed {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Post layout - ensure visibility */
-    .sb-post-layout {
-        opacity: 1 !important;
-        transform: none !important;
-    }
-    .sb-post-layout section,
-    .sb-post-layout article {
-        opacity: 1;
-        transform: none;
-    }
+    /* No scroll-reveal or page animations - prevents transform glitches on navigation */
 
     /* Hover effects */
     .sb-card { @apply transition-all duration-200 ease-in-out; }
@@ -186,6 +184,18 @@
 
     .portfolio-card-wrapper {
         break-inside: avoid;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Mobile card active - subtle pop effect */
+    @media (max-width: 767px) {
+        .portfolio-card-wrapper.mobile-card-active {
+            z-index: 50;
+        }
+        .portfolio-card-wrapper.mobile-card-active .portfolio-card-fm {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
     }
 
     /* Featuredmobile.com Style Card */
@@ -219,33 +229,34 @@
         transform: translateY(-2px);
     }
 
-    /* Hero Section Styles - ensure aurora can extend beyond */
+    /* Hero Section Styles */
     .sb-component-hero-section {
         padding: 0 !important;
         background-color: transparent !important;
-        overflow: visible !important;
         z-index: 1;
     }
 
     .sb-component-hero-section > div {
         max-width: none !important;
         padding: 0 !important;
-        overflow: visible !important;
-    }
-
-    /* Allow aurora to bleed through - remove clipping from all parent containers */
-    .sb-page-layout,
-    .sb-layout,
-    .sb-base,
-    .sb-page,
-    .sb-default-base-layout {
-        overflow: visible !important;
     }
 
     /* Portfolio Section Styles */
     .sb-component-portfolio-section {
         background: linear-gradient(to bottom, transparent 0%, #ffffff 150px, #ffffff 100%);
         position: relative;
+    }
+
+    /* Detail page header - reduce top padding on mobile */
+    .sb-component-generic-section[id="experience-header"],
+    .sb-component-generic-section[id="work-header"] {
+        padding-top: 5rem !important;
+    }
+    @media (min-width: 768px) {
+        .sb-component-generic-section[id="experience-header"],
+        .sb-component-generic-section[id="work-header"] {
+            padding-top: 7rem !important;
+        }
     }
 
     /* Back to Work Button */
@@ -282,6 +293,72 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         background: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Page transition loading overlay */
+    .page-loading-overlay {
+        position: fixed;
+        inset: 0;
+        background: #ffffff;
+        z-index: 99999;
+    }
+
+    /* CTA Section - scale down image group on mobile */
+    .cta-image-group {
+        transform-origin: center center;
+    }
+    @media (max-width: 767px) {
+        .cta-image-group {
+            transform: scale(0.62);
+        }
+    }
+
+    /* Scroll to Top Button - Mobile Only */
+    .scroll-to-top-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 40;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: scroll-btn-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes scroll-btn-enter {
+        0% {
+            opacity: 0;
+            transform: scale(0.5) translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* Playful bounce animation when clicked */
+    .scroll-to-top-btn.animating {
+        animation: scroll-btn-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes scroll-btn-bounce {
+        0% { transform: scale(1) translateY(0); }
+        30% { transform: scale(0.9) translateY(5px); }
+        50% { transform: scale(1.15) translateY(-10px); }
+        70% { transform: scale(0.95) translateY(-5px); }
+        100% { transform: scale(1) translateY(0); }
+    }
+
+    .scroll-to-top-btn:active {
+        transform: scale(0.95);
     }
 
     /* Experience Card Styles */

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import classNames from 'classnames';
 import { Link } from '../../atoms';
@@ -42,6 +42,32 @@ const isVideoUrl = (url: string) => {
 export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Detect mobile
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Handle tap on mobile - auto reset after 3s
+    const handleTap = () => {
+        if (isMobile && !isHovered) {
+            setIsHovered(true);
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => setIsHovered(false), 3000);
+        }
+    };
+
+    // Cleanup timeout
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
 
     const url = post.__metadata?.urlPath || '#';
     const title = post.title || 'Untitled';
@@ -59,9 +85,13 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
 
     return (
         <div
-            className="portfolio-card-wrapper mb-5"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            className={classNames(
+                'portfolio-card-wrapper mb-5',
+                isMobile && isHovered && 'mobile-card-active'
+            )}
+            onMouseEnter={() => !isMobile && setIsHovered(true)}
+            onMouseLeave={() => !isMobile && setIsHovered(false)}
+            onTouchStart={handleTap}
         >
             <Link href={url} className="block">
                 {/* Card Container - WHITE background */}

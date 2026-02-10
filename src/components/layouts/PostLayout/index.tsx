@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { getBaseLayoutComponent } from '../../../utils/base-layout';
 import Link from '../../atoms/Link';
+import ScrollToTop from '../../atoms/ScrollToTop';
 
 export default function PostLayout(props) {
     const { page, site } = props;
@@ -47,7 +48,7 @@ export default function PostLayout(props) {
                 </div>
 
                 {/* Header Section */}
-                <section className="pt-32 pb-12 px-6">
+                <section className="pt-20 md:pt-32 pb-12 px-6">
                     <div className="max-w-4xl mx-auto">
                         {/* Title */}
                         <h1
@@ -164,6 +165,9 @@ export default function PostLayout(props) {
 
                 {/* Footer spacer */}
                 <div className="h-24" />
+
+                {/* Scroll to Top - Mobile Only */}
+                <ScrollToTop />
             </main>
         </BaseLayout>
     );

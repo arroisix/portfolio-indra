@@ -10,14 +10,41 @@ import TitleBlock from '../../blocks/TitleBlock';
 import { Action, Badge } from '../../atoms';
 import Link from '../../atoms/Link';
 
+function FixedBackButton() {
+    return (
+        <div className="fixed top-6 left-6 z-50">
+            <Link
+                href="/"
+                className="back-to-work-btn bg-white/80 backdrop-blur-md"
+            >
+                <svg
+                    className="back-chevron"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Back</span>
+            </Link>
+        </div>
+    );
+}
+
 export default function GenericSection(props) {
     const { elementId, colors, backgroundImage, badge, title, subtitle, text, actions = [], media, backButton, styles = {}, enableAnnotations } = props;
     const flexDirection = styles?.self?.flexDirection ?? 'row';
     const alignItems = styles?.self?.alignItems ?? 'flex-start';
     const justifyContent = styles?.self?.justifyContent ?? 'flex-start';
-    const hasTextContent = !!(badge?.url || title?.text || subtitle || text || actions.length > 0 || backButton);
+    const hasTextContent = !!(badge?.url || title?.text || subtitle || text || actions.length > 0);
     const hasMedia = !!(media && (media?.url || (media?.fields ?? []).length > 0));
     const hasXDirection = flexDirection === 'row' || flexDirection === 'row-reverse';
+    const showFixedBackButton = elementId === 'experience-header' || elementId === 'work-header';
 
     return (
         <Section
@@ -28,6 +55,7 @@ export default function GenericSection(props) {
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
+            {showFixedBackButton && <FixedBackButton />}
             <div
                 className={classNames(
                     elementId === 'about-header' ? 'w-full lg:w-fit mx-auto' : 'w-full',
@@ -62,26 +90,6 @@ export default function GenericSection(props) {
                             'lg:max-w-[27.5rem]': hasMedia && hasXDirection
                         })}
                     >
-                        {backButton && (
-                            <div className="mb-6">
-                                <Link href={backButton.url} className="back-to-work-btn">
-                                    <svg
-                                        className="back-chevron"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <polyline points="15 18 9 12 15 6"></polyline>
-                                    </svg>
-                                    <span>{backButton.label}</span>
-                                </Link>
-                            </div>
-                        )}
                         {badge && <Badge {...badge} {...(enableAnnotations && { 'data-sb-field-path': '.badge' })} />}
                         {title && (
                             <TitleBlock

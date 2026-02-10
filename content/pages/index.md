@@ -43,7 +43,7 @@ sections:
     colors: bg-white-fg-dark
 
 seo:
-  metaTitle: Indra - Senior Product Designer
+  metaTitle: Indra - Visual and Product Designer
   metaDescription: Portfolio showcasing my work in UX/UI design, development, and product strategy.
   socialImage: /images/profile.webp
   type: Seo

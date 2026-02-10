@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { getBaseLayoutComponent } from '../../../utils/base-layout';
 import { getComponent } from '../../components-registry';
+import ScrollToTop from '../../atoms/ScrollToTop';
 
 export default function PageLayout(props) {
     const { page, site } = props;
@@ -35,6 +36,8 @@ export default function PageLayout(props) {
                         })}
                     </div>
                 )}
+                {/* Scroll to Top - Mobile Only */}
+                <ScrollToTop />
             </main>
         </BaseLayout>
     );

@@ -39,16 +39,16 @@ Thank you!`);
             styles={styles?.self}
             {...getDataAttrs(props)}
         >
-            <div className="max-w-4xl mx-auto px-6 py-16">
+            <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-16">
                 {/* Container with border and gradient */}
-                <div className="relative rounded-3xl border border-gray-200 bg-gradient-to-br from-gray-50/80 via-white to-gray-50/50 p-12 md:p-16 overflow-hidden">
+                <div className="relative rounded-3xl border border-gray-200 bg-gradient-to-br from-gray-50/80 via-white to-gray-50/50 p-6 md:p-16 overflow-hidden">
                     {/* Subtle gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-violet-50/30 via-transparent to-blue-50/30 pointer-events-none" />
 
                     <div className="relative flex flex-col items-center text-center">
                         {/* Overlapping Images with Bouncy Folder Animation - Portrait orientation */}
                         <div
-                            className="relative w-[450px] h-[340px] mb-8 cursor-pointer"
+                            className="cta-image-group relative w-[450px] h-[340px] mb-6 md:mb-8 cursor-pointer"
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         >
