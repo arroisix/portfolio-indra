@@ -51,7 +51,7 @@ export default function HeroSection(props: HeroSectionProps) {
                         </div>
                     )}
 
-                    <h1 className="font-inter text-5xl md:text-7xl font-bold tracking-tight mb-6 text-gray-900">
+                    <h1 className="font-baskerville italic text-5xl md:text-7xl font-normal tracking-tight mb-6 text-gray-900">
                         {title}
                     </h1>
                     {subtitle && (

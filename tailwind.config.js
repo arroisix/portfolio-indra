@@ -31,6 +31,7 @@ module.exports = {
                 epilogue: ['Epilogue', 'sans-serif'],
                 inter: ['Inter', 'sans-serif'],
                 jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+                baskerville: ['Libre Baskerville', 'Georgia', 'serif'],
                 mono: ['JetBrains Mono', 'monospace']
             },
             fontWeight: {

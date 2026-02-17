@@ -16,6 +16,9 @@ export default function TitleBlock(props) {
                 'sb-component',
                 'sb-component-block',
                 'sb-component-title',
+                'font-baskerville',
+                'italic',
+                'font-normal',
                 color,
                 className,
                 styles?.self ? mapStyles(styles?.self) : undefined
