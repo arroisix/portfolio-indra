@@ -17,7 +17,7 @@ function GalleryItem({ item, index }) {
                     loop
                     muted
                     playsInline
-                    className={`w-full h-auto ${item.cropBlackbar ? 'aspect-video object-cover' : ''}`}
+                    className={`w-full h-auto ${item.cropBlackbar ? 'aspect-video object-cover scale-[1.02]' : ''}`}
                 />
             ) : isGif ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -178,7 +178,7 @@ export default function PostLayout(props) {
                                     if (item.grid === 2 && i + 1 < gallery.length) {
                                         const nextItem = gallery[i + 1];
                                         elements.push(
-                                            <div key={i} className="grid grid-cols-2 gap-6">
+                                            <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <GalleryItem item={item} index={i} />
                                                 <GalleryItem item={nextItem} index={i + 1} />
                                             </div>
