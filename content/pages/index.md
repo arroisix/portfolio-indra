@@ -22,8 +22,8 @@ sections:
       - content/pages/blog/gradient-utbk.md
       - content/pages/blog/bukalapak.md
       - content/pages/blog/dailyfriend.md
-      - content/pages/blog/project-4.md
-      - content/pages/blog/project-5.md
+      - content/pages/blog/aloproteksi.md
+      - content/pages/blog/bornevia.md
       - content/pages/blog/project-6.md
       - content/pages/blog/project-7.md
       - content/pages/blog/project-8.md

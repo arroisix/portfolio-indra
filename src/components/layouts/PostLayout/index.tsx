@@ -1,9 +1,47 @@
 import * as React from 'react';
-import Image from 'next/image';
 
 import { getBaseLayoutComponent } from '../../../utils/base-layout';
 import Link from '../../atoms/Link';
 import ScrollToTop from '../../atoms/ScrollToTop';
+
+function GalleryItem({ item, index }) {
+    const isVideo = item.url?.endsWith('.mp4') || item.url?.endsWith('.webm');
+    const isGif = item.url?.endsWith('.gif');
+
+    return (
+        <div className="relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-200/60">
+            {isVideo ? (
+                <video
+                    src={item.url}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className={`w-full h-auto ${item.cropBlackbar ? 'aspect-video object-cover' : ''}`}
+                />
+            ) : isGif ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src={item.url}
+                    alt={item.altText || `Project image ${index + 1}`}
+                    className="w-full h-auto"
+                />
+            ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src={item.url}
+                    alt={item.altText || `Project image ${index + 1}`}
+                    className="w-full h-auto"
+                />
+            )}
+            {item.caption && (
+                <p className="text-center text-sm text-gray-500 mt-3 px-4 pb-4">
+                    {item.caption}
+                </p>
+            )}
+        </div>
+    );
+}
 
 export default function PostLayout(props) {
     const { page, site } = props;
@@ -52,7 +90,7 @@ export default function PostLayout(props) {
                     <div className="max-w-4xl mx-auto">
                         {/* Title */}
                         <h1
-                            className="font-inter text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6"
+                            className="font-baskerville italic text-4xl md:text-5xl lg:text-6xl font-normal text-gray-900 leading-tight mb-6"
                             {...(enableAnnotations && { 'data-sb-field-path': 'title' })}
                         >
                             {title}
@@ -129,36 +167,33 @@ export default function PostLayout(props) {
                 {gallery.length > 0 && (
                     <section className="px-6 pb-16">
                         <div className="max-w-6xl mx-auto space-y-6">
-                            {gallery.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="relative rounded-2xl overflow-hidden bg-gray-100"
-                                >
-                                    {item.url?.endsWith('.gif') ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                            src={item.url}
-                                            alt={item.altText || `Project image ${index + 1}`}
-                                            className="w-full h-auto"
-                                        />
-                                    ) : (
-                                        <div className="relative aspect-[16/9]">
-                                            <Image
-                                                src={item.url}
-                                                alt={item.altText || `Project image ${index + 1}`}
-                                                fill
-                                                className="object-cover"
-                                                priority={index === 0}
-                                            />
-                                        </div>
-                                    )}
-                                    {item.caption && (
-                                        <p className="text-center text-sm text-gray-500 mt-3 px-4 pb-4">
-                                            {item.caption}
-                                        </p>
-                                    )}
-                                </div>
-                            ))}
+                            {(() => {
+                                const elements = [];
+                                let i = 0;
+
+                                while (i < gallery.length) {
+                                    const item = gallery[i];
+
+                                    // Check if this item starts a grid pair
+                                    if (item.grid === 2 && i + 1 < gallery.length) {
+                                        const nextItem = gallery[i + 1];
+                                        elements.push(
+                                            <div key={i} className="grid grid-cols-2 gap-6">
+                                                <GalleryItem item={item} index={i} />
+                                                <GalleryItem item={nextItem} index={i + 1} />
+                                            </div>
+                                        );
+                                        i += 2;
+                                    } else {
+                                        elements.push(
+                                            <GalleryItem key={i} item={item} index={i} />
+                                        );
+                                        i += 1;
+                                    }
+                                }
+
+                                return elements;
+                            })()}
                         </div>
                     </section>
                 )}
