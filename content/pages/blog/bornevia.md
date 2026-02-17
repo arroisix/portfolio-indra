@@ -26,8 +26,6 @@ gallery:
   - url: /images/project/2/Scene-1_20260217041154.mp4
     altText: Platform walkthrough
     cropBlackbar: true
-  - url: /images/project/2/Frame 3671711.webp
-    altText: Dashboard overview
   - url: /images/project/2/Frame 3671712.webp
     altText: Chat interface
 isFeatured: true
