@@ -184,8 +184,20 @@ Thank you!`);
                             For case studies and CV,{' '}
                             <Link
                                 href={emailUrl}
-                                className="text-gray-900 underline underline-offset-4 hover:text-gray-600 transition-colors"
+                                className="group inline-flex items-center text-gray-900 underline underline-offset-4 hover:text-blue-500 transition-colors"
                             >
+                                <svg
+                                    className="w-0 h-5 opacity-0 group-hover:w-5 group-hover:opacity-100 group-hover:mr-1.5 transition-all duration-300 ease-out"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                                </svg>
                                 email me
                             </Link>
                         </p>
