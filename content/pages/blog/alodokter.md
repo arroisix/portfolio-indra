@@ -37,13 +37,12 @@ gallery:
   - url: /images/project/1/Frame 7.webp
     altText: Policy management
     ratio: square
-  - url: /images/project/1/Section 3.webp
-    altText: Section overview
-    ratio: square
   - url: /images/project/1/Frame 8.webp
     altText: Claims processing
   - url: /images/project/1/Frame 9.webp
     altText: Notifications center
+  - url: /images/project/1/Section 3.webp
+    altText: Section overview
 isFeatured: true
 type: PostLayout
 ---
