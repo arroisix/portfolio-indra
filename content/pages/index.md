@@ -22,16 +22,8 @@ sections:
       - content/pages/blog/gradient-utbk.md
       - content/pages/blog/bukalapak.md
       - content/pages/blog/dailyfriend.md
-      - content/pages/blog/aloproteksi.md
+      - content/pages/blog/alodokter.md
       - content/pages/blog/bornevia.md
-      - content/pages/blog/project-6.md
-      - content/pages/blog/project-7.md
-      - content/pages/blog/project-8.md
-      - content/pages/blog/project-9.md
-      - content/pages/blog/project-10.md
-    maxItems: 5
-    viewAllUrl: /work
-    viewAllLabel: View All
     colors: bg-white-fg-dark
 
   - type: CTASection

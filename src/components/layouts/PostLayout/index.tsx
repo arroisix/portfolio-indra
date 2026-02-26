@@ -111,18 +111,18 @@ export default function PostLayout(props) {
                         <div className="grid md:grid-cols-2 gap-6">
                             {/* Project Overview Card */}
                             <div className="bg-gray-50 rounded-2xl p-6">
-                                <h3 className="font-inter font-semibold text-gray-900 mb-4">
-                                    Project overview
+                                <h3 className="font-inter text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
+                                    Project Overview
                                 </h3>
                                 <div className="space-y-3">
                                     {website && (
                                         <div className="flex justify-between items-center">
-                                            <span className="text-gray-500">Website</span>
+                                            <span className="text-sm text-gray-500">Website</span>
                                             <a
                                                 href={website}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-gray-900 hover:text-gray-600 transition-colors"
+                                                className="text-sm text-gray-900 hover:text-gray-600 transition-colors"
                                             >
                                                 {website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                                             </a>
@@ -130,14 +130,14 @@ export default function PostLayout(props) {
                                     )}
                                     {team && (
                                         <div className="flex justify-between items-center">
-                                            <span className="text-gray-500">Team</span>
-                                            <span className="text-gray-900">{team}</span>
+                                            <span className="text-sm text-gray-500">Team</span>
+                                            <span className="text-sm text-gray-900">{team}</span>
                                         </div>
                                     )}
                                     {createdAt && (
                                         <div className="flex justify-between items-center">
-                                            <span className="text-gray-500">Created at</span>
-                                            <span className="text-gray-900">{createdAt}</span>
+                                            <span className="text-sm text-gray-500">Created</span>
+                                            <span className="text-sm text-gray-900">{createdAt}</span>
                                         </div>
                                     )}
                                 </div>
@@ -146,14 +146,14 @@ export default function PostLayout(props) {
                             {/* What I Worked On Card */}
                             {workedOn.length > 0 && (
                                 <div className="bg-gray-50 rounded-2xl p-6">
-                                    <h3 className="font-inter font-semibold text-gray-900 mb-4">
-                                        What I worked on:
+                                    <h3 className="font-inter text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
+                                        What I Worked On
                                     </h3>
                                     <ul className="space-y-2">
                                         {workedOn.map((item, index) => (
-                                            <li key={index} className="flex items-start gap-2">
-                                                <span className="text-gray-400 mt-1">•</span>
-                                                <span className="text-gray-700">{item}</span>
+                                            <li key={index} className="flex items-center gap-2">
+                                                <span className="text-gray-400 text-xs">•</span>
+                                                <span className="text-sm text-gray-900">{item}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -174,8 +174,18 @@ export default function PostLayout(props) {
                                 while (i < gallery.length) {
                                     const item = gallery[i];
 
-                                    // Check if this item starts a grid pair
+                                    // Check if this item starts a grid pair (explicit grid:2 or consecutive squares)
                                     if (item.grid === 2 && i + 1 < gallery.length) {
+                                        const nextItem = gallery[i + 1];
+                                        elements.push(
+                                            <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <GalleryItem item={item} index={i} />
+                                                <GalleryItem item={nextItem} index={i + 1} />
+                                            </div>
+                                        );
+                                        i += 2;
+                                    } else if (item.ratio === 'square' && i + 1 < gallery.length && gallery[i + 1].ratio === 'square') {
+                                        // Pair consecutive square images side-by-side on desktop
                                         const nextItem = gallery[i + 1];
                                         elements.push(
                                             <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
