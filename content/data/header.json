@@ -2,14 +2,6 @@
     "title": "Indra",
     "primaryLinks": [
         {
-            "label": "Work",
-            "altText": "Work",
-            "url": "/work",
-            "showIcon": false,
-            "style": "secondary",
-            "type": "Link"
-        },
-        {
             "label": "Experience",
             "altText": "Experience",
             "url": "/experience",
