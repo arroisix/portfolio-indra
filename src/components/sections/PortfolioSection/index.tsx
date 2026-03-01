@@ -68,35 +68,27 @@ export default function PortfolioSection(props: PortfolioSectionProps) {
                         />
                     ))}
 
-                    {/* Exploration Card */}
+                    {/* Exploration Entry */}
                     <div className="portfolio-card-wrapper mb-5">
-                        <Link href="/project/exploration" className="block">
-                            <div className="portfolio-card-fm bg-white">
-                                <div className="p-3 pb-0">
-                                    <div className="portfolio-card-image-wrap relative overflow-hidden rounded-xl bg-gray-50 aspect-[3/4] flex items-center justify-center">
-                                        <div className="w-16 h-16 rounded-full border-2 border-gray-300 flex items-center justify-center transition-all duration-300 hover:border-gray-400 hover:scale-105">
-                                            <svg
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="text-gray-500"
-                                            >
-                                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="p-4 pt-3 flex items-center justify-center">
-                                    <h3 className="font-inter font-semibold text-base text-gray-900">
-                                        Other Exploration
-                                    </h3>
-                                </div>
+                        <Link href="/project/exploration" className="group flex flex-col items-center justify-center py-12">
+                            <div className="w-14 h-14 rounded-full border-2 border-gray-300 flex items-center justify-center transition-all duration-300 group-hover:border-gray-500 group-hover:scale-105">
+                                <svg
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="text-gray-400 transition-colors group-hover:text-gray-600"
+                                >
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
                             </div>
+                            <span className="mt-3 text-sm text-gray-500 transition-colors group-hover:text-gray-700">
+                                Other Exploration
+                            </span>
                         </Link>
                     </div>
                 </div>

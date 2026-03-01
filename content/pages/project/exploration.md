@@ -8,6 +8,8 @@ featuredImage:
   altText: Other Exploration
   type: ImageBlock
 gallery:
+  - url: /images/project/6/Mobile App.webp
+    altText: Mobile App Design
   - url: /images/project/6/Frame 12124123123.webp
     altText: Exploration 1
   - url: /images/project/6/Frame 2147236736.webp
