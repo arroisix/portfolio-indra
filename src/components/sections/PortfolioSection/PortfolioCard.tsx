@@ -67,7 +67,6 @@ export default function PortfolioCard({ post }: PortfolioCardProps) {
 
     const url = post.__metadata?.urlPath || '#';
     const title = post.title || 'Untitled';
-    const excerpt = post.excerpt || 'Brief description of this project goes here';
     const imageUrl = post.featuredImage?.url;
     const videoUrl = post.featuredVideo?.url;
     const imageAlt = post.featuredImage?.altText || title;
@@ -143,15 +142,12 @@ export default function PortfolioCard({ post }: PortfolioCardProps) {
                     </div>
 
                     {/* Content - with arrow icon on right */}
-                    <div className="p-4 pt-3 flex items-start justify-between gap-3">
-                        {/* Left: Title + Description */}
+                    <div className="p-4 pt-3 flex items-center justify-between gap-3">
+                        {/* Left: Title only */}
                         <div className="flex-1 min-w-0">
-                            <h3 className="font-inter font-semibold text-base text-gray-900 mb-1">
+                            <h3 className="font-inter font-semibold text-base text-gray-900">
                                 {title}
                             </h3>
-                            <p className="text-sm text-gray-500 line-clamp-2">
-                                {excerpt}
-                            </p>
                         </div>
 
                         {/* Right: Arrow icon - only visible on hover */}
