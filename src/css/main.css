@@ -541,4 +541,25 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* Video Showcase Component */
+    .video-showcase-blob-1 {
+        animation: showcase-rotate-1 30s linear infinite;
+        transform-origin: center center;
+    }
+
+    .video-showcase-blob-2 {
+        animation: showcase-rotate-2 40s linear infinite;
+        transform-origin: center center;
+    }
+
+    @keyframes showcase-rotate-1 {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @keyframes showcase-rotate-2 {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(-360deg); }
+    }
 }

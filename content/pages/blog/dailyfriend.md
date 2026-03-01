@@ -11,6 +11,7 @@ workedOn:
   - UI/UX Design
   - User Research
   - Interaction Design
+aspectRatio: tall
 featuredImage:
   url: /images/dailyfriend.webp
   altText: DailyFriend App

@@ -65,7 +65,6 @@ export default function PortfolioSection(props: PortfolioSectionProps) {
                         <PortfolioCard
                             key={index}
                             post={post}
-                            index={index}
                         />
                     ))}
                 </div>

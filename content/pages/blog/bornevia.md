@@ -14,7 +14,7 @@ workedOn:
   - Design System
 aspectRatio: tall
 featuredImage:
-  url: /images/bornevia-cover.webp
+  url: /images/project/2/cover.webp
   altText: Bornevia Platform
   type: ImageBlock
 gallery:

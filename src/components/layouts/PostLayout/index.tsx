@@ -3,10 +3,16 @@ import * as React from 'react';
 import { getBaseLayoutComponent } from '../../../utils/base-layout';
 import Link from '../../atoms/Link';
 import ScrollToTop from '../../atoms/ScrollToTop';
+import VideoShowcase from '../../blocks/VideoShowcase';
 
 function GalleryItem({ item, index }) {
     const isVideo = item.url?.endsWith('.mp4') || item.url?.endsWith('.webm');
     const isGif = item.url?.endsWith('.gif');
+
+    // Special video showcase with animated background
+    if (item.showcase && isVideo) {
+        return <VideoShowcase url={item.url} altText={item.altText} />;
+    }
 
     return (
         <div className="relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-200/60">

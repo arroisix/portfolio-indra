@@ -138,7 +138,7 @@ function TimelineItemComponent({ item, index, isLast }: { item: TimelineItem; in
             <div className="timeline-content flex-grow pb-2 -mt-1">
                 {/* Date */}
                 <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <div className="timeline-date inline-block px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary uppercase tracking-wide">
+                    <div className="timeline-date inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 uppercase tracking-wide">
                         {item.date}
                     </div>
                 </div>
@@ -150,7 +150,7 @@ function TimelineItemComponent({ item, index, isLast }: { item: TimelineItem; in
 
                 {/* Subtitle (Company name) */}
                 {item.subtitle && (
-                    <p className="timeline-subtitle text-base font-medium text-primary mb-3">
+                    <p className="timeline-subtitle text-base font-medium text-gray-500 mb-3">
                         {item.subtitle}
                     </p>
                 )}

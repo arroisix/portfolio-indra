@@ -14,7 +14,7 @@ workedOn:
   - Cross-team Collaboration
 aspectRatio: tall
 featuredImage:
-  url: /images/aloproteksi-cover.webp
+  url: /images/project/1/cover.webp
   altText: Alodokter Projects
   type: ImageBlock
 gallery:

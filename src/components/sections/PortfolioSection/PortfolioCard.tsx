@@ -20,11 +20,7 @@ interface PortfolioCardProps {
         category?: string;
         aspectRatio?: 'tall' | 'medium' | 'short' | 'square';
     };
-    index?: number;
 }
-
-// Predefined aspect ratios for Pinterest-style varying heights
-const ASPECT_RATIOS = ['tall', 'medium', 'short', 'square', 'medium'] as const;
 
 const ASPECT_RATIO_CLASSES = {
     tall: 'aspect-[3/4]',
@@ -39,7 +35,7 @@ const isVideoUrl = (url: string) => {
     return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
 };
 
-export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
+export default function PortfolioCard({ post }: PortfolioCardProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -76,7 +72,8 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
     const videoUrl = post.featuredVideo?.url;
     const imageAlt = post.featuredImage?.altText || title;
 
-    const aspectRatio = post.aspectRatio || ASPECT_RATIOS[index % ASPECT_RATIOS.length];
+    // All covers are 1200x1600 (3:4), default to tall aspect ratio
+    const aspectRatio = post.aspectRatio || 'tall';
     const aspectClass = ASPECT_RATIO_CLASSES[aspectRatio];
 
     // Determine if we should show video (either from featuredVideo or if featuredImage is a video)
@@ -98,7 +95,7 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
                 <div className="portfolio-card-fm bg-white">
                     {/* Media with padding inside card */}
                     <div className="p-3 pb-0">
-                        <div className={classNames('portfolio-card-image-wrap relative overflow-hidden rounded-xl', aspectClass)}>
+                        <div className={classNames('portfolio-card-image-wrap relative overflow-hidden rounded-xl bg-gray-50', aspectClass)}>
                             {showVideo && mediaVideoUrl ? (
                                 // Video - autoplay, loop, muted, no controls
                                 <video
@@ -124,7 +121,7 @@ export default function PortfolioCard({ post, index = 0 }: PortfolioCardProps) {
                                         alt={imageAlt}
                                         fill
                                         className={classNames(
-                                            'object-cover transition-transform duration-500 ease-out',
+                                            'object-contain transition-transform duration-500 ease-out',
                                             isLoading ? 'opacity-0' : 'opacity-100',
                                             isHovered && 'scale-105'
                                         )}
