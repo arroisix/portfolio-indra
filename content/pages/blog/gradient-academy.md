@@ -1,6 +1,6 @@
 ---
 title: Gradient Academy
-slug: gradient-utbk
+slug: gradient-academy
 excerpt: Designing Gradient's learning platform for university students, featuring AI copilot, video lectures, and comprehensive study tools.
 projectOverview:
   website: https://gradient.id
