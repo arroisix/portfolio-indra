@@ -67,6 +67,38 @@ export default function PortfolioSection(props: PortfolioSectionProps) {
                             post={post}
                         />
                     ))}
+
+                    {/* Exploration Card */}
+                    <div className="portfolio-card-wrapper mb-5">
+                        <Link href="/project/exploration" className="block">
+                            <div className="portfolio-card-fm bg-white">
+                                <div className="p-3 pb-0">
+                                    <div className="portfolio-card-image-wrap relative overflow-hidden rounded-xl bg-gray-50 aspect-[3/4] flex items-center justify-center">
+                                        <div className="w-16 h-16 rounded-full border-2 border-gray-300 flex items-center justify-center transition-all duration-300 hover:border-gray-400 hover:scale-105">
+                                            <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="text-gray-500"
+                                            >
+                                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-4 pt-3 flex items-center justify-center">
+                                    <h3 className="font-inter font-semibold text-base text-gray-900">
+                                        Other Exploration
+                                    </h3>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
 
                 {/* View All Button */}

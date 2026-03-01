@@ -56,14 +56,8 @@ export default function PostLayout(props) {
     const {
         title,
         excerpt,
-        // Project overview fields
-        projectOverview = {},
-        workedOn = [],
-        // Gallery images/GIFs
         gallery = [],
     } = page;
-
-    const { website, team, createdAt } = projectOverview;
 
     return (
         <BaseLayout page={page} site={site}>
@@ -108,64 +102,6 @@ export default function PostLayout(props) {
                                 {excerpt}
                             </p>
                         )}
-                    </div>
-                </section>
-
-                {/* Project Overview Cards */}
-                <section className="px-6 pb-16">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {/* Project Overview Card */}
-                            <div className="bg-gray-50 rounded-2xl p-6">
-                                <h3 className="font-inter text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
-                                    Project Overview
-                                </h3>
-                                <div className="space-y-3">
-                                    {website && (
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-sm text-gray-500">Website</span>
-                                            <a
-                                                href={website}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-sm text-gray-900 hover:text-gray-600 transition-colors"
-                                            >
-                                                {website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                                            </a>
-                                        </div>
-                                    )}
-                                    {team && (
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-sm text-gray-500">Team</span>
-                                            <span className="text-sm text-gray-900">{team}</span>
-                                        </div>
-                                    )}
-                                    {createdAt && (
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-sm text-gray-500">Created</span>
-                                            <span className="text-sm text-gray-900">{createdAt}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* What I Worked On Card */}
-                            {workedOn.length > 0 && (
-                                <div className="bg-gray-50 rounded-2xl p-6">
-                                    <h3 className="font-inter text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
-                                        What I Worked On
-                                    </h3>
-                                    <ul className="space-y-2">
-                                        {workedOn.map((item, index) => (
-                                            <li key={index} className="flex items-center gap-2">
-                                                <span className="text-gray-400 text-xs">•</span>
-                                                <span className="text-sm text-gray-900">{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
                     </div>
                 </section>
 
