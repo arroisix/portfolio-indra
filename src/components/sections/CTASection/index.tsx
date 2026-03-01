@@ -109,7 +109,7 @@ Thank you!`);
                                 🎨
                             </span>
 
-                            {/* Image 1 - Back Left - Portrait */}
+                            {/* Image 1 - Back Left - Gradient */}
                             <div
                                 className="absolute rounded-2xl overflow-hidden shadow-lg transition-all duration-500"
                                 style={{
@@ -119,20 +119,20 @@ Thank you!`);
                                     left: '8%',
                                     zIndex: 1,
                                     transform: isHovered
-                                        ? 'translateX(-25px) rotate(-12deg) scale(1.05)'
+                                        ? 'translateX(-35px) rotate(-12deg) scale(1.15)'
                                         : 'translateX(20px) rotate(-6deg) scale(0.95)',
                                     transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
                                 }}
                             >
                                 <Image
                                     src="/images/gradient.webp"
-                                    alt="Case Study Preview 1"
+                                    alt="Gradient UTBK Landing Page"
                                     fill
                                     className="object-cover"
                                 />
                             </div>
 
-                            {/* Image 2 - Middle Center (front) - Portrait */}
+                            {/* Image 2 - Middle Center (front) - Bukalapak */}
                             <div
                                 className="absolute rounded-2xl overflow-hidden shadow-xl transition-all duration-500"
                                 style={{
@@ -142,20 +142,20 @@ Thank you!`);
                                     left: '50%',
                                     zIndex: 2,
                                     transform: isHovered
-                                        ? 'translateX(-50%) translateY(5px) scale(1.08)'
+                                        ? 'translateX(-50%) translateY(-10px) scale(1.2)'
                                         : 'translateX(-50%) scale(1)',
                                     transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
                                 }}
                             >
                                 <Image
                                     src="/images/bukalapak.webp"
-                                    alt="Case Study Preview 2"
+                                    alt="Bukalapak Sebar Promosi Redesign"
                                     fill
                                     className="object-cover"
                                 />
                             </div>
 
-                            {/* Image 3 - Back Right - Portrait */}
+                            {/* Image 3 - Back Right - DailyFriend */}
                             <div
                                 className="absolute rounded-2xl overflow-hidden shadow-lg transition-all duration-500"
                                 style={{
@@ -165,14 +165,14 @@ Thank you!`);
                                     right: '8%',
                                     zIndex: 1,
                                     transform: isHovered
-                                        ? 'translateX(25px) rotate(12deg) scale(1.05)'
+                                        ? 'translateX(35px) rotate(12deg) scale(1.15)'
                                         : 'translateX(-20px) rotate(6deg) scale(0.95)',
                                     transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
                                 }}
                             >
                                 <Image
                                     src="/images/dailyfriend.webp"
-                                    alt="Case Study Preview 3"
+                                    alt="DailyFriend.AI Story Mode"
                                     fill
                                     className="object-cover"
                                 />
