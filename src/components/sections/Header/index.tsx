@@ -11,7 +11,7 @@ export default function Header(props) {
     const router = useRouter();
 
     const shouldHidePath = (path: string) => {
-        return path.startsWith('/blog/') || path.startsWith('/experience') || path.startsWith('/work');
+        return path.startsWith('/project/') || path.startsWith('/experience') || path.startsWith('/work');
     };
 
     // Track hidden state

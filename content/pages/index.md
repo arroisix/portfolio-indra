@@ -16,11 +16,11 @@ sections:
   - type: PortfolioSection
     elementId: work
     posts:
-      - content/pages/blog/gradient-utbk.md
-      - content/pages/blog/bukalapak.md
-      - content/pages/blog/dailyfriend.md
-      - content/pages/blog/alodokter.md
-      - content/pages/blog/bornevia.md
+      - content/pages/project/gradient-academy.md
+      - content/pages/project/bukalapak.md
+      - content/pages/project/dailyfriend.md
+      - content/pages/project/alodokter.md
+      - content/pages/project/bornevia.md
     colors: bg-white-fg-dark
 
   - type: CTASection
@@ -34,7 +34,6 @@ sections:
 seo:
   metaTitle: Indra - Visual and Product Designer
   metaDescription: Portfolio showcasing my work in UX/UI design, development, and product strategy.
-  socialImage: /images/profile.webp
   type: Seo
 type: PageLayout
 ---

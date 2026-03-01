@@ -35,7 +35,7 @@ export default function PortfolioSection(props: PortfolioSectionProps) {
         colors,
         posts = [],
         maxItems = 5,
-        viewAllUrl = '/blog',
+        viewAllUrl = '/project',
         viewAllLabel = 'View All Projects',
         styles = {},
         enableAnnotations
