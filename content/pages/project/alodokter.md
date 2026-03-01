@@ -18,30 +18,30 @@ featuredImage:
   altText: Alodokter Projects
   type: ImageBlock
 gallery:
-  - url: /images/project/1/Frame 1.webp
+  - url: /images/project/1/Frame-1.webp
     altText: Dashboard overview
-  - url: /images/project/1/Frame 2.webp
+  - url: /images/project/1/Frame-2.webp
     altText: Dashboard statistics
     ratio: square
-  - url: /images/project/1/Frame 3.webp
+  - url: /images/project/1/Frame-3.webp
     altText: User management
     ratio: square
-  - url: /images/project/1/Frame 4.webp
+  - url: /images/project/1/Frame-4.webp
     altText: Reports section
-  - url: /images/project/1/Frame 5.webp
+  - url: /images/project/1/Frame-5.webp
     altText: Settings and configuration
     ratio: square
-  - url: /images/project/1/Frame 6.webp
+  - url: /images/project/1/Frame-6.webp
     altText: Analytics dashboard
     ratio: square
-  - url: /images/project/1/Frame 7.webp
+  - url: /images/project/1/Frame-7.webp
     altText: Policy management
     ratio: square
-  - url: /images/project/1/Frame 8.webp
+  - url: /images/project/1/Frame-8.webp
     altText: Claims processing
-  - url: /images/project/1/Frame 9.webp
+  - url: /images/project/1/Frame-9.webp
     altText: Notifications center
-  - url: /images/project/1/Section 3.webp
+  - url: /images/project/1/Section-3.webp
     altText: Section overview
 isFeatured: true
 type: PostLayout
