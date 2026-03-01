@@ -111,7 +111,7 @@ Thank you!`);
 
                             {/* Image 1 - Back Left - Gradient */}
                             <div
-                                className="absolute rounded-2xl overflow-hidden shadow-lg transition-all duration-500"
+                                className="absolute rounded-xl overflow-hidden shadow-2xl transition-all duration-500"
                                 style={{
                                     width: '144px',
                                     height: '240px',
@@ -134,7 +134,7 @@ Thank you!`);
 
                             {/* Image 2 - Middle Center (front) - Bukalapak */}
                             <div
-                                className="absolute rounded-2xl overflow-hidden shadow-xl transition-all duration-500"
+                                className="absolute rounded-xl overflow-hidden shadow-2xl transition-all duration-500"
                                 style={{
                                     width: '156px',
                                     height: '264px',
@@ -157,7 +157,7 @@ Thank you!`);
 
                             {/* Image 3 - Back Right - DailyFriend */}
                             <div
-                                className="absolute rounded-2xl overflow-hidden shadow-lg transition-all duration-500"
+                                className="absolute rounded-xl overflow-hidden shadow-2xl transition-all duration-500"
                                 style={{
                                     width: '144px',
                                     height: '240px',
