@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import '../css/main.css';
 
 export default function MyApp({ Component, pageProps }) {
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+    const [loadingState, setLoadingState] = useState('idle'); // 'idle' | 'loading' | 'finishing'
+    const [progress, setProgress] = useState(0);
+    const progressInterval = useRef(null);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -20,9 +22,33 @@ export default function MyApp({ Component, pageProps }) {
         updateTheme(mediaQuery);
         mediaQuery.addEventListener('change', updateTheme);
 
-        // Page transition loading
-        const handleStart = () => setIsLoading(true);
-        const handleComplete = () => setIsLoading(false);
+        // Page transition loading with progress simulation
+        const handleStart = () => {
+            setLoadingState('loading');
+            setProgress(0);
+
+            // Simulate progress
+            let currentProgress = 0;
+            progressInterval.current = setInterval(() => {
+                currentProgress += Math.random() * 15;
+                if (currentProgress > 90) currentProgress = 90;
+                setProgress(currentProgress);
+            }, 100);
+        };
+
+        const handleComplete = () => {
+            if (progressInterval.current) {
+                clearInterval(progressInterval.current);
+            }
+            setProgress(100);
+            setLoadingState('finishing');
+
+            // Reset after animation completes
+            setTimeout(() => {
+                setLoadingState('idle');
+                setProgress(0);
+            }, 400);
+        };
 
         router.events.on('routeChangeStart', handleStart);
         router.events.on('routeChangeComplete', handleComplete);
@@ -58,12 +84,39 @@ export default function MyApp({ Component, pageProps }) {
             document.removeEventListener('mousedown', handleMouseDown);
             document.removeEventListener('touchstart', handleMouseDown);
             document.removeEventListener('animationend', handleAnimationEnd);
+            if (progressInterval.current) {
+                clearInterval(progressInterval.current);
+            }
         };
     }, [router]);
 
     return (
         <>
-            {isLoading && <div className="page-loading-overlay" />}
+            {/* Subtle loading indicator */}
+            {loadingState !== 'idle' && (
+                <div className="page-transition-container">
+                    {/* Progress bar at top */}
+                    <div className="page-progress-bar">
+                        <div
+                            className="page-progress-fill"
+                            style={{
+                                width: `${progress}%`,
+                                transition: loadingState === 'finishing'
+                                    ? 'width 0.2s ease-out, opacity 0.3s ease-out 0.1s'
+                                    : 'width 0.3s ease-out',
+                                opacity: loadingState === 'finishing' ? 0 : 1
+                            }}
+                        />
+                    </div>
+
+                    {/* Subtle overlay fade */}
+                    <div
+                        className={`page-transition-overlay ${
+                            loadingState === 'finishing' ? 'fade-out' : 'fade-in'
+                        }`}
+                    />
+                </div>
+            )}
             <Component {...pageProps} />
         </>
     );
