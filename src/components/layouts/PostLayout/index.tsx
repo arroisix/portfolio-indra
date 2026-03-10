@@ -5,43 +5,111 @@ import Link from '../../atoms/Link';
 import ScrollToTop from '../../atoms/ScrollToTop';
 import VideoShowcase from '../../blocks/VideoShowcase';
 
-function ImageLightbox({ url, altText, onClose }) {
+// Lightbox component with bouncy animation
+function Lightbox({ item, onClose }) {
+    const [isVisible, setIsVisible] = React.useState(false);
+    const isVideo = item?.url?.endsWith('.mp4') || item?.url?.endsWith('.webm') || item?.url?.endsWith('.mov') || item?.url?.endsWith('.ogg');
+
     React.useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
-        };
-        document.addEventListener('keydown', handleKeyDown);
+        // Trigger animation after mount
+        requestAnimationFrame(() => {
+            setIsVisible(true);
+        });
+
+        // Prevent body scroll when lightbox is open
         document.body.style.overflow = 'hidden';
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = '';
+
+        // Handle escape key
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                handleClose();
+            }
         };
-    }, [onClose]);
+        window.addEventListener('keydown', handleEscape);
+
+        return () => {
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', handleEscape);
+        };
+    }, []);
+
+    const handleClose = () => {
+        setIsVisible(false);
+        setTimeout(onClose, 200);
+    };
+
+    if (!item) return null;
 
     return (
         <div
-            className="lightbox-overlay fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-            onClick={onClose}
+            className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8 transition-all duration-200 ${
+                isVisible ? 'bg-black/80 backdrop-blur-sm' : 'bg-black/0'
+            }`}
+            onClick={handleClose}
         >
             {/* Close button */}
             <button
-                onClick={onClose}
-                className="absolute top-5 right-5 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25 transition-colors"
+                className={`absolute top-4 right-4 md:top-6 md:right-6 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 ${
+                    isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                }`}
+                onClick={handleClose}
             >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
 
-            {/* Image */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-                src={url}
-                alt={altText || 'Gallery image'}
-                className="lightbox-bounce-in max-w-[90vw] max-h-[90vh] object-contain rounded-lg"
+            {/* Image/Video container with bouncy animation */}
+            <div
+                className={`relative max-w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 ${
+                    isVisible
+                        ? 'opacity-100 scale-100'
+                        : 'opacity-0 scale-75'
+                }`}
+                style={{
+                    transitionTimingFunction: isVisible ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-out'
+                }}
                 onClick={(e) => e.stopPropagation()}
-            />
+            >
+                {isVideo ? (
+                    <video
+                        src={item.url}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="max-w-full max-h-[85vh] w-auto h-auto"
+                    />
+                ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                        src={item.url}
+                        alt={item.altText || 'Gallery image'}
+                        className="max-w-full max-h-[85vh] w-auto h-auto"
+                    />
+                )}
+            </div>
+
+            {/* Caption */}
+            {item.caption && (
+                <p
+                    className={`absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm md:text-base text-center max-w-lg px-4 transition-all duration-300 delay-100 ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                >
+                    {item.caption}
+                </p>
+            )}
         </div>
     );
 }
@@ -58,15 +126,41 @@ function GalleryItem({ item, index, onImageClick }) {
 
     const handleClick = () => {
         if (isClickable && onImageClick) {
-            onImageClick({ url: item.url, altText: item.altText || `Project image ${index + 1}` });
+            onImageClick({ url: item.url, altText: item.altText || `Project image ${index + 1}`, caption: item.caption });
         }
     };
 
     return (
         <div
-            className={`relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-200/60 ${isClickable ? 'gallery-item-interactive' : ''}`}
+            className={`relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-200/60 group ${
+                isClickable ? 'cursor-zoom-in' : ''
+            }`}
             onClick={isClickable ? handleClick : undefined}
         >
+            {/* Hover overlay */}
+            {isClickable && (
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 z-10 pointer-events-none flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-white/0 group-hover:bg-white/90 flex items-center justify-center transition-all duration-300 scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-gray-700"
+                        >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </div>
+                </div>
+            )}
+
             {isVideo ? (
                 <video
                     src={item.url}
@@ -74,36 +168,22 @@ function GalleryItem({ item, index, onImageClick }) {
                     loop
                     muted
                     playsInline
-                    className={`w-full h-auto ${item.cropBlackbar ? 'aspect-video object-cover scale-[1.02]' : ''}`}
+                    className={`w-full h-auto transition-transform duration-300 group-hover:scale-[1.02] ${item.cropBlackbar ? 'aspect-video object-cover scale-[1.02]' : ''}`}
                 />
             ) : isGif ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                     src={item.url}
                     alt={item.altText || `Project image ${index + 1}`}
-                    className="w-full h-auto"
+                    className="w-full h-auto transition-transform duration-300 group-hover:scale-[1.02]"
                 />
             ) : (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                     src={item.url}
                     alt={item.altText || `Project image ${index + 1}`}
-                    className="w-full h-auto"
+                    className="w-full h-auto transition-transform duration-300 group-hover:scale-[1.02]"
                 />
-            )}
-
-            {/* Zoom hint overlay for clickable items */}
-            {isClickable && (
-                <div className="gallery-zoom-hint absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 bg-black/10 pointer-events-none">
-                    <div className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            <line x1="11" y1="8" x2="11" y2="14" />
-                            <line x1="8" y1="11" x2="14" y2="11" />
-                        </svg>
-                    </div>
-                </div>
             )}
 
             {item.caption && (
@@ -125,19 +205,24 @@ export default function PostLayout(props) {
         gallery = [],
     } = page;
 
-    const [activeImage, setActiveImage] = React.useState<{ url: string; altText: string } | null>(null);
+    const [lightboxItem, setLightboxItem] = React.useState(null);
+
+    const handleImageClick = (item) => {
+        setLightboxItem(item);
+    };
+
+    const handleCloseLightbox = () => {
+        setLightboxItem(null);
+    };
 
     return (
         <BaseLayout page={page} site={site}>
+            {/* Lightbox */}
+            {lightboxItem && (
+                <Lightbox item={lightboxItem} onClose={handleCloseLightbox} />
+            )}
+
             <main id="main" className="sb-layout sb-post-layout bg-white">
-                {/* Image Lightbox */}
-                {activeImage && (
-                    <ImageLightbox
-                        url={activeImage.url}
-                        altText={activeImage.altText}
-                        onClose={() => setActiveImage(null)}
-                    />
-                )}
                 {/* Back Button - Fixed at top */}
                 <div className="fixed top-6 left-6 z-50">
                     <Link
@@ -197,8 +282,8 @@ export default function PostLayout(props) {
                                         const nextItem = gallery[i + 1];
                                         elements.push(
                                             <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <GalleryItem item={item} index={i} onImageClick={setActiveImage} />
-                                                <GalleryItem item={nextItem} index={i + 1} onImageClick={setActiveImage} />
+                                                <GalleryItem item={item} index={i} onImageClick={handleImageClick} />
+                                                <GalleryItem item={nextItem} index={i + 1} onImageClick={handleImageClick} />
                                             </div>
                                         );
                                         i += 2;
@@ -207,14 +292,14 @@ export default function PostLayout(props) {
                                         const nextItem = gallery[i + 1];
                                         elements.push(
                                             <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <GalleryItem item={item} index={i} onImageClick={setActiveImage} />
-                                                <GalleryItem item={nextItem} index={i + 1} onImageClick={setActiveImage} />
+                                                <GalleryItem item={item} index={i} onImageClick={handleImageClick} />
+                                                <GalleryItem item={nextItem} index={i + 1} onImageClick={handleImageClick} />
                                             </div>
                                         );
                                         i += 2;
                                     } else {
                                         elements.push(
-                                            <GalleryItem key={i} item={item} index={i} onImageClick={setActiveImage} />
+                                            <GalleryItem key={i} item={item} index={i} onImageClick={handleImageClick} />
                                         );
                                         i += 1;
                                     }
