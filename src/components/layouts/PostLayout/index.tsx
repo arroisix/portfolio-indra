@@ -206,6 +206,8 @@ export default function PostLayout(props) {
     } = page;
 
     const [lightboxItem, setLightboxItem] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [showContent, setShowContent] = React.useState(false);
 
     const handleImageClick = (item) => {
         setLightboxItem(item);
@@ -214,6 +216,24 @@ export default function PostLayout(props) {
     const handleCloseLightbox = () => {
         setLightboxItem(null);
     };
+
+    // Content loading animation
+    React.useEffect(() => {
+        // Small delay before starting the reveal
+        const loadTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 300);
+
+        // Stagger the content reveal
+        const showTimer = setTimeout(() => {
+            setShowContent(true);
+        }, 350);
+
+        return () => {
+            clearTimeout(loadTimer);
+            clearTimeout(showTimer);
+        };
+    }, []);
 
     return (
         <BaseLayout page={page} site={site}>
@@ -249,19 +269,42 @@ export default function PostLayout(props) {
                 {/* Header Section */}
                 <section className="pt-20 md:pt-32 pb-12 px-6">
                     <div className="max-w-4xl mx-auto">
-                        {/* Title */}
-                        <h1
-                            className="font-baskerville italic text-4xl md:text-5xl lg:text-6xl font-normal text-gray-900 leading-tight mb-6"
-                            {...(enableAnnotations && { 'data-sb-field-path': 'title' })}
-                        >
-                            {title}
-                        </h1>
+                        {/* Loading skeleton for header */}
+                        {isLoading ? (
+                            <div>
+                                {/* Title skeleton */}
+                                <div className="h-12 md:h-14 lg:h-16 skeleton-loading rounded-lg mb-4 w-3/4"></div>
+                                <div className="h-12 md:h-14 lg:h-16 skeleton-loading rounded-lg mb-6 w-1/2"></div>
+                                {/* Excerpt skeleton */}
+                                <div className="space-y-3 max-w-3xl">
+                                    <div className="h-5 md:h-6 skeleton-loading rounded w-full"></div>
+                                    <div className="h-5 md:h-6 skeleton-loading rounded w-5/6"></div>
+                                    <div className="h-5 md:h-6 skeleton-loading rounded w-2/3"></div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div
+                                className={`transition-all duration-500 ease-out ${
+                                    showContent
+                                        ? 'opacity-100 translate-y-0'
+                                        : 'opacity-0 translate-y-4'
+                                }`}
+                            >
+                                {/* Title */}
+                                <h1
+                                    className="font-baskerville italic text-4xl md:text-5xl lg:text-6xl font-normal text-gray-900 leading-tight mb-6"
+                                    {...(enableAnnotations && { 'data-sb-field-path': 'title' })}
+                                >
+                                    {title}
+                                </h1>
 
-                        {/* Subtitle/Excerpt */}
-                        {excerpt && (
-                            <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-3xl">
-                                {excerpt}
-                            </p>
+                                {/* Subtitle/Excerpt */}
+                                {excerpt && (
+                                    <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-3xl">
+                                        {excerpt}
+                                    </p>
+                                )}
+                            </div>
                         )}
                     </div>
                 </section>
@@ -270,43 +313,66 @@ export default function PostLayout(props) {
                 {gallery.length > 0 && (
                     <section className="px-6 pb-16">
                         <div className="max-w-6xl mx-auto space-y-6">
-                            {(() => {
-                                const elements = [];
-                                let i = 0;
+                            {/* Loading skeleton for gallery */}
+                            {isLoading ? (
+                                <div className="space-y-6">
+                                    {/* First large skeleton */}
+                                    <div className="aspect-video skeleton-loading rounded-2xl"></div>
+                                    {/* Two column skeleton */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="aspect-square skeleton-loading rounded-2xl"></div>
+                                        <div className="aspect-square skeleton-loading rounded-2xl"></div>
+                                    </div>
+                                    {/* Another large skeleton */}
+                                    <div className="aspect-video skeleton-loading rounded-2xl"></div>
+                                </div>
+                            ) : (
+                                <div
+                                    className={`space-y-6 transition-all duration-500 ease-out delay-150 ${
+                                        showContent
+                                            ? 'opacity-100 translate-y-0'
+                                            : 'opacity-0 translate-y-6'
+                                    }`}
+                                >
+                                    {(() => {
+                                        const elements = [];
+                                        let i = 0;
 
-                                while (i < gallery.length) {
-                                    const item = gallery[i];
+                                        while (i < gallery.length) {
+                                            const item = gallery[i];
 
-                                    // Check if this item starts a grid pair (explicit grid:2 or consecutive squares)
-                                    if (item.grid === 2 && i + 1 < gallery.length) {
-                                        const nextItem = gallery[i + 1];
-                                        elements.push(
-                                            <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <GalleryItem item={item} index={i} onImageClick={handleImageClick} />
-                                                <GalleryItem item={nextItem} index={i + 1} onImageClick={handleImageClick} />
-                                            </div>
-                                        );
-                                        i += 2;
-                                    } else if (item.ratio === 'square' && i + 1 < gallery.length && gallery[i + 1].ratio === 'square') {
-                                        // Pair consecutive square images side-by-side on desktop
-                                        const nextItem = gallery[i + 1];
-                                        elements.push(
-                                            <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <GalleryItem item={item} index={i} onImageClick={handleImageClick} />
-                                                <GalleryItem item={nextItem} index={i + 1} onImageClick={handleImageClick} />
-                                            </div>
-                                        );
-                                        i += 2;
-                                    } else {
-                                        elements.push(
-                                            <GalleryItem key={i} item={item} index={i} onImageClick={handleImageClick} />
-                                        );
-                                        i += 1;
-                                    }
-                                }
+                                            // Check if this item starts a grid pair (explicit grid:2 or consecutive squares)
+                                            if (item.grid === 2 && i + 1 < gallery.length) {
+                                                const nextItem = gallery[i + 1];
+                                                elements.push(
+                                                    <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        <GalleryItem item={item} index={i} onImageClick={handleImageClick} />
+                                                        <GalleryItem item={nextItem} index={i + 1} onImageClick={handleImageClick} />
+                                                    </div>
+                                                );
+                                                i += 2;
+                                            } else if (item.ratio === 'square' && i + 1 < gallery.length && gallery[i + 1].ratio === 'square') {
+                                                // Pair consecutive square images side-by-side on desktop
+                                                const nextItem = gallery[i + 1];
+                                                elements.push(
+                                                    <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        <GalleryItem item={item} index={i} onImageClick={handleImageClick} />
+                                                        <GalleryItem item={nextItem} index={i + 1} onImageClick={handleImageClick} />
+                                                    </div>
+                                                );
+                                                i += 2;
+                                            } else {
+                                                elements.push(
+                                                    <GalleryItem key={i} item={item} index={i} onImageClick={handleImageClick} />
+                                                );
+                                                i += 1;
+                                            }
+                                        }
 
-                                return elements;
-                            })()}
+                                        return elements;
+                                    })()}
+                                </div>
+                            )}
                         </div>
                     </section>
                 )}

@@ -92,10 +92,9 @@ export default function MyApp({ Component, pageProps }) {
 
     return (
         <>
-            {/* Subtle loading indicator */}
+            {/* Progress bar at top - only shown during route changes */}
             {loadingState !== 'idle' && (
                 <div className="page-transition-container">
-                    {/* Progress bar at top */}
                     <div className="page-progress-bar">
                         <div
                             className="page-progress-fill"
@@ -108,13 +107,6 @@ export default function MyApp({ Component, pageProps }) {
                             }}
                         />
                     </div>
-
-                    {/* Subtle overlay fade */}
-                    <div
-                        className={`page-transition-overlay ${
-                            loadingState === 'finishing' ? 'fade-out' : 'fade-in'
-                        }`}
-                    />
                 </div>
             )}
             <Component {...pageProps} />
