@@ -25,7 +25,24 @@ module.exports = {
                 neutral: themeStyle.neutral,
                 neutralAlt: themeStyle.neutralAlt,
                 primary: themeStyle.primary,
-                inputBg: '#f3f3f3'
+                inputBg: '#f3f3f3',
+                // Boon AI brand colors
+                boon: {
+                    50: '#eef1ff',
+                    100: '#dde3ff',
+                    200: '#c2cbff',
+                    300: '#9ca8ff',
+                    400: '#7580ff',
+                    500: '#4d65ff',
+                    600: '#3d4df5',
+                    700: '#323dd9',
+                    800: '#2a34af',
+                    900: '#28318a',
+                },
+                'boon-green': {
+                    500: '#5EAB41',
+                    600: '#4d9636',
+                }
             },
             fontFamily: {
                 epilogue: ['Epilogue', 'sans-serif'],
