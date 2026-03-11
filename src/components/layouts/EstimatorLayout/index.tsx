@@ -96,14 +96,14 @@ function Icon({ name, size = 16 }: { name: string; size?: number }) {
     );
 }
 
-// Sidebar with green theme
+// Sidebar with green theme - fixed position
 function Sidebar({ activeSection, onOpenChat }: { activeSection: string; onOpenChat: () => void }) {
     const menuItems = [
         { id: 'estimates', label: 'Estimates', icon: 'book' },
         { id: 'catalog', label: 'Catalog', icon: 'tag' },
     ];
     return (
-        <aside className="w-56 bg-[#2D5A27] flex flex-col min-h-screen">
+        <aside className="w-56 bg-[#2D5A27] flex flex-col h-screen fixed left-0 top-0 z-40">
             <div className="p-4 border-b border-white/10">
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
@@ -605,10 +605,10 @@ export default function EstimatorLayout(props: any) {
     };
 
     return (
-        <div className="flex min-h-screen bg-[#FAFAFA]">
+        <div className="min-h-screen bg-[#FAFAFA]">
             <Sidebar activeSection="estimates" onOpenChat={() => setShowChat(true)} />
 
-            <main className="flex-1 flex flex-col min-h-screen">
+            <main className="ml-56 flex flex-col min-h-screen">
                 {/* Header */}
                 <header className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-30">
                     <div className="flex items-center justify-between">
@@ -694,9 +694,13 @@ export default function EstimatorLayout(props: any) {
                         {isProcessing && (
                             <div className="bg-[#2D5A27] px-4 py-3 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    {lottieData && (
+                                    {lottieData ? (
                                         <div className="w-8 h-8">
-                                            <Lottie animationData={lottieData} loop />
+                                            <Lottie animationData={lottieData} loop autoplay />
+                                        </div>
+                                    ) : (
+                                        <div className="w-8 h-8 flex items-center justify-center">
+                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         </div>
                                     )}
                                     <div>
