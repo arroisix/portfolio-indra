@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "scripts": {
         "dev": "next dev",
-        "build": "next build", && npx @cloudflare/next-on-pages
+                "build": "next build && npx @cloudflare/next-on-pages",
         "start": "next start"
     },
     "dependencies": {
