@@ -40,6 +40,19 @@ const VIBE_PROJECTS: Record<string, VibeProject> = {
         __metadata: {
             urlPath: '/project/boon-estimator'
         }
+    },
+    'harmoni-dashboard': {
+        title: 'Harmoni Dashboard',
+        excerpt: 'Modern accounting dashboard with Chart of Accounts management, bank connections, and financial reporting.',
+        slug: 'project/harmoni-dashboard',
+        workedOn: ['Product Design', 'Dashboard UI', 'Interactive Prototype'],
+        featuredImage: {
+            url: '/images/project/6/Frame-2147236739.webp',
+            altText: 'Harmoni Dashboard'
+        },
+        __metadata: {
+            urlPath: '/project/harmoni-dashboard'
+        }
     }
 };
 
