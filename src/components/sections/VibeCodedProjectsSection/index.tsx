@@ -30,7 +30,7 @@ interface VibeCodedProjectsSectionProps {
 const VIBE_PROJECTS: Record<string, VibeProject> = {
     'boon-estimator': {
         title: 'Early Estimate Builder',
-        excerpt: 'AI-powered pre-construction estimating tool for Boon AI. Features include line item management, AI-assisted quantity optimization, and real-time cost calculations.',
+        excerpt: 'Pre-construction estimating tool with line item management, quantity optimization, and real-time cost calculations.',
         slug: 'project/boon-estimator',
         workedOn: ['Product Design', 'AI Integration', 'Interactive Prototype'],
         featuredImage: {
