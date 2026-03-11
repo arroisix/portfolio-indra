@@ -48,7 +48,6 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
         elementId,
         colors,
         title = "Vibe Coded Projects",
-        subtitle = "Interactive prototypes built with AI-assisted tools",
         posts = [],
         styles = {},
     } = props;
@@ -56,7 +55,6 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
     // Resolve posts - handle both string references and resolved objects
     const resolvedPosts = posts.map(post => {
         if (typeof post === 'string') {
-            // Extract slug from path like "content/pages/project/boon-estimator.md"
             const match = post.match(/\/([^/]+)\.md$/);
             const slug = match ? match[1] : '';
             return VIBE_PROJECTS[slug] || { title: slug, __metadata: { urlPath: `/${slug}` } };
@@ -80,46 +78,34 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                     {title}
                 </h2>
 
-                {/* Projects Grid - Match PostFeedSection grid */}
+                {/* Projects Grid */}
                 <div className="w-full grid gap-x-work-gap-x gap-y-work-gap-y grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-7xl justify-center items-start">
                     {resolvedPosts.map((post, index) => (
                         <Link
                             key={index}
                             href={post.__metadata?.urlPath || `/${post.slug}` || '#'}
-                            className="sb-card flex justify-center items-start bg-transparent card-spread-effect"
+                            className="group block"
                         >
-                            <div className="w-full flex flex-col gap-0">
-                                {/* Folder container with spread effect */}
+                            <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                {/* Image with object-fit cover */}
                                 {post.featuredImage?.url && (
-                                    <div className="folder-container">
-                                        <div className="folder-back"></div>
-                                        <div className="folder-bg-image folder-bg-1">
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
-                                                src={post.featuredImage.url}
-                                                alt={post.featuredImage.altText || post.title}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                        <div className="folder-bg-image folder-bg-2">
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
-                                                src={post.featuredImage.url}
-                                                alt={post.featuredImage.altText || post.title}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                        <div className="folder-shape"></div>
+                                    <div className="aspect-[16/10] overflow-hidden">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={post.featuredImage.url}
+                                            alt={post.featuredImage.altText || post.title}
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
                                     </div>
                                 )}
 
                                 {/* Content */}
-                                <div className="w-full flex flex-col gap-2.5 mt-4">
-                                    <h3 className="font-epilogue text-card-title text-dark">
+                                <div className="p-5">
+                                    <h3 className="font-epilogue text-card-title text-dark group-hover:text-[#2D5A27] transition-colors">
                                         {post.title}
                                     </h3>
                                     {post.excerpt && (
-                                        <p className="font-epilogue text-body text-dark">
+                                        <p className="font-epilogue text-body text-dark mt-2 line-clamp-2">
                                             {post.excerpt}
                                         </p>
                                     )}
