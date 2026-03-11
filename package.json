@@ -3,8 +3,9 @@
     "version": "0.1.0",
     "scripts": {
         "dev": "next dev",
-                "build": "next build && npx @cloudflare/next-on-pages",
-        "start": "next start"
+                        "build": "next build",
+        "start": "next start",
+        "cf-build": "next build && npx @cloudflare/next-on-pages"
     },
     "dependencies": {
         "@algolia/autocomplete-js": "^1.17.1",
