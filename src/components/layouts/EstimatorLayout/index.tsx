@@ -553,29 +553,30 @@ export default function EstimatorLayout(props: any) {
             `}</style>
 
             <Sidebar activeSection="estimates" />
-            <main className="ml-56 flex flex-col min-h-screen">
-                {/* Sticky Header with Blur */}
-                <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-8 py-5 sticky top-0 z-30 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
-                            <p className="text-sm text-gray-500 mt-0.5">Commercial Office Complex - Phase 1</p>
-                        </div>
-                        <div className="flex items-center gap-8">
-                            <div className="text-right">
-                                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Estimate</p>
-                                <p className="text-3xl font-bold text-gray-900 tabular-nums tracking-tight">{formatCurrency(total)}</p>
-                            </div>
-                            {selectedIds.size > 0 && (
-                                <div className="text-right pl-8 border-l border-gray-200 animate-[fadeIn_0.2s_ease-out]">
-                                    <p className="text-xs font-medium text-[#2D5A27] uppercase tracking-wide">{selectedIds.size} selected</p>
-                                    <p className="text-xl font-semibold text-[#2D5A27] tabular-nums">{formatCurrency(selectedTotal)}</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </header>
 
+            {/* Fixed Header with Blur */}
+            <header className="fixed top-0 left-56 right-0 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 px-8 py-5 z-30 shadow-sm">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
+                        <p className="text-sm text-gray-500 mt-0.5">Commercial Office Complex - Phase 1</p>
+                    </div>
+                    <div className="flex items-center gap-8">
+                        <div className="text-right">
+                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Estimate</p>
+                            <p className="text-3xl font-bold text-gray-900 tabular-nums tracking-tight">{formatCurrency(total)}</p>
+                        </div>
+                        {selectedIds.size > 0 && (
+                            <div className="text-right pl-8 border-l border-gray-200 animate-[fadeIn_0.2s_ease-out]">
+                                <p className="text-xs font-medium text-[#2D5A27] uppercase tracking-wide">{selectedIds.size} selected</p>
+                                <p className="text-xl font-semibold text-[#2D5A27] tabular-nums">{formatCurrency(selectedTotal)}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </header>
+
+            <main className="ml-56 flex flex-col min-h-screen pt-[88px]">
                 <div className="flex-1 px-8 py-8 overflow-auto">
                     {/* Location Cards */}
                     <div className="grid grid-cols-4 gap-5 mb-8">
