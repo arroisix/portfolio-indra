@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
-import * as Dialog from '@base-ui/react/dialog';
-import * as Popover from '@base-ui/react/popover';
-import * as Checkbox from '@base-ui/react/checkbox';
-import * as Menu from '@base-ui/react/menu';
+import { Dialog } from '@base-ui-components/react/dialog';
+import { Popover } from '@base-ui-components/react/popover';
+import { Checkbox } from '@base-ui-components/react/checkbox';
+import { Menu } from '@base-ui-components/react/menu';
 import dynamic from 'next/dynamic';
 
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });

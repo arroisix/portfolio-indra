@@ -11,7 +11,7 @@
         "@algolia/autocomplete-js": "^1.17.1",
         "@algolia/autocomplete-theme-classic": "^1.17.1",
         "@anthropic-ai/sdk": "^0.78.0",
-        "@base-ui/react": "^1.2.0",
+        "@base-ui-components/react": "^1.0.0-rc.0",
         "algoliasearch": "^4.24.0",
         "classnames": "^2.5.1",
         "dayjs": "^1.11.11",
