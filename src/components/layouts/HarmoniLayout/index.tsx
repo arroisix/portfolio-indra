@@ -140,7 +140,7 @@ const ACCOUNT_TYPES = ['Assets', 'Liabilities', 'Equity', 'Revenue', 'Expenses']
 const formatCurrency = (n: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
 
 // Icons (from Figma design)
-const Icons: Record<string, React.FC<{ className?: string; active?: boolean }>> = {
+const Icons: Record<string, React.FC<{ className?: string; active?: boolean; style?: React.CSSProperties }>> = {
     // Figma exported icons - Dashboard (speedometer style)
     dashboard: ({ className, active }) => (
         <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none">
