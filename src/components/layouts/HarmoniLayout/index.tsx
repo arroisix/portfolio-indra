@@ -477,8 +477,7 @@ function SortHeader({ label, sortKey, currentSort, onSort, alignRight }: { label
 }
 
 // Modal wrapper: center with flex so popup doesn't use translate (fixes animation glitch)
-function ModalWrap({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) {
-    if (!isOpen) return null;
+function ModalWrap({ children }: { children: React.ReactNode }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ pointerEvents: 'none' }}>
             <div style={{ pointerEvents: 'auto' }} className="animate-[modalScaleIn_0.2s_ease-out]">
@@ -488,31 +487,46 @@ function ModalWrap({ children, isOpen }: { children: React.ReactNode; isOpen: bo
     );
 }
 
+// Parent account options per type
+const PARENT_ACCOUNTS: Record<Account['type'], string[]> = {
+    Assets: ['Current Assets', 'Fixed Assets', 'Other Assets'],
+    Liabilities: ['Current Liabilities', 'Long-term Liabilities'],
+    Equity: ["Owner's Equity", 'Retained Earnings'],
+    Revenue: ['Operating Revenue', 'Other Revenue'],
+    Expenses: ['Cost of Sales', 'Operating Expenses', 'Other Expenses'],
+};
+
 // New Account Dialog - Figma 181-1364 (layout, content, labels, helpers, footer)
 function NewAccountDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean; onOpenChange: (v: boolean) => void; onAdd: (account: Partial<Account>) => void }) {
     const [formData, setFormData] = React.useState({ name: '', type: 'Assets' as Account['type'], parent: '', code: '', description: '', active: true });
 
+    const isFormValid = formData.name.trim() !== '' && formData.code.trim() !== '' && formData.parent !== '';
+
     const handleSubmit = () => {
-        if (formData.name && formData.type) {
+        if (isFormValid) {
             onAdd({
                 id: `new-${Date.now()}`,
-                code: formData.code || `${formData.type[0]}-${Date.now().toString().slice(-5)}`,
+                code: formData.code,
                 name: formData.name,
                 type: formData.type,
-                subtype: formData.parent || 'Other',
+                subtype: formData.parent,
                 balance: 0,
                 description: formData.description,
             });
-            setFormData({ name: '', type: 'Assets', parent: '', code: '', description: '', active: true });
-            onOpenChange(false);
+            resetAndClose();
         }
     };
 
+    const resetAndClose = () => {
+        setFormData({ name: '', type: 'Assets', parent: '', code: '', description: '', active: true });
+        onOpenChange(false);
+    };
+
     return (
-        <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
+        <Dialog.Root open={isOpen} onOpenChange={(open) => { if (!open) resetAndClose(); }}>
             <Dialog.Portal>
                 <Dialog.Backdrop className="fixed inset-0 z-50 animate-[fadeIn_0.2s]" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />
-                <ModalWrap isOpen={isOpen}>
+                <ModalWrap>
                     <Dialog.Popup className="bg-white overflow-hidden" style={{ width: 519, borderRadius: 12, boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.13)' }}>
                         <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
                             <Dialog.Title className="text-base font-semibold" style={{ color: '#121417' }}>New Account</Dialog.Title>
@@ -522,15 +536,43 @@ function NewAccountDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean; on
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm font-normal" style={{ color: colors.textDark }}>Account type</label>
-                                    <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value as Account['type'] })} className="w-full px-3 py-3 rounded text-sm outline-none" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textLighter }} placeholder="Select type">
-                                        {ACCOUNT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                                    </select>
+                                    <Select.Root value={formData.type} onValueChange={(val) => setFormData({ ...formData, type: val as Account['type'], parent: '' })}>
+                                        <Select.Trigger className="w-full px-3 py-3 rounded text-sm outline-none flex items-center justify-between input-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>
+                                            <Select.Value placeholder="Select type" />
+                                            <Select.Icon><Icons.arrowDown /></Select.Icon>
+                                        </Select.Trigger>
+                                        <Select.Portal>
+                                            <Select.Positioner>
+                                                <Select.Popup className="bg-white rounded-lg shadow-lg border py-1 animate-[slideDown_0.15s]" style={{ borderColor: colors.borderLight, minWidth: 200 }}>
+                                                    {ACCOUNT_TYPES.map(t => (
+                                                        <Select.Item key={t} value={t} className="px-3 py-2 text-sm cursor-pointer menu-item outline-none" style={{ color: colors.textDark }}>
+                                                            <Select.ItemText>{t}</Select.ItemText>
+                                                        </Select.Item>
+                                                    ))}
+                                                </Select.Popup>
+                                            </Select.Positioner>
+                                        </Select.Portal>
+                                    </Select.Root>
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm font-normal" style={{ color: colors.textDark }}>Parent account</label>
-                                    <div className="px-3 py-3 rounded text-sm flex items-center justify-between" style={{ backgroundColor: colors.borderLight, border: `1px solid ${colors.borderLight}`, color: '#AAB9C5' }}>
-                                        <span>Select parent</span> <Icons.arrowDown className="" />
-                                    </div>
+                                    <Select.Root value={formData.parent} onValueChange={(val) => setFormData({ ...formData, parent: val })}>
+                                        <Select.Trigger className="w-full px-3 py-3 rounded text-sm outline-none flex items-center justify-between input-animate" style={{ border: `1px solid ${colors.borderLight}`, color: formData.parent ? colors.textDark : colors.textLighter }}>
+                                            <Select.Value placeholder="Select parent" />
+                                            <Select.Icon><Icons.arrowDown /></Select.Icon>
+                                        </Select.Trigger>
+                                        <Select.Portal>
+                                            <Select.Positioner>
+                                                <Select.Popup className="bg-white rounded-lg shadow-lg border py-1 animate-[slideDown_0.15s]" style={{ borderColor: colors.borderLight, minWidth: 200 }}>
+                                                    {PARENT_ACCOUNTS[formData.type].map(p => (
+                                                        <Select.Item key={p} value={p} className="px-3 py-2 text-sm cursor-pointer menu-item outline-none" style={{ color: colors.textDark }}>
+                                                            <Select.ItemText>{p}</Select.ItemText>
+                                                        </Select.Item>
+                                                    ))}
+                                                </Select.Popup>
+                                            </Select.Positioner>
+                                        </Select.Portal>
+                                    </Select.Root>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2">
@@ -550,14 +592,14 @@ function NewAccountDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean; on
                             </div>
                             <div className="flex items-center gap-4">
                                 <span className="text-sm font-normal" style={{ color: colors.textDark }}>Activate this account</span>
-                                <button type="button" role="switch" aria-checked={formData.active} onClick={() => setFormData({ ...formData, active: !formData.active })} className="w-10 h-5 rounded-full p-0.5 transition-colors" style={{ backgroundColor: formData.active ? colors.primary : colors.border }}>
+                                <Checkbox.Root checked={formData.active} onCheckedChange={(checked) => setFormData({ ...formData, active: !!checked })} className="w-10 h-5 rounded-full p-0.5 transition-colors" style={{ backgroundColor: formData.active ? colors.primary : colors.border }}>
                                     <span className="block w-4 h-4 rounded-full bg-white shadow transition-transform" style={{ transform: formData.active ? 'translateX(20px)' : 'translateX(0)' }} />
-                                </button>
+                                </Checkbox.Root>
                             </div>
                         </div>
                         <div className="flex gap-3 justify-end px-4 py-3" style={{ backgroundColor: colors.background }}>
-                            <Dialog.Close className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center btn-animate" style={{ color: colors.textDark, border: `1px solid ${colors.borderLight}` }}>Cancel</Dialog.Close>
-                            <button onClick={handleSubmit} className="px-4 py-2 h-[42px] rounded text-sm font-semibold text-white flex items-center justify-center btn-animate btn-primary" style={{ backgroundColor: colors.primary }}>Save Changes</button>
+                            <button type="button" onClick={resetAndClose} className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center btn-animate" style={{ color: colors.textDark, border: `1px solid ${colors.borderLight}` }}>Cancel</button>
+                            <button type="button" onClick={handleSubmit} disabled={!isFormValid} className="px-4 py-2 h-[42px] rounded text-sm font-semibold text-white flex items-center justify-center btn-animate btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" style={{ backgroundColor: colors.primary }}>Save Changes</button>
                         </div>
                     </Dialog.Popup>
                 </ModalWrap>
@@ -574,22 +616,22 @@ function ViewAccountDialog({ account, onClose, onConnectBank }: { account: Accou
         <Dialog.Root open={!!account} onOpenChange={(open) => !open && onClose()}>
             <Dialog.Portal>
                 <Dialog.Backdrop className="fixed inset-0 z-50 animate-[fadeIn_0.2s]" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />
-                <ModalWrap isOpen={!!account}>
+                <ModalWrap>
                     <Dialog.Popup className="bg-white overflow-hidden" style={{ width: 577, borderRadius: 12, boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.13)' }}>
                         <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
                             <Dialog.Title className="text-base font-semibold" style={{ color: '#121417' }}>{account.code} - {account.name}</Dialog.Title>
-                            <Dialog.Close className="p-1 rounded transition-colors hover:bg-gray-100" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
+                            <Dialog.Close className="p-1 rounded transition-colors hover:bg-gray-100 btn-animate" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
                         </div>
                         <div className="p-6 flex flex-col gap-6">
                             {showConnect && (
                                 <div className="flex gap-2 items-start p-4 rounded-lg" style={{ backgroundColor: '#FFF0DD' }}>
-                                    <div className="shrink-0 w-6 h-6 flex items-center justify-center">!</div>
+                                    <div className="shrink-0 w-6 h-6 flex items-center justify-center text-amber-600 font-bold">!</div>
                                     <div className="flex-1 flex flex-col gap-2">
                                         <p className="text-sm font-bold" style={{ color: '#CC7914' }}>Connect Account for Automated Balancing</p>
                                         <p className="text-xs leading-relaxed" style={{ color: colors.textMuted }}>Link your account for efficient reconciliation with automatic balance matching.</p>
                                         <div className="flex gap-3 mt-1">
-                                            <button type="button" className="text-sm font-semibold px-4 py-2" style={{ color: colors.textDark }}>Learn More</button>
-                                            <button type="button" onClick={() => onConnectBank(account)} className="text-sm font-semibold px-4 py-2 rounded h-[33px] flex items-center justify-center" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Connect to Cash & Bank</button>
+                                            <button type="button" className="text-sm font-semibold px-4 py-2 btn-animate" style={{ color: colors.textDark }}>Learn More</button>
+                                            <button type="button" onClick={() => onConnectBank(account)} className="text-sm font-semibold px-4 py-2 rounded h-[33px] flex items-center justify-center btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Connect to Cash & Bank</button>
                                         </div>
                                     </div>
                                 </div>
@@ -634,8 +676,8 @@ function ViewAccountDialog({ account, onClose, onConnectBank }: { account: Accou
                             </div>
                         </div>
                         <div className="flex gap-3 justify-end px-4 py-3" style={{ backgroundColor: colors.background }}>
-                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 transition-colors" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Edit</button>
-                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 transition-colors" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Delete</button>
+                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Edit</button>
+                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Delete</button>
                         </div>
                     </Dialog.Popup>
                 </ModalWrap>
@@ -650,24 +692,24 @@ function ConnectBankDialog({ isOpen, onOpenChange, account }: { isOpen: boolean;
         <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
             <Dialog.Portal>
                 <Dialog.Backdrop className="fixed inset-0 z-50 animate-[fadeIn_0.2s]" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />
-                <ModalWrap isOpen={isOpen}>
+                <ModalWrap>
                     <Dialog.Popup className="bg-white rounded-xl shadow-2xl overflow-hidden" style={{ width: 400 }}>
-                    <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
-                        <Dialog.Title className="text-lg font-semibold" style={{ color: colors.textDark }}>Connect Bank Account</Dialog.Title>
-                        <Dialog.Close className="p-1 rounded-lg transition-colors hover:bg-gray-100" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
-                    </div>
-                    <div className="p-6">
-                        <p className="text-sm mb-4" style={{ color: colors.textMuted }}>Connect <strong style={{ color: colors.textDark }}>{account?.name}</strong> to your bank for automatic transaction sync.</p>
-                        <div className="space-y-2">
-                            {['BCA', 'Mandiri', 'BNI', 'BRI', 'CIMB Niaga'].map(bank => (
-                                <button key={bank} className="w-full flex items-center gap-4 p-3 rounded-lg btn-animate group" style={{ border: `1px solid ${colors.border}` }}>
-                                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-semibold transition-colors group-hover:bg-blue-50" style={{ backgroundColor: colors.background, color: colors.textMuted }}>{bank.substring(0, 2)}</div>
-                                    <span className="font-medium transition-colors group-hover:text-blue-600" style={{ color: colors.textDark }}>{bank}</span>
-                                </button>
-                            ))}
+                        <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
+                            <Dialog.Title className="text-lg font-semibold" style={{ color: colors.textDark }}>Connect Bank Account</Dialog.Title>
+                            <Dialog.Close className="p-1 rounded-lg transition-colors hover:bg-gray-100 btn-animate" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
                         </div>
-                    </div>
-                </Dialog.Popup>
+                        <div className="p-6">
+                            <p className="text-sm mb-4" style={{ color: colors.textMuted }}>Connect <strong style={{ color: colors.textDark }}>{account?.name}</strong> to your bank for automatic transaction sync.</p>
+                            <div className="space-y-2">
+                                {['BCA', 'Mandiri', 'BNI', 'BRI', 'CIMB Niaga'].map(bank => (
+                                    <button key={bank} type="button" onClick={() => onOpenChange(false)} className="w-full flex items-center gap-4 p-3 rounded-lg btn-animate group" style={{ border: `1px solid ${colors.border}` }}>
+                                        <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-semibold transition-colors group-hover:bg-blue-50" style={{ backgroundColor: colors.background, color: colors.textMuted }}>{bank.substring(0, 2)}</div>
+                                        <span className="font-medium transition-colors group-hover:text-blue-600" style={{ color: colors.textDark }}>{bank}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </Dialog.Popup>
                 </ModalWrap>
             </Dialog.Portal>
         </Dialog.Root>
