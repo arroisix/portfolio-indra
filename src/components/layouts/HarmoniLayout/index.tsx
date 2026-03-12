@@ -2,21 +2,24 @@
 import * as React from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Checkbox } from '@base-ui/react/checkbox';
+import { Menu } from '@base-ui/react/menu';
+import { Select } from '@base-ui/react/select';
+import { Popover } from '@base-ui/react/popover';
 
-// Figma Design Tokens
+// Figma Design Tokens (Harmoni Design System)
 const colors = {
     primary: '#2088FF',
     primaryHover: '#1a6fd9',
-    background: '#F5F7FA',
+    background: '#F5F7FA',       // neutrals100 - sidebar & grey areas
     white: '#FFFFFF',
     textDark: '#090A0B',
-    textMuted: '#637D92',
-    textLight: '#7991A4',
-    textLighter: '#92A5B5',
-    border: '#DAE1E7',
-    borderLight: '#E7EBEF',
-    success: '#0B7B69',
-    successBg: '#CFFFF7',
+    textMuted: '#637D92',       // secondary800
+    textLight: '#7991A4',       // secondary700 - inactive tab text
+    textLighter: '#92A5B5',    // secondary600
+    border: '#DAE1E7',         // secondary200
+    borderLight: '#E7EBEF',     // secondary100
+    success: '#0B7B69',        // success300 - Active badge text
+    successBg: '#CFFFF7',      // success - Active badge bg
     shadow: 'rgba(0, 0, 0, 0.08)',
 };
 
@@ -293,22 +296,35 @@ const CompanyDropdown = ({ collapsed }: { collapsed: boolean }) => (
     </div>
 );
 
-// Sidebar
+// Sidebar (Figma: neutrals100 #f5f7fa)
 function Sidebar({ activeSection, collapsed }: { activeSection: string; collapsed: boolean }) {
     return (
-        <aside className={`${collapsed ? 'w-[72px]' : 'w-[202px]'} bg-white flex flex-col h-screen fixed left-0 top-0 z-40 transition-all duration-300`} style={{ borderRight: `1px solid ${colors.border}` }}>
+        <aside className={`${collapsed ? 'w-[72px]' : 'w-[202px]'} flex flex-col h-screen fixed left-0 top-0 z-40 transition-all duration-300`} style={{ backgroundColor: colors.background, borderRight: `1px solid ${colors.border}` }}>
             {/* Company Selector at top */}
             <div className="p-3" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
                 <CompanyDropdown collapsed={collapsed} />
             </div>
 
-            {/* Create New Button */}
+            {/* Create New Button with Menu */}
             {!collapsed && (
                 <div className="px-4 py-3">
-                    <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded text-sm font-semibold transition-all hover:bg-gray-50" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }}>
-                        <Icons.plus className="" />
-                        Create New...
-                    </button>
+                    <Menu.Root>
+                        <Menu.Trigger className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded text-sm font-semibold btn-animate" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }}>
+                            <Icons.plus className="" />
+                            Create New...
+                        </Menu.Trigger>
+                        <Menu.Portal>
+                            <Menu.Positioner>
+                                <Menu.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[180px] popover-animate" style={{ border: `1px solid ${colors.borderLight}` }}>
+                                    {['Invoice', 'Bill', 'Expense', 'Manual Journal', 'Contact'].map((item) => (
+                                        <Menu.Item key={item} className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>
+                                            {item}
+                                        </Menu.Item>
+                                    ))}
+                                </Menu.Popup>
+                            </Menu.Positioner>
+                        </Menu.Portal>
+                    </Menu.Root>
                 </div>
             )}
 
@@ -322,10 +338,12 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                         return (
                             <button
                                 key={item.id}
-                                className="w-full flex items-center gap-3 px-4 py-2 text-sm transition-all duration-150"
+                                data-active={isActive}
+                                className="w-full flex items-center gap-3 px-4 py-2 text-sm sidebar-item rounded-lg mx-1"
                                 style={{
                                     backgroundColor: isActive ? colors.primary : 'transparent',
                                     color: isActive ? colors.white : colors.textMuted,
+                                    width: 'calc(100% - 8px)',
                                 }}
                             >
                                 <Icon active={isActive} />
@@ -348,10 +366,12 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                         return (
                             <button
                                 key={item.id}
-                                className="w-full flex items-center gap-3 px-4 py-2 text-sm transition-all duration-150"
+                                data-active={isActive}
+                                className="w-full flex items-center gap-3 px-4 py-2 text-sm sidebar-item rounded-lg mx-1"
                                 style={{
                                     backgroundColor: isActive ? colors.primary : 'transparent',
                                     color: isActive ? colors.white : colors.textMuted,
+                                    width: 'calc(100% - 8px)',
                                 }}
                             >
                                 <Icon active={isActive} />
@@ -379,10 +399,12 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                         return (
                             <button
                                 key={item.id}
-                                className="w-full flex items-center gap-3 px-4 py-2 text-sm transition-all duration-150"
+                                data-active={isActive}
+                                className="w-full flex items-center gap-3 px-4 py-2 text-sm sidebar-item rounded-lg mx-1"
                                 style={{
                                     backgroundColor: isActive ? colors.primary : 'transparent',
                                     color: isActive ? colors.white : colors.textMuted,
+                                    width: 'calc(100% - 8px)',
                                 }}
                             >
                                 <Icon active={isActive} />
@@ -398,58 +420,77 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                 </div>
             </nav>
 
-            {/* Profile & Notifications at bottom */}
-            <div className="p-3 flex items-center gap-3" style={{ backgroundColor: colors.borderLight, borderRadius: '12px 12px 0 0' }}>
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">
-                    <span className="text-white text-xs font-semibold">JA</span>
-                </div>
-                {!collapsed && (
-                    <>
-                        <span className="flex-1 text-sm font-semibold truncate" style={{ color: colors.textMuted }}>John Appleseed</span>
-                        <button className="p-1 rounded hover:bg-white/50 transition-colors">
+            {/* Profile & Notifications at bottom with Popover */}
+            <Popover.Root>
+                <Popover.Trigger className="w-full p-3 flex items-center gap-3 btn-animate" style={{ backgroundColor: colors.borderLight, borderRadius: '12px 12px 0 0' }}>
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">
+                        <span className="text-white text-xs font-semibold">JA</span>
+                    </div>
+                    {!collapsed && (
+                        <>
+                            <span className="flex-1 text-sm font-semibold truncate text-left" style={{ color: colors.textMuted }}>John Appleseed</span>
                             <Icons.more className="" />
-                        </button>
-                    </>
-                )}
-            </div>
+                        </>
+                    )}
+                </Popover.Trigger>
+                <Popover.Portal>
+                    <Popover.Positioner side="top" align="start">
+                        <Popover.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[180px] popover-animate mb-2" style={{ border: `1px solid ${colors.borderLight}` }}>
+                            <button className="w-full px-4 py-2.5 text-sm text-left menu-item" style={{ color: colors.textDark }}>
+                                Profile Settings
+                            </button>
+                            <button className="w-full px-4 py-2.5 text-sm text-left menu-item" style={{ color: colors.textDark }}>
+                                Notifications
+                            </button>
+                            <div className="my-1" style={{ borderTop: `1px solid ${colors.borderLight}` }} />
+                            <a href="/" className="w-full px-4 py-2.5 text-sm text-left menu-item block" style={{ color: colors.textDark }}>
+                                Back to Portfolio
+                            </a>
+                            <button className="w-full px-4 py-2.5 text-sm text-left menu-item" style={{ color: '#DC2626' }}>
+                                Sign Out
+                            </button>
+                        </Popover.Popup>
+                    </Popover.Positioner>
+                </Popover.Portal>
+            </Popover.Root>
         </aside>
     );
 }
 
-// Tab Bar
-function TabBar() {
-    const [activeTab, setActiveTab] = React.useState('chart-of-accounts');
+// Sortable table header (Figma: Ascending Descending icon)
+type SortKey = 'code' | 'name' | 'type' | 'status' | 'balance';
+type SortConfig = { key: SortKey; dir: 'asc' | 'desc' } | null;
+function SortHeader({ label, sortKey, currentSort, onSort, alignRight }: { label: string; sortKey: SortKey; currentSort: SortConfig; onSort: (c: SortConfig) => void; alignRight?: boolean }) {
+    const isActive = currentSort?.key === sortKey;
+    const nextDir = !isActive ? 'asc' : currentSort?.dir === 'asc' ? 'desc' : 'asc';
     return (
-        <div className="flex items-stretch gap-1 h-[65px]">
-            <button
-                onClick={() => setActiveTab('chart-of-accounts')}
-                className="px-0 py-4 text-sm font-normal transition-colors flex items-center justify-center"
-                style={{
-                    color: activeTab === 'chart-of-accounts' ? colors.textDark : colors.textMuted,
-                    borderBottom: activeTab === 'chart-of-accounts' ? `3px solid ${colors.primary}` : '3px solid transparent',
-                    width: 80,
-                }}
-            >
-                Chart of Accounts
-            </button>
-            <button
-                onClick={() => setActiveTab('locked-accounts')}
-                className="px-0 py-4 text-sm font-normal transition-colors flex items-center justify-center"
-                style={{
-                    color: activeTab === 'locked-accounts' ? colors.textDark : colors.textMuted,
-                    borderBottom: activeTab === 'locked-accounts' ? `3px solid ${colors.primary}` : '3px solid transparent',
-                    width: 80,
-                }}
-            >
-                Locked Accounts
-            </button>
+        <button
+            type="button"
+            onClick={() => onSort(isActive && currentSort?.dir === 'desc' ? null : { key: sortKey, dir: nextDir })}
+            className={`flex items-center gap-1 text-xs font-normal tracking-wide outline-none w-full ${alignRight ? 'justify-end text-right' : 'text-left'}`}
+            style={{ color: colors.textMuted }}
+        >
+            {label}
+            <span className="inline-flex shrink-0"><Icons.sort /></span>
+        </button>
+    );
+}
+
+// Modal wrapper: center with flex so popup doesn't use translate (fixes animation glitch)
+function ModalWrap({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) {
+    if (!isOpen) return null;
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ pointerEvents: 'none' }}>
+            <div style={{ pointerEvents: 'auto' }} className="animate-[modalScaleIn_0.2s_ease-out]">
+                {children}
+            </div>
         </div>
     );
 }
 
-// New Account Dialog
+// New Account Dialog - Figma 181-1364 (layout, content, labels, helpers, footer)
 function NewAccountDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean; onOpenChange: (v: boolean) => void; onAdd: (account: Partial<Account>) => void }) {
-    const [formData, setFormData] = React.useState({ name: '', type: 'Assets' as Account['type'], subtype: '', code: '', description: '' });
+    const [formData, setFormData] = React.useState({ name: '', type: 'Assets' as Account['type'], parent: '', code: '', description: '', active: true });
 
     const handleSubmit = () => {
         if (formData.name && formData.type) {
@@ -458,11 +499,11 @@ function NewAccountDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean; on
                 code: formData.code || `${formData.type[0]}-${Date.now().toString().slice(-5)}`,
                 name: formData.name,
                 type: formData.type,
-                subtype: formData.subtype || 'Other',
+                subtype: formData.parent || 'Other',
                 balance: 0,
                 description: formData.description,
             });
-            setFormData({ name: '', type: 'Assets', subtype: '', code: '', description: '' });
+            setFormData({ name: '', type: 'Assets', parent: '', code: '', description: '', active: true });
             onOpenChange(false);
         }
     };
@@ -471,38 +512,133 @@ function NewAccountDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean; on
         <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
             <Dialog.Portal>
                 <Dialog.Backdrop className="fixed inset-0 z-50 animate-[fadeIn_0.2s]" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />
-                <Dialog.Popup className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-[480px] z-50 animate-[scaleIn_0.2s] overflow-hidden">
-                    <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
-                        <Dialog.Title className="text-lg font-semibold" style={{ color: colors.textDark }}>New Account</Dialog.Title>
-                        <Dialog.Close className="p-1 rounded-lg transition-colors hover:bg-gray-100" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
-                    </div>
-                    <div className="p-6 space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium mb-1.5" style={{ color: colors.textDark }}>Account Name</label>
-                            <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-2.5 rounded-lg text-sm transition-all outline-none" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }} placeholder="e.g. Office Supplies" />
+                <ModalWrap isOpen={isOpen}>
+                    <Dialog.Popup className="bg-white overflow-hidden" style={{ width: 519, borderRadius: 12, boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.13)' }}>
+                        <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
+                            <Dialog.Title className="text-base font-semibold" style={{ color: '#121417' }}>New Account</Dialog.Title>
+                            <Dialog.Close className="p-1 rounded transition-colors hover:bg-gray-100" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium mb-1.5" style={{ color: colors.textDark }}>Account Type</label>
-                                <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value as Account['type'] })} className="w-full px-4 py-2.5 rounded-lg text-sm bg-white transition-all outline-none" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }}>
-                                    {ACCOUNT_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
-                                </select>
+                        <div className="p-6 flex flex-col gap-6">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-normal" style={{ color: colors.textDark }}>Account type</label>
+                                    <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value as Account['type'] })} className="w-full px-3 py-3 rounded text-sm outline-none" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textLighter }} placeholder="Select type">
+                                        {ACCOUNT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                                    </select>
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-normal" style={{ color: colors.textDark }}>Parent account</label>
+                                    <div className="px-3 py-3 rounded text-sm flex items-center justify-between" style={{ backgroundColor: colors.borderLight, border: `1px solid ${colors.borderLight}`, color: '#AAB9C5' }}>
+                                        <span>Select parent</span> <Icons.arrowDown className="" />
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-1.5" style={{ color: colors.textDark }}>Account Code</label>
-                                <input type="text" value={formData.code} onChange={e => setFormData({ ...formData, code: e.target.value })} className="w-full px-4 py-2.5 rounded-lg text-sm transition-all outline-none" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }} placeholder="Auto-generated" />
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-normal" style={{ color: colors.textDark }}>Code</label>
+                                <input type="text" value={formData.code} onChange={e => setFormData({ ...formData, code: e.target.value })} className="w-full px-3 py-2.5 rounded text-sm outline-none input-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }} placeholder="Ex : 1102" />
+                                <p className="text-xs leading-relaxed" style={{ color: colors.textMuted }}>A unique code or number for this account up to 50 characters.</p>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-normal" style={{ color: colors.textDark }}>Account Name</label>
+                                <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full px-3 py-3 rounded text-sm outline-none h-9 input-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }} placeholder=" " />
+                                <p className="text-xs leading-relaxed" style={{ color: colors.textMuted }}>A short title for this account up to 50 characters.</p>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-normal" style={{ color: colors.textDark }}>Description</label>
+                                <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={3} className="w-full px-3 py-3 rounded text-sm outline-none resize-none input-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }} placeholder=" " />
+                                <p className="text-xs leading-relaxed" style={{ color: colors.textMuted }}>Add description of how this account should be used.</p>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <span className="text-sm font-normal" style={{ color: colors.textDark }}>Activate this account</span>
+                                <button type="button" role="switch" aria-checked={formData.active} onClick={() => setFormData({ ...formData, active: !formData.active })} className="w-10 h-5 rounded-full p-0.5 transition-colors" style={{ backgroundColor: formData.active ? colors.primary : colors.border }}>
+                                    <span className="block w-4 h-4 rounded-full bg-white shadow transition-transform" style={{ transform: formData.active ? 'translateX(20px)' : 'translateX(0)' }} />
+                                </button>
                             </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1.5" style={{ color: colors.textDark }}>Description (Optional)</label>
-                            <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={2} className="w-full px-4 py-2.5 rounded-lg text-sm transition-all outline-none resize-none" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }} placeholder="Brief description of this account" />
+                        <div className="flex gap-3 justify-end px-4 py-3" style={{ backgroundColor: colors.background }}>
+                            <Dialog.Close className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center btn-animate" style={{ color: colors.textDark, border: `1px solid ${colors.borderLight}` }}>Cancel</Dialog.Close>
+                            <button onClick={handleSubmit} className="px-4 py-2 h-[42px] rounded text-sm font-semibold text-white flex items-center justify-center btn-animate btn-primary" style={{ backgroundColor: colors.primary }}>Save Changes</button>
                         </div>
-                    </div>
-                    <div className="px-6 py-4 flex justify-end gap-3" style={{ borderTop: `1px solid ${colors.borderLight}` }}>
-                        <Dialog.Close className="px-4 py-2.5 text-sm font-medium rounded-lg transition-colors hover:bg-gray-100" style={{ color: colors.textMuted, border: `1px solid ${colors.border}` }}>Cancel</Dialog.Close>
-                        <button onClick={handleSubmit} className="px-4 py-2.5 text-sm font-medium text-white rounded-lg transition-colors hover:opacity-90" style={{ backgroundColor: colors.primary }}>Create Account</button>
-                    </div>
-                </Dialog.Popup>
+                    </Dialog.Popup>
+                </ModalWrap>
+            </Dialog.Portal>
+        </Dialog.Root>
+    );
+}
+
+// View Account Dialog - Figma 181-1465 (title code - name, banner, Account Settings rows, Edit/Delete footer)
+function ViewAccountDialog({ account, onClose, onConnectBank }: { account: Account | null; onClose: () => void; onConnectBank: (a: Account) => void }) {
+    if (!account) return null;
+    const showConnect = !account.bankConnected && (account.type === 'Assets' || account.type === 'Liabilities');
+    return (
+        <Dialog.Root open={!!account} onOpenChange={(open) => !open && onClose()}>
+            <Dialog.Portal>
+                <Dialog.Backdrop className="fixed inset-0 z-50 animate-[fadeIn_0.2s]" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />
+                <ModalWrap isOpen={!!account}>
+                    <Dialog.Popup className="bg-white overflow-hidden" style={{ width: 577, borderRadius: 12, boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.13)' }}>
+                        <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
+                            <Dialog.Title className="text-base font-semibold" style={{ color: '#121417' }}>{account.code} - {account.name}</Dialog.Title>
+                            <Dialog.Close className="p-1 rounded transition-colors hover:bg-gray-100" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
+                        </div>
+                        <div className="p-6 flex flex-col gap-6">
+                            {showConnect && (
+                                <div className="flex gap-2 items-start p-4 rounded-lg" style={{ backgroundColor: '#FFF0DD' }}>
+                                    <div className="shrink-0 w-6 h-6 flex items-center justify-center">!</div>
+                                    <div className="flex-1 flex flex-col gap-2">
+                                        <p className="text-sm font-bold" style={{ color: '#CC7914' }}>Connect Account for Automated Balancing</p>
+                                        <p className="text-xs leading-relaxed" style={{ color: colors.textMuted }}>Link your account for efficient reconciliation with automatic balance matching.</p>
+                                        <div className="flex gap-3 mt-1">
+                                            <button type="button" className="text-sm font-semibold px-4 py-2" style={{ color: colors.textDark }}>Learn More</button>
+                                            <button type="button" onClick={() => onConnectBank(account)} className="text-sm font-semibold px-4 py-2 rounded h-[33px] flex items-center justify-center" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Connect to Cash & Bank</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            <div className="flex flex-col gap-6 pb-6" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-normal" style={{ color: colors.textDark }}>Account type</p>
+                                        <p className="text-sm" style={{ color: colors.textMuted }}>{account.type}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-normal" style={{ color: colors.textDark }}>Parent account</p>
+                                        <p className="text-sm" style={{ color: colors.textMuted }}>{account.subtype}</p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <p className="text-sm font-normal" style={{ color: colors.textDark }}>Code</p>
+                                    <p className="text-sm" style={{ color: colors.textMuted }}>{account.code}</p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-6 pb-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-normal" style={{ color: colors.textDark }}>Account Name</p>
+                                        <p className="text-sm" style={{ color: colors.textMuted }}>{account.name}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-normal" style={{ color: colors.textDark }}>Description</p>
+                                        <p className="text-sm" style={{ color: colors.textMuted }}>{account.description || '-'}</p>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-normal" style={{ color: colors.textDark }}>Account Status</p>
+                                        <p className="text-sm" style={{ color: colors.textMuted }}>Active</p>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-normal" style={{ color: colors.textDark }}>Year to Date</p>
+                                        <p className="text-sm tabular-nums" style={{ color: account.balance < 0 ? '#DC2626' : colors.textMuted }}>{formatCurrency(account.balance)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 justify-end px-4 py-3" style={{ backgroundColor: colors.background }}>
+                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 transition-colors" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Edit</button>
+                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 transition-colors" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Delete</button>
+                        </div>
+                    </Dialog.Popup>
+                </ModalWrap>
             </Dialog.Portal>
         </Dialog.Root>
     );
@@ -514,7 +650,8 @@ function ConnectBankDialog({ isOpen, onOpenChange, account }: { isOpen: boolean;
         <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
             <Dialog.Portal>
                 <Dialog.Backdrop className="fixed inset-0 z-50 animate-[fadeIn_0.2s]" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />
-                <Dialog.Popup className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-[400px] z-50 animate-[scaleIn_0.2s] overflow-hidden">
+                <ModalWrap isOpen={isOpen}>
+                    <Dialog.Popup className="bg-white rounded-xl shadow-2xl overflow-hidden" style={{ width: 400 }}>
                     <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
                         <Dialog.Title className="text-lg font-semibold" style={{ color: colors.textDark }}>Connect Bank Account</Dialog.Title>
                         <Dialog.Close className="p-1 rounded-lg transition-colors hover:bg-gray-100" style={{ color: colors.textMuted }}><Icons.x /></Dialog.Close>
@@ -523,14 +660,15 @@ function ConnectBankDialog({ isOpen, onOpenChange, account }: { isOpen: boolean;
                         <p className="text-sm mb-4" style={{ color: colors.textMuted }}>Connect <strong style={{ color: colors.textDark }}>{account?.name}</strong> to your bank for automatic transaction sync.</p>
                         <div className="space-y-2">
                             {['BCA', 'Mandiri', 'BNI', 'BRI', 'CIMB Niaga'].map(bank => (
-                                <button key={bank} className="w-full flex items-center gap-4 p-3 rounded-lg transition-all hover:border-blue-300" style={{ border: `1px solid ${colors.border}` }}>
-                                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-semibold" style={{ backgroundColor: colors.background, color: colors.textMuted }}>{bank.substring(0, 2)}</div>
-                                    <span className="font-medium" style={{ color: colors.textDark }}>{bank}</span>
+                                <button key={bank} className="w-full flex items-center gap-4 p-3 rounded-lg btn-animate group" style={{ border: `1px solid ${colors.border}` }}>
+                                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-semibold transition-colors group-hover:bg-blue-50" style={{ backgroundColor: colors.background, color: colors.textMuted }}>{bank.substring(0, 2)}</div>
+                                    <span className="font-medium transition-colors group-hover:text-blue-600" style={{ color: colors.textDark }}>{bank}</span>
                                 </button>
                             ))}
                         </div>
                     </div>
                 </Dialog.Popup>
+                </ModalWrap>
             </Dialog.Portal>
         </Dialog.Root>
     );
@@ -561,8 +699,10 @@ export default function HarmoniLayout(props: any) {
     const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
     const [searchQuery, setSearchQuery] = React.useState('');
     const [filterType, setFilterType] = React.useState<string>('all');
+    const [sortConfig, setSortConfig] = React.useState<SortConfig>(null);
     const [showNewAccountDialog, setShowNewAccountDialog] = React.useState(false);
     const [showConnectBankDialog, setShowConnectBankDialog] = React.useState(false);
+    const [viewAccount, setViewAccount] = React.useState<Account | null>(null);
     const [selectedAccount, setSelectedAccount] = React.useState<Account | null>(null);
     const [selectedIds, setSelectedIds] = React.useState<Set<string>>(new Set());
 
@@ -571,6 +711,20 @@ export default function HarmoniLayout(props: any) {
         const matchesType = filterType === 'all' || acc.type === filterType;
         return matchesSearch && matchesType;
     });
+
+    const sortedAccounts = React.useMemo(() => {
+        if (!sortConfig) return filteredAccounts;
+        const sorted = [...filteredAccounts].sort((a, b) => {
+            const key = sortConfig.key;
+            if (key === 'code') return (a.code.localeCompare(b.code)) * (sortConfig.dir === 'asc' ? 1 : -1);
+            if (key === 'name') return (a.name.localeCompare(b.name)) * (sortConfig.dir === 'asc' ? 1 : -1);
+            if (key === 'type') return (a.type.localeCompare(b.type)) * (sortConfig.dir === 'asc' ? 1 : -1);
+            if (key === 'status') return 0; // all Active
+            if (key === 'balance') return (a.balance - b.balance) * (sortConfig.dir === 'asc' ? 1 : -1);
+            return 0;
+        });
+        return sorted;
+    }, [filteredAccounts, sortConfig]);
 
     const toggleSelect = (id: string) => {
         const s = new Set(selectedIds);
@@ -588,132 +742,288 @@ export default function HarmoniLayout(props: any) {
     };
 
     return (
-        <div className="min-h-screen font-['Inter',sans-serif]" style={{ backgroundColor: colors.background }}>
-            {/* CSS */}
+        <div className="min-h-screen font-['Inter',sans-serif]" style={{ backgroundColor: colors.white }}>
+            {/* CSS with subtle animations */}
             <style jsx global>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+                /* Base animations */
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-                @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+                @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+                @keyframes modalScaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+                @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+                @keyframes checkPop { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+                @keyframes ripple { 0% { transform: scale(0); opacity: 0.5; } 100% { transform: scale(2.5); opacity: 0; } }
+                @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+                @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+                /* Button interactions */
+                .btn-animate {
+                    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    overflow: hidden;
+                }
+                .btn-animate:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+                .btn-animate:active { transform: translateY(0) scale(0.98); }
+
+                /* Primary button glow */
+                .btn-primary:hover { box-shadow: 0 4px 12px rgba(32, 136, 255, 0.3); }
+
+                /* Row hover effect */
+                .row-hover {
+                    transition: all 0.15s ease;
+                }
+                .row-hover:hover {
+                    background-color: #F8FAFC !important;
+                }
+
+                /* Menu item animation */
+                .menu-item {
+                    transition: all 0.15s ease;
+                }
+                .menu-item:hover {
+                    background-color: rgba(32, 136, 255, 0.08);
+                }
+                .menu-item:active {
+                    transform: scale(0.98);
+                }
+
+                /* Checkbox animation */
+                .checkbox-animate [data-indicator] {
+                    animation: checkPop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                /* Input focus animation */
+                .input-animate {
+                    transition: all 0.2s ease;
+                }
+                .input-animate:focus {
+                    border-color: #2088FF !important;
+                    box-shadow: 0 0 0 3px rgba(32, 136, 255, 0.15);
+                }
+
+                /* Tab underline animation */
+                .tab-animate {
+                    position: relative;
+                    transition: color 0.2s ease;
+                }
+                .tab-animate::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    width: 0;
+                    height: 3px;
+                    background: #2088FF;
+                    transition: all 0.2s ease;
+                    transform: translateX(-50%);
+                }
+                .tab-animate[data-active="true"]::after {
+                    width: 100%;
+                }
+
+                /* Badge animation */
+                .badge-animate {
+                    transition: all 0.2s ease;
+                }
+                .badge-animate:hover {
+                    transform: scale(1.05);
+                }
+
+                /* Sidebar menu animation */
+                .sidebar-item {
+                    transition: all 0.15s ease;
+                    position: relative;
+                }
+                .sidebar-item:hover {
+                    background-color: rgba(32, 136, 255, 0.08);
+                }
+                .sidebar-item:active {
+                    transform: scale(0.98);
+                }
+                .sidebar-item[data-active="true"] {
+                    animation: slideUp 0.2s ease;
+                }
+
+                /* Select dropdown animation */
+                .select-popup {
+                    animation: slideDown 0.15s ease;
+                }
+
+                /* Popover animation */
+                .popover-animate {
+                    animation: scaleIn 0.15s ease;
+                    transform-origin: top left;
+                }
+
+                /* Connected badge pulse */
+                .connected-badge {
+                    animation: pulse 2s infinite;
+                }
+
+                /* Table sort icon rotation */
+                .sort-icon {
+                    transition: transform 0.2s ease;
+                }
+                .sort-icon[data-dir="desc"] {
+                    transform: rotate(180deg);
+                }
             `}</style>
 
             <Sidebar activeSection="chart-of-accounts" collapsed={sidebarCollapsed} />
 
-            {/* Header - Tab Bar */}
-            <header className={`fixed top-0 ${sidebarCollapsed ? 'left-[72px]' : 'left-[202px]'} right-0 bg-white z-30 transition-all duration-300`}>
-                <div className="px-4 py-3 flex items-center gap-4">
+            {/* Header - Chart of Accounts only (no "Harmoni Dashboard" per Figma) */}
+            <header className={`fixed top-0 ${sidebarCollapsed ? 'left-[72px]' : 'left-[202px]'} right-0 z-30 transition-all duration-300`} style={{ backgroundColor: colors.white }}>
+                <div className="px-4 py-3 flex items-center gap-4" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
                     {/* Hide Sidebar Button */}
                     <button
                         onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                        className="p-2 rounded-lg transition-colors hover:bg-gray-100"
+                        className="p-2 rounded-lg btn-animate"
+                        style={{ backgroundColor: 'transparent' }}
                     >
                         <Icons.hide className="" />
                     </button>
 
-                    {/* Title */}
-                    <h1 className="text-lg font-bold" style={{ color: colors.textDark }}>{title}</h1>
+                    {/* Title - always "Chart of Accounts" to match Figma */}
+                    <h1 className="text-lg font-bold" style={{ color: colors.textDark }}>Chart of Accounts</h1>
 
                     {/* Spacer */}
                     <div className="flex-1" />
 
                     {/* New Account Button */}
-                    <button onClick={() => setShowNewAccountDialog(true)} className="flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ backgroundColor: colors.primary }}>
+                    <button onClick={() => setShowNewAccountDialog(true)} className="flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold text-white btn-animate btn-primary" style={{ backgroundColor: colors.primary }}>
                         <Icons.plus className="" />
                         New Account
                     </button>
                 </div>
             </header>
 
-            <main className={`${sidebarCollapsed ? 'ml-[72px]' : 'ml-[202px]'} pt-[60px] min-h-screen transition-all duration-300`} style={{ backgroundColor: colors.background }}>
+            {/* Main content area - white per Figma */}
+            <main className={`${sidebarCollapsed ? 'ml-[72px]' : 'ml-[202px]'} pt-[60px] min-h-screen transition-all duration-300`} style={{ backgroundColor: colors.white }}>
                 <div className="p-4">
-                    {/* Tabs */}
-                    <div className="mb-4">
-                        <TabBar />
-                    </div>
-
-                    {/* Filters */}
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                            <div className="relative">
-                                <Icons.search className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: colors.textLight }} />
-                                <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search accounts..." className="pl-10 pr-4 py-2.5 w-64 rounded-lg text-sm outline-none transition-all" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }} />
+                    {/* Single wrapper: tabs + filter + table in one box (Figma 181:1169 - border-radius 8px, stroke) */}
+                    <div className="rounded-lg overflow-hidden" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                        {/* Top row: Tabs + Search + Filter By (gray only behind this row; no extra strip below blue line) */}
+                        <div className="flex items-stretch justify-between gap-4 pr-4 pb-0" style={{ backgroundColor: colors.background }}>
+                            <div className="flex gap-1 items-center">
+                                {(['all', 'Assets', 'Liabilities', 'Equity', 'Expenses', 'Revenue'] as const).map(tab => {
+                                    const label = tab === 'all' ? 'All' : tab === 'Assets' ? 'Asset' : tab === 'Liabilities' ? 'Liabilities' : tab === 'Equity' ? 'Equity' : tab === 'Expenses' ? 'Expense' : 'Revenue';
+                                    const isActive = filterType === tab;
+                                    return (
+                                        <button
+                                            key={tab}
+                                            onClick={() => setFilterType(tab)}
+                                            data-active={isActive}
+                                            className="py-4 text-sm flex items-center justify-center outline-none min-w-[80px] tab-animate"
+                                            style={{
+                                                color: isActive ? colors.primary : colors.textLight,
+                                                fontWeight: isActive ? 600 : 400,
+                                            }}
+                                        >
+                                            {label}
+                                        </button>
+                                    );
+                                })}
                             </div>
-                            <select value={filterType} onChange={e => setFilterType(e.target.value)} className="px-4 py-2.5 rounded-lg text-sm bg-white outline-none transition-all" style={{ border: `1px solid ${colors.border}`, color: colors.textDark }}>
-                                <option value="all">All Types</option>
-                                {ACCOUNT_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
-                            </select>
+                            <div className="flex items-center gap-2 shrink-0">
+                                <div className="relative">
+                                    <Icons.search className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: colors.textLighter }} />
+                                    <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search" className="pl-10 pr-3 py-2 w-[228px] rounded text-sm outline-none input-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }} />
+                                </div>
+                                <Menu.Root>
+                                    <Menu.Trigger className="flex items-center gap-2 px-3 py-2 rounded text-sm outline-none btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>
+                                        Filter By <Icons.arrowDown className="" />
+                                    </Menu.Trigger>
+                                    <Menu.Portal>
+                                        <Menu.Positioner>
+                                            <Menu.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[160px] popover-animate" style={{ border: `1px solid ${colors.borderLight}` }}>
+                                                <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>
+                                                    Bank Connected
+                                                </Menu.Item>
+                                                <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>
+                                                    Has Balance
+                                                </Menu.Item>
+                                                <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>
+                                                    Locked Only
+                                                </Menu.Item>
+                                            </Menu.Popup>
+                                        </Menu.Positioner>
+                                    </Menu.Portal>
+                                </Menu.Root>
+                            </div>
                         </div>
-                        <p className="text-sm" style={{ color: colors.textMuted }}>Showing {filteredAccounts.length} of {accounts.length}</p>
-                    </div>
 
-                    {/* Table */}
-                    <div className="bg-white rounded-xl overflow-hidden" style={{ border: `1px solid ${colors.border}`, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        {/* Table - compact rows (py-2 = 8px), Year to Date right-aligned */}
                         <table className="w-full">
                             <thead>
-                                <tr style={{ borderBottom: `1px solid ${colors.borderLight}`, backgroundColor: colors.background }}>
-                                    <th className="w-12 py-3 px-4"></th>
-                                    <th className="text-left py-3 px-4">
-                                        <div className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textMuted }}>
-                                            Code <Icons.sort />
-                                        </div>
+                                <tr style={{ borderBottom: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                                    <th className="w-[51px] py-2 px-4"></th>
+                                    <th className="text-left py-2 px-4" style={{ width: 101 }}>
+                                        <SortHeader label="Code" sortKey="code" currentSort={sortConfig} onSort={setSortConfig} />
                                     </th>
-                                    <th className="text-left py-3 px-4">
-                                        <div className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textMuted }}>
-                                            Account Name <Icons.sort />
-                                        </div>
+                                    <th className="text-left py-2 px-4">
+                                        <SortHeader label="Name" sortKey="name" currentSort={sortConfig} onSort={setSortConfig} />
                                     </th>
-                                    <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textMuted }}>Type</th>
-                                    <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textMuted }}>Subtype</th>
-                                    <th className="text-right py-3 px-4">
-                                        <div className="flex items-center justify-end gap-1 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textMuted }}>
-                                            Balance <Icons.sort />
-                                        </div>
+                                    <th className="text-left py-2 px-4">
+                                        <SortHeader label="Type" sortKey="type" currentSort={sortConfig} onSort={setSortConfig} />
                                     </th>
-                                    <th className="text-center py-3 px-4 w-28 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textMuted }}>Status</th>
+                                    <th className="text-left py-2 px-4 w-[110px]">
+                                        <SortHeader label="Status" sortKey="status" currentSort={sortConfig} onSort={setSortConfig} />
+                                    </th>
+                                    <th className="text-right py-2 px-4 w-[140px]">
+                                        <SortHeader label="Year to Date" sortKey="balance" currentSort={sortConfig} onSort={setSortConfig} alignRight />
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredAccounts.map((account, idx) => (
-                                    <tr key={account.id} className="transition-colors hover:bg-gray-50/50" style={{ borderBottom: idx < filteredAccounts.length - 1 ? `1px solid ${colors.borderLight}` : 'none' }}>
-                                        <td className="py-3 px-4">
-                                            <Checkbox.Root checked={selectedIds.has(account.id)} onCheckedChange={() => toggleSelect(account.id)} className="w-4 h-4 rounded flex items-center justify-center transition-all" style={{ border: selectedIds.has(account.id) ? 'none' : `2px solid ${colors.border}`, backgroundColor: selectedIds.has(account.id) ? colors.primary : 'transparent' }}>
-                                                <Checkbox.Indicator className="text-white"><Icons.check /></Checkbox.Indicator>
-                                            </Checkbox.Root>
+                                {sortedAccounts.map((account, idx) => (
+                                    <tr key={account.id} className="row-hover cursor-pointer" style={{ borderBottom: idx < sortedAccounts.length - 1 ? `1px solid ${colors.borderLight}` : 'none' }} onClick={() => setViewAccount(account)}>
+                                        <td className="py-2 px-4 w-[51px] align-middle text-center" onClick={e => e.stopPropagation()}>
+                                            {account.locked ? (
+                                                <Icons.lock className="inline-block" style={{ color: colors.textLight }} />
+                                            ) : (
+                                                <Checkbox.Root
+                                                    checked={selectedIds.has(account.id)}
+                                                    onCheckedChange={() => toggleSelect(account.id)}
+                                                    className="w-4 h-4 rounded flex items-center justify-center transition-all checkbox-animate"
+                                                    style={{
+                                                        border: selectedIds.has(account.id) ? 'none' : `2px solid ${colors.border}`,
+                                                        backgroundColor: selectedIds.has(account.id) ? colors.primary : 'transparent',
+                                                    }}
+                                                >
+                                                    <Checkbox.Indicator className="text-white">
+                                                        <Icons.check />
+                                                    </Checkbox.Indicator>
+                                                </Checkbox.Root>
+                                            )}
                                         </td>
-                                        <td className="py-3 px-4">
-                                            <span className="text-sm font-mono" style={{ color: colors.textLight }}>{account.code}</span>
+                                        <td className="py-2 px-4 align-top" style={{ width: 101 }}>
+                                            <span className="text-sm font-mono leading-tight" style={{ color: colors.textDark }}>{account.code}</span>
                                         </td>
-                                        <td className="py-3 px-4">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-sm font-medium" style={{ color: colors.textDark }}>{account.name}</span>
-                                                {account.locked && <Icons.lock className="" style={{ color: colors.textLight }} />}
-                                            </div>
-                                            {account.description && <p className="text-xs mt-0.5" style={{ color: colors.textLight }}>{account.description}</p>}
+                                        <td className="py-2 px-4 align-top">
+                                            <span className="text-sm font-normal leading-tight transition-colors" style={{ color: colors.primary }}>{account.name}</span>
+                                            {account.description && <p className="text-xs mt-0.5 leading-snug" style={{ color: colors.textMuted }}>{account.description}</p>}
                                         </td>
-                                        <td className="py-3 px-4"><TypeBadge type={account.type} /></td>
-                                        <td className="py-3 px-4"><span className="text-sm" style={{ color: colors.textMuted }}>{account.subtype}</span></td>
-                                        <td className="py-3 px-4 text-right">
-                                            <span className="text-sm font-medium tabular-nums" style={{ color: account.balance < 0 ? '#DC2626' : colors.textDark }}>
-                                                {formatCurrency(account.balance)}
+                                        <td className="py-2 px-4 align-top"><span className="text-sm leading-tight" style={{ color: colors.textDark }}>{account.type}</span></td>
+                                        <td className="py-2 px-4 align-top">
+                                            <span className="inline-flex items-center justify-center px-3 py-0.5 rounded-2xl text-sm font-normal badge-animate connected-badge" style={{ backgroundColor: colors.successBg, color: colors.success }}>
+                                                Active
                                             </span>
                                         </td>
-                                        <td className="py-3 px-4 text-center">
-                                            {account.bankConnected ? (
-                                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium" style={{ backgroundColor: colors.successBg, color: colors.success }}>
-                                                    <Icons.link /> Connected
-                                                </span>
-                                            ) : (
-                                                <button onClick={() => handleConnectBank(account)} className="px-2 py-1 rounded-md text-xs font-medium transition-colors hover:bg-blue-50" style={{ color: colors.primary, border: `1px solid ${colors.border}` }}>
-                                                    Connect
-                                                </button>
-                                            )}
+                                        <td className="py-2 px-4 text-right align-top w-[140px]">
+                                            <span className="text-sm font-normal tabular-nums" style={{ color: account.balance < 0 ? '#DC2626' : colors.textDark }}>
+                                                {formatCurrency(account.balance)}
+                                            </span>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                        {filteredAccounts.length === 0 && (
-                            <div className="py-16 text-center" style={{ color: colors.textMuted }}>
-                                <p className="text-lg font-medium">No accounts found</p>
+                        {sortedAccounts.length === 0 && (
+                            <div className="py-12 text-center" style={{ color: colors.textMuted }}>
+                                <p className="text-base font-medium">No accounts found</p>
                                 <p className="text-sm mt-1">Try adjusting your search or filter</p>
                             </div>
                         )}
@@ -721,17 +1031,18 @@ export default function HarmoniLayout(props: any) {
 
                     {/* Pagination */}
                     <div className="flex items-center justify-between mt-4 text-sm" style={{ color: colors.textMuted }}>
-                        <span>Page 1 of 1</span>
+                        <span>Show 10 Data per page</span>
                         <div className="flex items-center gap-1">
-                            <button className="px-3 py-1.5 rounded-lg transition-colors hover:bg-white disabled:opacity-50" style={{ border: `1px solid ${colors.border}` }} disabled>Previous</button>
-                            <button className="px-3 py-1.5 rounded-lg text-white" style={{ backgroundColor: colors.primary }}>1</button>
-                            <button className="px-3 py-1.5 rounded-lg transition-colors hover:bg-white disabled:opacity-50" style={{ border: `1px solid ${colors.border}` }} disabled>Next</button>
+                            <button className="px-3 py-1.5 rounded-lg btn-animate disabled:opacity-50" style={{ border: `1px solid ${colors.border}` }} disabled>Previous</button>
+                            <button className="px-3 py-1.5 rounded-lg text-white btn-animate btn-primary" style={{ backgroundColor: colors.primary }}>1</button>
+                            <button className="px-3 py-1.5 rounded-lg btn-animate disabled:opacity-50" style={{ border: `1px solid ${colors.border}` }} disabled>Next</button>
                         </div>
                     </div>
                 </div>
             </main>
 
             <NewAccountDialog isOpen={showNewAccountDialog} onOpenChange={setShowNewAccountDialog} onAdd={handleAddAccount} />
+            <ViewAccountDialog account={viewAccount} onClose={() => setViewAccount(null)} onConnectBank={(a) => { setSelectedAccount(a); setViewAccount(null); setShowConnectBankDialog(true); }} />
             <ConnectBankDialog isOpen={showConnectBankDialog} onOpenChange={setShowConnectBankDialog} account={selectedAccount} />
         </div>
     );

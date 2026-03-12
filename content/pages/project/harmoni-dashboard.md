@@ -1,5 +1,5 @@
 ---
-title: Harmoni Dashboard
+title: Chart of Accounts
 slug: project/harmoni-dashboard
 excerpt: Modern accounting dashboard with Chart of Accounts management, bank connections, and financial reporting.
 projectOverview:
