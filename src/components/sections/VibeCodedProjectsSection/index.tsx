@@ -87,9 +87,13 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
         >
             <div className="w-full flex flex-col items-center">
                 {/* Section Header */}
-                <h2 className="font-epilogue text-4xl md:text-5xl font-semibold text-center text-dark mb-16">
+                <h2 className="font-epilogue text-4xl md:text-5xl font-semibold text-center text-dark mb-4">
                     {title}
                 </h2>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium mb-16" style={{ backgroundColor: '#FFF8E6', color: '#B8860B' }}>
+                    <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#B8860B' }} />
+                    Ongoing Project
+                </span>
 
                 {/* Projects Grid */}
                 <div className="w-full grid gap-x-work-gap-x gap-y-work-gap-y grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-7xl justify-center items-start">
