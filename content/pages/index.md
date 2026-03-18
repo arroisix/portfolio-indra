@@ -23,15 +23,6 @@ sections:
       - content/pages/project/bornevia.md
     colors: bg-white-fg-dark
 
-  - type: VibeCodedProjectsSection
-    elementId: vibe-coded
-    title: 'Vibe Coded Projects'
-    subtitle: 'Interactive prototypes built with AI-assisted tools — functional demos you can actually use.'
-    posts:
-      - content/pages/project/boon-estimator.md
-      - content/pages/project/harmoni-dashboard.md
-    colors: bg-neutral-fg-dark
-
   - type: CTASection
     elementId: cta
     colors: bg-white-fg-dark
