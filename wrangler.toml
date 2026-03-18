@@ -1,6 +1,4 @@
 name = "portfolio-indra"
 compatibility_date = "2026-03-11"
 compatibility_flags = ["nodejs_compat"]
-
-[assets]
-directory = "./.vercel/output/static"
+pages_build_output_dir = ".next"
