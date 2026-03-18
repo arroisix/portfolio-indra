@@ -54,5 +54,8 @@ const components = {
     PageLayout: dynamic(() => import('./layouts/PageLayout')),
     PostLayout: dynamic(() => import('./layouts/PostLayout')),
     PostFeedLayout: dynamic(() => import('./layouts/PostFeedLayout')),
-    PostFeedCategoryLayout: dynamic(() => import('./layouts/PostFeedCategoryLayout'))
+    PostFeedCategoryLayout: dynamic(() => import('./layouts/PostFeedCategoryLayout')),
+    EstimatorLayout: dynamic(() => import('./layouts/EstimatorLayout')),
+    HarmoniLayout: dynamic(() => import('./layouts/HarmoniLayout')),
+    VibeCodedProjectsSection: dynamic(() => import('./sections/VibeCodedProjectsSection'))
 };
