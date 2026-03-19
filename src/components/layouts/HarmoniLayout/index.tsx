@@ -254,6 +254,9 @@ const Icons: Record<string, React.FC<{ className?: string; active?: boolean; sty
     x: ({ className }) => <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>,
     check: ({ className }) => <svg className={className} width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     link: ({ className }) => <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+    info: ({ className, style }) => <svg className={className} style={style} width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2"/><path d="M12 8v.01M12 11v5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>,
+    edit: ({ className }) => <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.333 2A1.886 1.886 0 0114 4.667l-8.667 8.666L2 14l.667-3.333L11.333 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+    delete: ({ className }) => <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.333 4V2.667a1.333 1.333 0 011.334-1.334h2.666a1.333 1.333 0 011.334 1.334V4m2 0v9.333a1.333 1.333 0 01-1.334 1.334H4.667a1.333 1.333 0 01-1.334-1.334V4h9.334z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     show: ({ className }) => <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M5 5.77778C5 5.34822 5.34822 5 5.77778 5H8L8 19H5.77778C5.34822 19 5 18.6518 5 18.2222V5.77778ZM10 19L10 5H18.2222C18.6518 5 19 5.34822 19 5.77778V18.2222C19 18.6518 18.6518 19 18.2222 19H10ZM9 21H5.77778C4.24365 21 3 19.7563 3 18.2222V5.77778C3 4.24365 4.24365 3 5.77778 3H9H18.2222C19.7563 3 21 4.24365 21 5.77778V18.2222C21 19.7563 19.7563 21 18.2222 21H9Z" fill={colors.textMuted}/></svg>,
     home: ({ className }) => <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 10l9-7 9 7v9a2 2 0 01-2 2H5a2 2 0 01-2-2v-9z" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M9 21V12h6v9" stroke={colors.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
     // More icon (3 dots)
@@ -627,12 +630,14 @@ function ViewAccountDialog({ account, onClose, onConnectBank }: { account: Accou
                         <div className="p-6 flex flex-col gap-6">
                             {showConnect && (
                                 <div className="flex gap-2 items-start p-4 rounded-lg" style={{ backgroundColor: '#FFF0DD' }}>
-                                    <div className="shrink-0 w-6 h-6 flex items-center justify-center text-amber-600 font-bold">!</div>
-                                    <div className="flex-1 flex flex-col gap-2">
-                                        <p className="text-sm font-bold" style={{ color: '#CC7914' }}>Connect Account for Automated Balancing</p>
-                                        <p className="text-xs leading-relaxed" style={{ color: colors.textMuted }}>Link your account for efficient reconciliation with automatic balance matching.</p>
-                                        <div className="flex gap-3 mt-1">
-                                            <button type="button" className="text-sm font-semibold px-4 py-2 btn-animate" style={{ color: colors.textDark }}>Learn More</button>
+                                    <Icons.info className="shrink-0" style={{ color: '#CC7914' }} />
+                                    <div className="flex-1 flex flex-col items-end gap-2">
+                                        <div className="w-full flex flex-col gap-1">
+                                            <p className="text-sm font-bold" style={{ color: '#CC7914' }}>Connect Account for Automated Balancing</p>
+                                            <p className="text-xs leading-relaxed" style={{ color: '#4A5E6D' }}>Link your account for efficient reconciliation with automatic balance matching.</p>
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <button type="button" className="text-sm font-semibold px-4 py-2 btn-animate rounded" style={{ color: colors.textDark }}>Learn More</button>
                                             <button type="button" onClick={() => onConnectBank(account)} className="text-sm font-semibold px-4 py-2 rounded h-[33px] flex items-center justify-center btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Connect to Cash & Bank</button>
                                         </div>
                                     </div>
@@ -678,8 +683,8 @@ function ViewAccountDialog({ account, onClose, onConnectBank }: { account: Accou
                             </div>
                         </div>
                         <div className="flex gap-3 justify-end px-4 py-3" style={{ backgroundColor: colors.background }}>
-                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Edit</button>
-                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>Delete</button>
+                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}><Icons.edit />Edit</button>
+                            <button type="button" className="px-4 py-2 h-[42px] rounded text-sm font-semibold flex items-center justify-center gap-2 btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}><Icons.delete />Delete</button>
                         </div>
                     </Dialog.Popup>
                 </ModalWrap>
@@ -786,10 +791,9 @@ export default function HarmoniLayout(props: any) {
     };
 
     return (
-        <div className="min-h-screen font-['Inter',sans-serif]" style={{ backgroundColor: colors.white }}>
+        <div className="min-h-screen" style={{ backgroundColor: colors.white, fontFamily: "'DM Sans', sans-serif" }}>
             {/* CSS with subtle animations */}
             <style jsx global>{`
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
                 /* Base animations */
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
