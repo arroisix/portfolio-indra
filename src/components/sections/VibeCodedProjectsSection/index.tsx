@@ -117,19 +117,17 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                             alt={post.featuredImage.altText || post.title}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
-                                        {/* Blurred image - fades in on hover */}
+                                        {/* Blurred image - smooth in, instant out */}
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             src={post.featuredImage.url}
                                             alt=""
                                             aria-hidden="true"
-                                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-110"
-                                            style={{
-                                                filter: 'blur(20px)',
-                                            }}
+                                            className="absolute inset-0 w-full h-full object-cover scale-110 opacity-0 group-hover:opacity-100 group-hover:transition-opacity group-hover:duration-300"
+                                            style={{ filter: 'blur(20px)' }}
                                         />
-                                        {/* Dark tint on hover */}
-                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+                                        {/* Dark tint - smooth in, instant out */}
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 group-hover:transition-colors group-hover:duration-300" />
                                     </div>
                                 )}
 
