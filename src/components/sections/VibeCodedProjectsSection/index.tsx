@@ -116,24 +116,34 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                     </div>
                                 )}
 
-                                {/* Single blur layer - expands from bottom to full on hover */}
+                                {/* Default: Bottom blur with gradient mask */}
                                 <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none transition-all duration-300 group-hover:top-0"
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
                                     style={{
-                                        top: '50%',
+                                        height: '50%',
                                         backdropFilter: 'blur(16px)',
                                         WebkitBackdropFilter: 'blur(16px)',
-                                        maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%, black 100%)',
-                                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 30%, black 100%)',
+                                        maskImage: 'linear-gradient(to bottom, transparent 0%, black 40%, black 100%)',
+                                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40%, black 100%)',
                                     }}
                                 />
 
-                                {/* Dark overlay - expands on hover */}
+                                {/* Default: Dark gradient overlay */}
                                 <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none transition-all duration-300 group-hover:top-0"
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
                                     style={{
-                                        top: '50%',
-                                        background: 'linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(16, 16, 16, 0.5) 30%, rgba(16, 16, 16, 0.7) 100%)',
+                                        height: '50%',
+                                        background: 'linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(16, 16, 16, 0.5) 40%, rgba(16, 16, 16, 0.7) 100%)',
+                                    }}
+                                />
+
+                                {/* Hover: Full blur overlay - fades in on top */}
+                                <div
+                                    className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{
+                                        backdropFilter: 'blur(20px)',
+                                        WebkitBackdropFilter: 'blur(20px)',
+                                        backgroundColor: 'rgba(16, 16, 16, 0.5)',
                                     }}
                                 />
 
