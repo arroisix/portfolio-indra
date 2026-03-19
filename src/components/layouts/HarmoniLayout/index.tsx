@@ -300,7 +300,7 @@ const CompanyDropdown = ({ collapsed }: { collapsed: boolean }) => (
 );
 
 // Sidebar (Figma: neutrals100 #f5f7fa)
-function Sidebar({ activeSection, collapsed }: { activeSection: string; collapsed: boolean }) {
+function Sidebar({ activeSection, collapsed, onSectionChange }: { activeSection: string; collapsed: boolean; onSectionChange: (id: string) => void }) {
     return (
         <aside className={`${collapsed ? 'w-[72px]' : 'w-[202px]'} flex flex-col h-screen fixed left-0 top-0 z-40 transition-all duration-300`} style={{ backgroundColor: colors.background, borderRight: `1px solid ${colors.border}` }}>
             {/* Company Selector at top */}
@@ -341,6 +341,7 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                         return (
                             <button
                                 key={item.id}
+                                onClick={() => onSectionChange(item.id)}
                                 data-active={isActive}
                                 className="w-full flex items-center gap-3 px-4 py-2 text-sm sidebar-item rounded-lg mx-1"
                                 style={{
@@ -369,6 +370,7 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                         return (
                             <button
                                 key={item.id}
+                                onClick={() => onSectionChange(item.id)}
                                 data-active={isActive}
                                 className="w-full flex items-center gap-3 px-4 py-2 text-sm sidebar-item rounded-lg mx-1"
                                 style={{
@@ -402,6 +404,7 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                         return (
                             <button
                                 key={item.id}
+                                onClick={() => onSectionChange(item.id)}
                                 data-active={isActive}
                                 className="w-full flex items-center gap-3 px-4 py-2 text-sm sidebar-item rounded-lg mx-1"
                                 style={{
@@ -723,19 +726,273 @@ function ConnectBankDialog({ isOpen, onOpenChange, account }: { isOpen: boolean;
     );
 }
 
-// Account Type Badge
-function TypeBadge({ type }: { type: Account['type'] }) {
-    const styles: Record<Account['type'], { bg: string; text: string }> = {
-        Assets: { bg: '#E8F5E9', text: '#2E7D32' },
-        Liabilities: { bg: '#FFEBEE', text: '#C62828' },
-        Equity: { bg: '#F3E5F5', text: '#7B1FA2' },
-        Revenue: { bg: '#E3F2FD', text: '#1565C0' },
-        Expenses: { bg: '#FFF3E0', text: '#EF6C00' },
+// Dashboard View Component
+function DashboardView() {
+    const [cashFlowPeriod, setCashFlowPeriod] = React.useState<'3m' | '6m' | '1y'>('1y');
+
+    // Mock data for dashboard
+    const cashFlowData = {
+        income: 125000000,
+        expense: 89000000,
+        net: 36000000,
     };
+
+    const invoiceData = {
+        total: 45,
+        paid: 32,
+        pending: 10,
+        overdue: 3,
+        amount: 156000000,
+    };
+
+    const expenseData = {
+        total: 28,
+        approved: 22,
+        pending: 6,
+        amount: 89000000,
+    };
+
+    const profitLossData = {
+        revenue: 245000000,
+        expenses: 189000000,
+        profit: 56000000,
+    };
+
+    const watchlistAccounts = [
+        { code: '1-10001', name: 'Cash on Hand', balance: 25000000, change: 12.5 },
+        { code: '1-10002', name: 'Bank BCA', balance: 150000000, change: -3.2 },
+        { code: '1-10003', name: 'Bank Mandiri', balance: 85000000, change: 8.7 },
+        { code: '2-10001', name: 'Accounts Payable', balance: -45000000, change: -15.3 },
+    ];
+
+    const banks = [
+        { name: 'Bank BCA', balance: 150000000, connected: true },
+        { name: 'Bank Mandiri', balance: 85000000, connected: true },
+        { name: 'Bank BNI', balance: 42000000, connected: false },
+    ];
+
+    const activities = [
+        { type: 'invoice', desc: 'Invoice #INV-001 paid', time: '2 hours ago', amount: 15000000 },
+        { type: 'expense', desc: 'Office supplies expense', time: '5 hours ago', amount: -2500000 },
+        { type: 'transfer', desc: 'Transfer to BCA', time: '1 day ago', amount: -50000000 },
+        { type: 'invoice', desc: 'Invoice #INV-002 created', time: '2 days ago', amount: 28000000 },
+    ];
+
     return (
-        <span className="px-2.5 py-1 text-xs font-medium rounded-md" style={{ backgroundColor: styles[type].bg, color: styles[type].text }}>
-            {type}
-        </span>
+        <div className="flex gap-6">
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col gap-6">
+                {/* Cash Flow Card */}
+                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                    <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Cash Flow</h3>
+                        <div className="flex gap-1 p-1 rounded-lg" style={{ backgroundColor: colors.background }}>
+                            {(['3m', '6m', '1y'] as const).map(period => (
+                                <button
+                                    key={period}
+                                    onClick={() => setCashFlowPeriod(period)}
+                                    className="px-3 py-1.5 text-sm font-medium rounded-md transition-all"
+                                    style={{
+                                        backgroundColor: cashFlowPeriod === period ? colors.white : 'transparent',
+                                        color: cashFlowPeriod === period ? colors.textDark : colors.textMuted,
+                                        boxShadow: cashFlowPeriod === period ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                                    }}
+                                >
+                                    {period === '3m' ? '3 Months' : period === '6m' ? '6 Months' : '1 Year'}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    {/* Chart placeholder */}
+                    <div className="h-[200px] rounded-lg flex items-end justify-around gap-2 px-4" style={{ backgroundColor: colors.background }}>
+                        {[65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95, 70].map((h, i) => (
+                            <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                                <div className="w-full rounded-t" style={{ height: `${h}%`, backgroundColor: i % 2 === 0 ? colors.primary : colors.success }} />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex gap-8 mt-6">
+                        <div>
+                            <p className="text-xs mb-1" style={{ color: colors.textMuted }}>Income</p>
+                            <p className="text-lg font-semibold" style={{ color: colors.success }}>{formatCurrency(cashFlowData.income)}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs mb-1" style={{ color: colors.textMuted }}>Expense</p>
+                            <p className="text-lg font-semibold" style={{ color: '#DC2626' }}>{formatCurrency(cashFlowData.expense)}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs mb-1" style={{ color: colors.textMuted }}>Net Cash Flow</p>
+                            <p className="text-lg font-semibold" style={{ color: colors.textDark }}>{formatCurrency(cashFlowData.net)}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Invoice & Expense Row */}
+                <div className="grid grid-cols-2 gap-6">
+                    {/* Invoice Card */}
+                    <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Invoice</h3>
+                            <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>View All</a>
+                        </div>
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#E3F2FD' }}>
+                                <span className="text-2xl">📄</span>
+                            </div>
+                            <div>
+                                <p className="text-2xl font-bold" style={{ color: colors.textDark }}>{invoiceData.total}</p>
+                                <p className="text-sm" style={{ color: colors.textMuted }}>Total Invoices</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
+                                <p className="text-lg font-semibold" style={{ color: colors.success }}>{invoiceData.paid}</p>
+                                <p className="text-xs" style={{ color: colors.textMuted }}>Paid</p>
+                            </div>
+                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
+                                <p className="text-lg font-semibold" style={{ color: '#F59E0B' }}>{invoiceData.pending}</p>
+                                <p className="text-xs" style={{ color: colors.textMuted }}>Pending</p>
+                            </div>
+                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
+                                <p className="text-lg font-semibold" style={{ color: '#DC2626' }}>{invoiceData.overdue}</p>
+                                <p className="text-xs" style={{ color: colors.textMuted }}>Overdue</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Expense Card */}
+                    <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Expense</h3>
+                            <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>View All</a>
+                        </div>
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FFF3E0' }}>
+                                <span className="text-2xl">💳</span>
+                            </div>
+                            <div>
+                                <p className="text-2xl font-bold" style={{ color: colors.textDark }}>{expenseData.total}</p>
+                                <p className="text-sm" style={{ color: colors.textMuted }}>Total Expenses</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
+                                <p className="text-lg font-semibold" style={{ color: colors.success }}>{expenseData.approved}</p>
+                                <p className="text-xs" style={{ color: colors.textMuted }}>Approved</p>
+                            </div>
+                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
+                                <p className="text-lg font-semibold" style={{ color: '#F59E0B' }}>{expenseData.pending}</p>
+                                <p className="text-xs" style={{ color: colors.textMuted }}>Pending</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Account Watchlist */}
+                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Account Watchlist</h3>
+                        <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>Manage</a>
+                    </div>
+                    <table className="w-full">
+                        <thead>
+                            <tr style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
+                                <th className="text-left py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Code</th>
+                                <th className="text-left py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Account Name</th>
+                                <th className="text-right py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Balance</th>
+                                <th className="text-right py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {watchlistAccounts.map((acc, idx) => (
+                                <tr key={acc.code} style={{ borderBottom: idx < watchlistAccounts.length - 1 ? `1px solid ${colors.borderLight}` : 'none' }}>
+                                    <td className="py-3 text-sm font-mono" style={{ color: colors.textDark }}>{acc.code}</td>
+                                    <td className="py-3 text-sm" style={{ color: colors.primary }}>{acc.name}</td>
+                                    <td className="py-3 text-sm text-right tabular-nums" style={{ color: acc.balance < 0 ? '#DC2626' : colors.textDark }}>{formatCurrency(acc.balance)}</td>
+                                    <td className="py-3 text-sm text-right tabular-nums" style={{ color: acc.change > 0 ? colors.success : '#DC2626' }}>
+                                        {acc.change > 0 ? '+' : ''}{acc.change}%
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Profit & Loss */}
+                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Profit & Loss</h3>
+                        <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>View Report</a>
+                    </div>
+                    <div className="flex gap-8">
+                        <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: '#E8F5E9' }}>
+                            <p className="text-sm mb-1" style={{ color: colors.textMuted }}>Revenue</p>
+                            <p className="text-xl font-bold" style={{ color: colors.success }}>{formatCurrency(profitLossData.revenue)}</p>
+                        </div>
+                        <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: '#FFEBEE' }}>
+                            <p className="text-sm mb-1" style={{ color: colors.textMuted }}>Expenses</p>
+                            <p className="text-xl font-bold" style={{ color: '#DC2626' }}>{formatCurrency(profitLossData.expenses)}</p>
+                        </div>
+                        <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
+                            <p className="text-sm mb-1" style={{ color: colors.textMuted }}>Net Profit</p>
+                            <p className="text-xl font-bold" style={{ color: colors.primary }}>{formatCurrency(profitLossData.profit)}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Sidebar */}
+            <div className="w-[320px] flex flex-col gap-6">
+                {/* Banks Card */}
+                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Banks</h3>
+                        <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>Connect</a>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                        {banks.map(bank => (
+                            <div key={bank.name} className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
+                                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: colors.white }}>
+                                    <Icons.bank />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-sm font-medium" style={{ color: colors.textDark }}>{bank.name}</p>
+                                    <p className="text-xs" style={{ color: colors.textMuted }}>{formatCurrency(bank.balance)}</p>
+                                </div>
+                                {bank.connected && (
+                                    <span className="px-2 py-0.5 text-xs rounded-full" style={{ backgroundColor: colors.successBg, color: colors.success }}>
+                                        Connected
+                                    </span>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Activity Card */}
+                <div className="rounded-xl p-6 flex-1" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Recent Activity</h3>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        {activities.map((activity, idx) => (
+                            <div key={idx} className="flex items-start gap-3">
+                                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: activity.amount > 0 ? '#E8F5E9' : '#FFEBEE' }}>
+                                    {activity.type === 'invoice' ? '📄' : activity.type === 'expense' ? '💳' : '🔄'}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm truncate" style={{ color: colors.textDark }}>{activity.desc}</p>
+                                    <p className="text-xs" style={{ color: colors.textMuted }}>{activity.time}</p>
+                                </div>
+                                <p className="text-sm font-medium tabular-nums shrink-0" style={{ color: activity.amount > 0 ? colors.success : '#DC2626' }}>
+                                    {activity.amount > 0 ? '+' : ''}{formatCurrency(activity.amount)}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 
@@ -746,6 +1003,7 @@ export default function HarmoniLayout(props: any) {
 
     const [accounts, setAccounts] = React.useState<Account[]>(CHART_OF_ACCOUNTS);
     const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
+    const [activeSection, setActiveSection] = React.useState<string>('dashboard');
     const [searchQuery, setSearchQuery] = React.useState('');
     const [filterType, setFilterType] = React.useState<string>('all');
     const [sortConfig, setSortConfig] = React.useState<SortConfig>(null);
@@ -920,9 +1178,9 @@ export default function HarmoniLayout(props: any) {
                 }
             `}</style>
 
-            <Sidebar activeSection="chart-of-accounts" collapsed={sidebarCollapsed} />
+            <Sidebar activeSection={activeSection} collapsed={sidebarCollapsed} onSectionChange={setActiveSection} />
 
-            {/* Header - Chart of Accounts only (no "Harmoni Dashboard" per Figma) */}
+            {/* Header */}
             <header className={`fixed top-0 ${sidebarCollapsed ? 'left-[72px]' : 'left-[202px]'} right-0 z-30 transition-all duration-300`} style={{ backgroundColor: colors.white }}>
                 <div className="px-4 py-3 flex items-center gap-4" style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
                     {/* Hide Sidebar Button */}
@@ -934,23 +1192,51 @@ export default function HarmoniLayout(props: any) {
                         <Icons.hide className="" />
                     </button>
 
-                    {/* Title - always "Chart of Accounts" to match Figma */}
-                    <h1 className="text-lg font-bold" style={{ color: colors.textDark }}>Chart of Accounts</h1>
+                    {/* Title - dynamic based on section */}
+                    <h1 className="text-lg font-bold" style={{ color: colors.textDark }}>
+                        {activeSection === 'dashboard' ? 'Dashboard' : activeSection === 'chart-of-accounts' ? 'Chart of Accounts' : activeSection.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                    </h1>
 
                     {/* Spacer */}
                     <div className="flex-1" />
 
-                    {/* New Account Button */}
-                    <button onClick={() => setShowNewAccountDialog(true)} className="flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold text-white btn-animate btn-primary" style={{ backgroundColor: colors.primary }}>
-                        <Icons.plus className="" />
-                        New Account
-                    </button>
+                    {/* Action Button - context dependent */}
+                    {activeSection === 'chart-of-accounts' && (
+                        <button onClick={() => setShowNewAccountDialog(true)} className="flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold text-white btn-animate btn-primary" style={{ backgroundColor: colors.primary }}>
+                            <Icons.plus className="" />
+                            New Account
+                        </button>
+                    )}
+                    {activeSection === 'dashboard' && (
+                        <Select.Root defaultValue="this-month">
+                            <Select.Trigger className="flex items-center gap-2 px-3 py-2 rounded text-sm btn-animate" style={{ border: `1px solid ${colors.borderLight}`, color: colors.textDark }}>
+                                <Select.Value />
+                                <Icons.arrowDown />
+                            </Select.Trigger>
+                            <Select.Portal>
+                                <Select.Positioner>
+                                    <Select.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[140px] popover-animate" style={{ border: `1px solid ${colors.borderLight}` }}>
+                                        <Select.Item value="this-month" className="px-4 py-2 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>This Month</Select.Item>
+                                        <Select.Item value="last-month" className="px-4 py-2 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>Last Month</Select.Item>
+                                        <Select.Item value="this-quarter" className="px-4 py-2 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>This Quarter</Select.Item>
+                                        <Select.Item value="this-year" className="px-4 py-2 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>This Year</Select.Item>
+                                    </Select.Popup>
+                                </Select.Positioner>
+                            </Select.Portal>
+                        </Select.Root>
+                    )}
                 </div>
             </header>
 
             {/* Main content area - white per Figma */}
-            <main className={`${sidebarCollapsed ? 'ml-[72px]' : 'ml-[202px]'} pt-[60px] min-h-screen transition-all duration-300`} style={{ backgroundColor: colors.white }}>
+            <main className={`${sidebarCollapsed ? 'ml-[72px]' : 'ml-[202px]'} pt-[60px] min-h-screen transition-all duration-300`} style={{ backgroundColor: activeSection === 'dashboard' ? colors.background : colors.white }}>
                 <div className="p-4">
+                    {/* Dashboard View */}
+                    {activeSection === 'dashboard' && <DashboardView />}
+
+                    {/* Chart of Accounts View */}
+                    {activeSection === 'chart-of-accounts' && (
+                    <div className="rounded-lg overflow-hidden" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
                     {/* Single wrapper: tabs + filter + table in one box (Figma 181:1169 - border-radius 8px, stroke) */}
                     <div className="rounded-lg overflow-hidden" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
                         {/* Top row: Tabs + Search + Filter By (gray only behind this row; no extra strip below blue line) */}
@@ -1086,6 +1372,8 @@ export default function HarmoniLayout(props: any) {
                             <button className="px-3 py-1.5 rounded-lg btn-animate disabled:opacity-50" style={{ border: `1px solid ${colors.border}` }} disabled>Next</button>
                         </div>
                     </div>
+                    </div>
+                    )}
                 </div>
             </main>
 
