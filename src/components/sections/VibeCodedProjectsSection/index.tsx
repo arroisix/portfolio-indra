@@ -117,17 +117,8 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                             alt={post.featuredImage.altText || post.title}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
-                                        {/* Blurred image - instant show/hide, no transition */}
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={post.featuredImage.url}
-                                            alt=""
-                                            aria-hidden="true"
-                                            className="absolute inset-0 w-full h-full object-cover scale-110 invisible group-hover:visible"
-                                            style={{ filter: 'blur(20px)' }}
-                                        />
-                                        {/* Dark tint - instant */}
-                                        <div className="absolute inset-0 invisible group-hover:visible bg-black/30" />
+                                        {/* Hover overlay - just darker, no blur */}
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-200" />
                                     </div>
                                 )}
 
