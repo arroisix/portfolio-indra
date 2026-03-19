@@ -420,39 +420,41 @@ function Sidebar({ activeSection, collapsed }: { activeSection: string; collapse
                 </div>
             </nav>
 
-            {/* Profile & Notifications at bottom with Popover */}
-            <Popover.Root>
-                <Popover.Trigger className="w-full p-3 flex items-center gap-3 btn-animate" style={{ backgroundColor: colors.borderLight, borderRadius: '12px 12px 0 0' }}>
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">
-                        <span className="text-white text-xs font-semibold">JA</span>
-                    </div>
-                    {!collapsed && (
-                        <>
-                            <span className="flex-1 text-sm font-semibold truncate text-left" style={{ color: colors.textMuted }}>John Appleseed</span>
-                            <Icons.more className="" />
-                        </>
-                    )}
-                </Popover.Trigger>
-                <Popover.Portal>
-                    <Popover.Positioner side="top" align="start">
-                        <Popover.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[180px] popover-animate mb-2" style={{ border: `1px solid ${colors.borderLight}` }}>
-                            <button className="w-full px-4 py-2.5 text-sm text-left menu-item" style={{ color: colors.textDark }}>
-                                Profile Settings
-                            </button>
-                            <button className="w-full px-4 py-2.5 text-sm text-left menu-item" style={{ color: colors.textDark }}>
-                                Notifications
-                            </button>
-                            <div className="my-1" style={{ borderTop: `1px solid ${colors.borderLight}` }} />
-                            <a href="/" className="w-full px-4 py-2.5 text-sm text-left menu-item block" style={{ color: colors.textDark }}>
-                                Back to Portfolio
-                            </a>
-                            <button className="w-full px-4 py-2.5 text-sm text-left menu-item" style={{ color: '#DC2626' }}>
-                                Sign Out
-                            </button>
-                        </Popover.Popup>
-                    </Popover.Positioner>
-                </Popover.Portal>
-            </Popover.Root>
+            {/* Profile & Notifications at bottom with Menu */}
+            <div className="w-full p-3 flex items-center gap-3" style={{ backgroundColor: colors.borderLight, borderRadius: '12px 12px 0 0' }}>
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">
+                    <span className="text-white text-xs font-semibold">JA</span>
+                </div>
+                {!collapsed && (
+                    <>
+                        <span className="flex-1 text-sm font-semibold truncate text-left" style={{ color: colors.textMuted }}>John Appleseed</span>
+                        <Menu.Root>
+                            <Menu.Trigger render={<button type="button" />} className="p-1.5 rounded hover:bg-white/50 btn-animate outline-none">
+                                <Icons.more className="" />
+                            </Menu.Trigger>
+                            <Menu.Portal>
+                                <Menu.Positioner side="right" align="end" sideOffset={8}>
+                                    <Menu.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[180px] popover-animate" style={{ border: `1px solid ${colors.borderLight}` }}>
+                                        <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>
+                                            Profile Settings
+                                        </Menu.Item>
+                                        <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }}>
+                                            Notifications
+                                        </Menu.Item>
+                                        <div className="my-1" style={{ borderTop: `1px solid ${colors.borderLight}` }} />
+                                        <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: colors.textDark }} onClick={() => window.location.href = '/'}>
+                                            Back to Portfolio
+                                        </Menu.Item>
+                                        <Menu.Item className="px-4 py-2.5 text-sm cursor-pointer menu-item" style={{ color: '#DC2626' }}>
+                                            Sign Out
+                                        </Menu.Item>
+                                    </Menu.Popup>
+                                </Menu.Positioner>
+                            </Menu.Portal>
+                        </Menu.Root>
+                    </>
+                )}
+            </div>
         </aside>
     );
 }
