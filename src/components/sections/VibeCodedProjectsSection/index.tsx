@@ -103,8 +103,8 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                             href={post.__metadata?.urlPath || `/${post.slug}` || '#'}
                             className="group block"
                         >
-                            <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                                {/* Image with object-fit cover */}
+                            <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                {/* Image */}
                                 {post.featuredImage?.url && (
                                     <div className="aspect-[16/10] overflow-hidden">
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -116,13 +116,20 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                     </div>
                                 )}
 
-                                {/* Content */}
-                                <div className="p-5">
-                                    <h3 className="font-epilogue text-card-title text-dark group-hover:text-[#2D5A27] transition-colors">
+                                {/* Gradient overlay with blur + content */}
+                                <div
+                                    className="absolute inset-x-0 bottom-0 flex flex-col justify-end items-start gap-1 p-4 pt-6"
+                                    style={{
+                                        background: 'linear-gradient(180deg, rgba(16, 16, 16, 0.00) 0%, rgba(16, 16, 16, 0.44) 40%, rgba(16, 16, 16, 0.70) 100%)',
+                                        backdropFilter: 'blur(20px)',
+                                        WebkitBackdropFilter: 'blur(20px)',
+                                    }}
+                                >
+                                    <h3 className="font-epilogue text-card-title text-white group-hover:text-gray-200 transition-colors">
                                         {post.title}
                                     </h3>
                                     {post.excerpt && (
-                                        <p className="font-epilogue text-body text-dark mt-2 line-clamp-2">
+                                        <p className="font-epilogue text-sm text-white/80 line-clamp-2">
                                             {post.excerpt}
                                         </p>
                                     )}
