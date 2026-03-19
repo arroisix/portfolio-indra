@@ -45,3 +45,6 @@ tmp*.open-next
 
 # OpenNext Cloudflare build output
 .open-next/
+
+# Static export output
+out/

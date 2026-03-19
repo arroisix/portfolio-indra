@@ -2,6 +2,8 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+    // Static export for Cloudflare Pages (no API routes)
+    ...(process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true' && { output: 'export' }),
     env: {
         stackbitPreview: process.env.STACKBIT_PREVIEW
     },
