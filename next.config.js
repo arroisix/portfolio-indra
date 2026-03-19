@@ -4,6 +4,10 @@
 const nextConfig = {
     // Static export for Cloudflare Pages (no API routes)
     ...(process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true' && { output: 'export' }),
+    // Required for static export - disable image optimization
+    images: {
+        unoptimized: true
+    },
     env: {
         stackbitPreview: process.env.STACKBIT_PREVIEW
     },
