@@ -104,9 +104,9 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                             className="group block"
                         >
                             <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                                {/* Image */}
+                                {/* Image - taller aspect ratio */}
                                 {post.featuredImage?.url && (
-                                    <div className="aspect-[16/10] overflow-hidden">
+                                    <div className="aspect-[4/3] overflow-hidden">
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             src={post.featuredImage.url}
@@ -116,15 +116,29 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                     </div>
                                 )}
 
-                                {/* Gradient overlay with blur + content */}
+                                {/* Blur layer with mask for seamless fade */}
                                 <div
-                                    className="absolute inset-x-0 bottom-0 flex flex-col justify-end items-start gap-1 p-4 pt-6"
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
                                     style={{
-                                        background: 'linear-gradient(180deg, rgba(16, 16, 16, 0.00) 0%, rgba(16, 16, 16, 0.44) 40%, rgba(16, 16, 16, 0.70) 100%)',
-                                        backdropFilter: 'blur(20px)',
-                                        WebkitBackdropFilter: 'blur(20px)',
+                                        height: '50%',
+                                        backdropFilter: 'blur(16px)',
+                                        WebkitBackdropFilter: 'blur(16px)',
+                                        maskImage: 'linear-gradient(to bottom, transparent 0%, black 50%, black 100%)',
+                                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 50%, black 100%)',
                                     }}
-                                >
+                                />
+
+                                {/* Dark gradient overlay for readability */}
+                                <div
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
+                                    style={{
+                                        height: '50%',
+                                        background: 'linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(16, 16, 16, 0.5) 40%, rgba(16, 16, 16, 0.75) 100%)',
+                                    }}
+                                />
+
+                                {/* Content */}
+                                <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end items-start gap-1 p-4">
                                     <h3 className="font-epilogue text-card-title text-white group-hover:text-gray-200 transition-colors">
                                         {post.title}
                                     </h3>
