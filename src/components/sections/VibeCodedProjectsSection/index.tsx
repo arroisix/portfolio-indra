@@ -107,21 +107,35 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                 className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                                 style={{ isolation: 'isolate' }}
                             >
-                                {/* Image - taller aspect ratio */}
+                                {/* Image container */}
                                 {post.featuredImage?.url && (
-                                    <div className="aspect-[4/3] overflow-hidden">
+                                    <div className="aspect-[4/3] overflow-hidden relative">
+                                        {/* Normal image */}
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             src={post.featuredImage.url}
                                             alt={post.featuredImage.altText || post.title}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
+                                        {/* Blurred image - fades in on hover */}
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={post.featuredImage.url}
+                                            alt=""
+                                            aria-hidden="true"
+                                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-110"
+                                            style={{
+                                                filter: 'blur(20px)',
+                                            }}
+                                        />
+                                        {/* Dark tint on hover */}
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
                                     </div>
                                 )}
 
                                 {/* Bottom blur with gradient mask - always visible */}
                                 <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none rounded-b-2xl"
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
                                     style={{
                                         height: '50%',
                                         backdropFilter: 'blur(16px)',
@@ -138,11 +152,6 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                         height: '50%',
                                         background: 'linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(16, 16, 16, 0.5) 40%, rgba(16, 16, 16, 0.7) 100%)',
                                     }}
-                                />
-
-                                {/* Hover: Just darker overlay, no blur transition */}
-                                <div
-                                    className="absolute inset-0 pointer-events-none bg-black/0 group-hover:bg-black/40 transition-colors duration-300 rounded-2xl"
                                 />
 
                                 {/* Content */}
