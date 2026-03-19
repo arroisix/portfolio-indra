@@ -8,6 +8,7 @@ import VideoShowcase from '../../blocks/VideoShowcase';
 // Lightbox component with bouncy animation
 function Lightbox({ item, onClose }) {
     const [isVisible, setIsVisible] = React.useState(false);
+    const [isZoomed, setIsZoomed] = React.useState(false);
     const isVideo = item?.url?.endsWith('.mp4') || item?.url?.endsWith('.webm') || item?.url?.endsWith('.mov') || item?.url?.endsWith('.ogg');
 
     React.useEffect(() => {
@@ -16,7 +17,12 @@ function Lightbox({ item, onClose }) {
             setIsVisible(true);
         });
 
-        // Prevent body scroll when lightbox is open
+        // Prevent body scroll when lightbox is open (works on iOS too)
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
         document.body.style.overflow = 'hidden';
 
         // Handle escape key
@@ -28,7 +34,13 @@ function Lightbox({ item, onClose }) {
         window.addEventListener('keydown', handleEscape);
 
         return () => {
+            // Restore scroll position
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
             document.body.style.overflow = '';
+            window.scrollTo(0, scrollY);
             window.removeEventListener('keydown', handleEscape);
         };
     }, []);
@@ -38,40 +50,108 @@ function Lightbox({ item, onClose }) {
         setTimeout(onClose, 200);
     };
 
+    const handleOpenNewTab = (e) => {
+        e.stopPropagation();
+        window.open(item.url, '_blank');
+    };
+
+    const handleToggleZoom = (e) => {
+        e.stopPropagation();
+        setIsZoomed(!isZoomed);
+    };
+
     if (!item) return null;
 
     return (
         <div
             className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8 transition-all duration-200 ${
                 isVisible ? 'bg-black/80 backdrop-blur-sm' : 'bg-black/0'
-            }`}
-            onClick={handleClose}
+            } ${isZoomed ? 'overflow-auto' : ''}`}
+            onClick={isZoomed ? handleToggleZoom : handleClose}
         >
-            {/* Close button */}
-            <button
-                className={`absolute top-4 right-4 md:top-6 md:right-6 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 ${
+            {/* Action buttons - top right */}
+            <div
+                className={`absolute top-4 right-4 md:top-6 md:right-6 z-10 flex items-center gap-2 transition-all duration-200 ${
                     isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
                 }`}
-                onClick={handleClose}
             >
-                <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                {/* Zoom button - only for images */}
+                {!isVideo && (
+                    <button
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200"
+                        onClick={handleToggleZoom}
+                        title={isZoomed ? 'Zoom out' : 'Zoom in'}
+                    >
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            {isZoomed ? (
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            ) : (
+                                <>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </>
+                            )}
+                        </svg>
+                    </button>
+                )}
+
+                {/* Open in new tab button */}
+                <button
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200"
+                    onClick={handleOpenNewTab}
+                    title="Open in new tab"
                 >
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </button>
+
+                {/* Close button */}
+                <button
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200"
+                    onClick={handleClose}
+                >
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
 
             {/* Image/Video container with bouncy animation */}
             <div
-                className={`relative max-w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 ${
+                className={`relative ${isZoomed ? '' : 'max-w-[90vw] max-h-[90vh]'} rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 ${
                     isVisible
                         ? 'opacity-100 scale-100'
                         : 'opacity-0 scale-75'
@@ -95,13 +175,14 @@ function Lightbox({ item, onClose }) {
                     <img
                         src={item.url}
                         alt={item.altText || 'Gallery image'}
-                        className="max-w-full max-h-[85vh] w-auto h-auto"
+                        className={`${isZoomed ? 'max-w-none cursor-zoom-out' : 'max-w-full max-h-[85vh] cursor-zoom-in'} w-auto h-auto`}
+                        onClick={handleToggleZoom}
                     />
                 )}
             </div>
 
             {/* Caption */}
-            {item.caption && (
+            {item.caption && !isZoomed && (
                 <p
                     className={`absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm md:text-base text-center max-w-lg px-4 transition-all duration-300 delay-100 ${
                         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
