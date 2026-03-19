@@ -112,11 +112,32 @@ function NavLink({ link, enableAnnotations, index }) {
     );
 }
 
+// Helper to lock/unlock body scroll (works on iOS)
+const lockBodyScroll = () => {
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.overflow = 'hidden';
+    return scrollY;
+};
+
+const unlockBodyScroll = (scrollY: number) => {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, scrollY);
+};
+
 function MobileMenu(props) {
     const { primaryLinks = [] } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [savedScrollY, setSavedScrollY] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -129,13 +150,13 @@ function MobileMenu(props) {
         const handleRouteComplete = () => {
             setIsMenuOpen(false);
             setIsClosing(false);
-            document.body.style.overflow = 'unset';
+            unlockBodyScroll(savedScrollY);
         };
         router.events.on('routeChangeComplete', handleRouteComplete);
         return () => {
             router.events.off('routeChangeComplete', handleRouteComplete);
         };
-    }, [router.events]);
+    }, [router.events, savedScrollY]);
 
     const toggleMenu = () => {
         if (isMenuOpen) {
@@ -143,12 +164,13 @@ function MobileMenu(props) {
             setTimeout(() => {
                 setIsMenuOpen(false);
                 setIsClosing(false);
-                document.body.style.overflow = 'unset';
+                unlockBodyScroll(savedScrollY);
             }, 300);
         } else {
+            const scrollY = lockBodyScroll();
+            setSavedScrollY(scrollY);
             setIsMenuOpen(true);
             setIsClosing(false);
-            document.body.style.overflow = 'hidden';
         }
     };
 
@@ -159,7 +181,7 @@ function MobileMenu(props) {
         setTimeout(() => {
             setIsMenuOpen(false);
             setIsClosing(false);
-            document.body.style.overflow = 'unset';
+            unlockBodyScroll(savedScrollY);
             if (href.startsWith('#')) {
                 if (isHomePage) {
                     // Already on home, just scroll
