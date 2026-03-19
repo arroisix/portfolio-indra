@@ -4,7 +4,6 @@ import { Dialog } from '@base-ui/react/dialog';
 import { Checkbox } from '@base-ui/react/checkbox';
 import { Menu } from '@base-ui/react/menu';
 import { Select } from '@base-ui/react/select';
-import { Popover } from '@base-ui/react/popover';
 
 // Figma Design Tokens (Harmoni Design System)
 const colors = {
@@ -275,16 +274,6 @@ const Icons: Record<string, React.FC<{ className?: string; active?: boolean; sty
         </svg>
     ),
 };
-
-// Harmoni Logo
-const HarmoniLogo = ({ collapsed }: { collapsed: boolean }) => (
-    <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: colors.primary }}>
-            <span className="text-white font-bold text-sm">H</span>
-        </div>
-        {!collapsed && <span className="font-semibold text-sm" style={{ color: colors.textDark }}>Harmoni</span>}
-    </div>
-);
 
 // Company Dropdown
 const CompanyDropdown = ({ collapsed }: { collapsed: boolean }) => (
@@ -726,192 +715,274 @@ function ConnectBankDialog({ isOpen, onOpenChange, account }: { isOpen: boolean;
     );
 }
 
-// Dashboard View Component
+// Dashboard color palette from Figma
+const dashColors = {
+    primary: '#419AFF',
+    teal: '#50E3C2',
+    orange: '#F5A623',
+    red: '#D0021B',
+    purple: '#9B59B6',
+    pink: '#E91E8C',
+    gray: '#9B9B9B',
+    darkText: '#121212',
+    mutedText: '#7E8893',
+    lightBg: '#E6ECF2',
+    border: '#E6ECF2',
+};
+
+// Dashboard View Component - matching Figma design exactly
 function DashboardView() {
-    const [cashFlowPeriod, setCashFlowPeriod] = React.useState<'3m' | '6m' | '1y'>('1y');
+    const [expensePeriod, setExpensePeriod] = React.useState('this-month');
+    const [cashFlowPeriod, setCashFlowPeriod] = React.useState('this-year');
+    const [watchlistPeriod, setWatchlistPeriod] = React.useState('this-month');
+    const [plPeriod, setPlPeriod] = React.useState('this-month');
+    const [activityFilter, setActivityFilter] = React.useState('most-recent');
 
-    // Mock data for dashboard
-    const cashFlowData = {
-        income: 125000000,
-        expense: 89000000,
-        net: 36000000,
-    };
+    const cashFlowMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const cashInData = [30, 45, 60, 40, 55, 70, 50, 65, 80, 45, 90, 60];
+    const cashOutData = [20, 35, 40, 30, 45, 50, 35, 45, 55, 35, 60, 40];
 
-    const invoiceData = {
-        total: 45,
-        paid: 32,
-        pending: 10,
-        overdue: 3,
-        amount: 156000000,
-    };
+    // Invoice data with proportions for stacked bar
+    const invoices = [
+        { status: 'Draft', amount: 27990.00, color: dashColors.gray, percent: 5 },
+        { status: 'Awaiting for Payment', amount: 200001786876272.53, color: dashColors.primary, percent: 55 },
+        { status: 'Overdue', amount: 199994.50, color: dashColors.red, percent: 25 },
+        { status: 'Paid in last 30 days', amount: null, color: dashColors.teal, percent: 15 },
+    ];
 
-    const expenseData = {
-        total: 28,
-        approved: 22,
-        pending: 6,
-        amount: 89000000,
-    };
-
-    const profitLossData = {
-        revenue: 245000000,
-        expenses: 189000000,
-        profit: 56000000,
-    };
+    const expenseCategories = [
+        { name: 'Rent Expenses', color: dashColors.primary },
+        { name: 'Salary', color: dashColors.teal },
+        { name: 'Electricity & Water', color: dashColors.orange },
+        { name: 'Office Expenses', color: dashColors.purple },
+        { name: 'Others', color: dashColors.pink },
+    ];
 
     const watchlistAccounts = [
-        { code: '1-10001', name: 'Cash on Hand', balance: 25000000, change: 12.5 },
-        { code: '1-10002', name: 'Bank BCA', balance: 150000000, change: -3.2 },
-        { code: '1-10003', name: 'Bank Mandiri', balance: 85000000, change: 8.7 },
-        { code: '2-10001', name: 'Accounts Payable', balance: -45000000, change: -15.3 },
+        { name: 'Fixed Assets - Vehicles', thisMonth: 560000.00, thisYear: 43560000.00 },
+        { name: 'Additional Paid-in-Capital', thisMonth: 60000.00, thisYear: 43560000.00 },
+        { name: 'Bank BCA', thisMonth: 43500.00, thisYear: 40683500.00 },
+        { name: 'Depreciation Expense', thisMonth: 836875.00, thisYear: 8436875.00 },
+        { name: 'Sales', thisMonth: 880000.00, thisYear: 4585500.00 },
     ];
 
-    const banks = [
-        { name: 'Bank BCA', balance: 150000000, connected: true },
-        { name: 'Bank Mandiri', balance: 85000000, connected: true },
-        { name: 'Bank BNI', balance: 42000000, connected: false },
+    const profitLossData = { income: 1180121001.21, expenses: 200001786.0 };
+
+    // Bank accounts with alert type for proper badge colors
+    const bankAccounts = [
+        { name: 'Bank Recurring Bulanan Kreasix', lastUpdate: '2h ago', bankBalance: 1300000.00, harmonyBalance: 1200000.00, alert: '!', alertType: 'warning' },
+        { name: 'Bank Pembayaran Gaji Bulanan K...', lastUpdate: '3h ago', bankBalance: 1300000.00, harmonyBalance: 1200000.00, alert: '4', alertType: 'info' },
+        { name: 'Bank Penjualan Asset', lastUpdate: '23h ago', bankBalance: 1300000.00, harmonyBalance: 1200000.00, alert: null, alertType: null },
+        { name: 'Bank Pembelian Asset', lastUpdate: '21 Des 2017', bankBalance: 1300000.00, harmonyBalance: 1200000.00, alert: '!', alertType: 'warning' },
+        { name: 'Bank Pembayaran Gaji Bulanan A...', lastUpdate: '21 Des 2017', bankBalance: 1300000.00, harmonyBalance: 1200000.00, alert: null, alertType: null },
+        { name: 'Bank Pengeluaran Lain-lain', lastUpdate: '22 Des 2017', bankBalance: 1300000.00, harmonyBalance: 1200000.00, alert: '4', alertType: 'info' },
     ];
 
+    // Activity data with current dates (March 2026)
     const activities = [
-        { type: 'invoice', desc: 'Invoice #INV-001 paid', time: '2 hours ago', amount: 15000000 },
-        { type: 'expense', desc: 'Office supplies expense', time: '5 hours ago', amount: -2500000 },
-        { type: 'transfer', desc: 'Transfer to BCA', time: '1 day ago', amount: -50000000 },
-        { type: 'invoice', desc: 'Invoice #INV-002 created', time: '2 days ago', amount: 28000000 },
+        { date: '19 Mar 2026', label: 'Today', items: [
+            { code: 'INV-0212', action: 'edited for', user: 'John Appleseed', time: 'Mar 7' },
+            { code: 'BIL-1412', action: 'added for', user: 'Sinta Indah', time: 'Mar 15' },
+            { code: 'INV-2114', action: 'edited for', user: 'John Appleseed', time: 'Mar 2' },
+        ]},
+        { date: '18 Feb 2026', label: '1mo ago', items: [
+            { code: 'INV-0212', action: 'edited for', user: 'John Appleseed', time: 'Feb 7' },
+            { code: 'BIL-1412', action: 'added for', user: 'Sinta Indah', time: 'Feb 15' },
+            { code: 'INV-2114', action: 'edited for', user: 'John Appleseed', time: 'Feb 2' },
+        ]},
+        { date: '17 Feb 2026', label: '1mo ago', items: [
+            { code: 'INV-0212', action: 'edited for', user: 'John Appleseed', time: 'Feb 7' },
+            { code: 'BIL-1412', action: 'added for', user: 'Sinta Indah', time: 'Feb 15' },
+            { code: 'INV-2114', action: 'edited for', user: 'John Appleseed', time: 'Feb 2' },
+        ]},
     ];
+
+    const formatNum = (n: number) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+
+    // Dropdown component for filters using Base UI Select - simple style like image #4
+    const FilterDropdown = ({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[] }) => (
+        <Select.Root value={value} onValueChange={onChange}>
+            <Select.Trigger className="flex items-center gap-2 px-3 py-1.5 text-sm cursor-pointer outline-none rounded-md" style={{ border: `1px solid ${dashColors.border}`, color: dashColors.darkText }}>
+                <Select.Value />
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ color: dashColors.darkText }}>
+                    <path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </Select.Trigger>
+            <Select.Portal>
+                <Select.Positioner>
+                    <Select.Popup className="bg-white rounded-lg shadow-lg py-1 min-w-[140px] z-50" style={{ border: `1px solid ${dashColors.border}` }}>
+                        {options.map(opt => (
+                            <Select.Item key={opt.value} value={opt.value} className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 outline-none" style={{ color: dashColors.darkText }}>
+                                <Select.ItemText>{opt.label}</Select.ItemText>
+                            </Select.Item>
+                        ))}
+                    </Select.Popup>
+                </Select.Positioner>
+            </Select.Portal>
+        </Select.Root>
+    );
 
     return (
         <div className="flex gap-6">
             {/* Main Content */}
             <div className="flex-1 flex flex-col gap-6">
                 {/* Cash Flow Card */}
-                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Cash Flow</h3>
-                        <div className="flex gap-1 p-1 rounded-lg" style={{ backgroundColor: colors.background }}>
-                            {(['3m', '6m', '1y'] as const).map(period => (
-                                <button
-                                    key={period}
-                                    onClick={() => setCashFlowPeriod(period)}
-                                    className="px-3 py-1.5 text-sm font-medium rounded-md transition-all"
-                                    style={{
-                                        backgroundColor: cashFlowPeriod === period ? colors.white : 'transparent',
-                                        color: cashFlowPeriod === period ? colors.textDark : colors.textMuted,
-                                        boxShadow: cashFlowPeriod === period ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-                                    }}
-                                >
-                                    {period === '3m' ? '3 Months' : period === '6m' ? '6 Months' : '1 Year'}
-                                </button>
-                            ))}
+                <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
+                    <div className="flex items-center justify-between mb-5">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Cash Flow</span>
+                            <Icons.info style={{ color: dashColors.mutedText, width: 16, height: 16 }} />
                         </div>
+                        <FilterDropdown
+                            value={cashFlowPeriod}
+                            onChange={setCashFlowPeriod}
+                            options={[
+                                { value: 'this-year', label: 'this-year' },
+                                { value: 'last-year', label: 'last-year' },
+                                { value: 'this-quarter', label: 'this-quarter' },
+                            ]}
+                        />
                     </div>
-                    {/* Chart placeholder */}
-                    <div className="h-[200px] rounded-lg flex items-end justify-around gap-2 px-4" style={{ backgroundColor: colors.background }}>
-                        {[65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95, 70].map((h, i) => (
-                            <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                                <div className="w-full rounded-t" style={{ height: `${h}%`, backgroundColor: i % 2 === 0 ? colors.primary : colors.success }} />
+                    {/* Line Chart */}
+                    <div className="relative h-[200px] mb-5">
+                        <div className="absolute left-0 top-0 bottom-8 w-12 flex flex-col justify-between text-xs" style={{ color: dashColors.mutedText }}>
+                            <span>10b</span><span>5m</span><span>100k</span><span>90</span><span>10k</span><span>5k</span><span>1k</span>
+                        </div>
+                        <div className="ml-12 h-full relative">
+                            <svg className="w-full h-[160px]" viewBox="0 0 440 140" preserveAspectRatio="none">
+                                {[0, 23, 46, 69, 92, 115, 138].map(y => (
+                                    <line key={y} x1="0" y1={y} x2="440" y2={y} stroke={dashColors.border} strokeWidth="1" />
+                                ))}
+                                <polyline fill="none" stroke={dashColors.primary} strokeWidth="2.5" strokeLinejoin="round"
+                                    points={cashInData.map((v, i) => `${i * 40},${140 - v * 1.5}`).join(' ')} />
+                                <polyline fill="none" stroke={dashColors.red} strokeWidth="2.5" strokeLinejoin="round"
+                                    points={cashOutData.map((v, i) => `${i * 40},${140 - v * 1.5}`).join(' ')} />
+                            </svg>
+                            <div className="flex justify-between text-xs mt-2 pr-2" style={{ color: dashColors.mutedText }}>
+                                {cashFlowMonths.map(m => <span key={m}>{m}</span>)}
                             </div>
-                        ))}
+                        </div>
                     </div>
-                    <div className="flex gap-8 mt-6">
-                        <div>
-                            <p className="text-xs mb-1" style={{ color: colors.textMuted }}>Income</p>
-                            <p className="text-lg font-semibold" style={{ color: colors.success }}>{formatCurrency(cashFlowData.income)}</p>
+                    {/* Legend */}
+                    <div className="flex gap-8">
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: dashColors.primary }} />
+                            <span className="text-sm" style={{ color: dashColors.mutedText }}>Cash In</span>
+                            <span className="text-sm font-semibold tabular-nums ml-1" style={{ color: dashColors.darkText }}>2,100,000.00</span>
                         </div>
-                        <div>
-                            <p className="text-xs mb-1" style={{ color: colors.textMuted }}>Expense</p>
-                            <p className="text-lg font-semibold" style={{ color: '#DC2626' }}>{formatCurrency(cashFlowData.expense)}</p>
-                        </div>
-                        <div>
-                            <p className="text-xs mb-1" style={{ color: colors.textMuted }}>Net Cash Flow</p>
-                            <p className="text-lg font-semibold" style={{ color: colors.textDark }}>{formatCurrency(cashFlowData.net)}</p>
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: dashColors.red }} />
+                            <span className="text-sm" style={{ color: dashColors.mutedText }}>Cash Out</span>
+                            <span className="text-sm font-semibold tabular-nums ml-1" style={{ color: dashColors.darkText }}>900,000.00</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Invoice & Expense Row */}
+                {/* Invoices & Expenses Row */}
                 <div className="grid grid-cols-2 gap-6">
-                    {/* Invoice Card */}
-                    <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Invoice</h3>
-                            <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>View All</a>
-                        </div>
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#E3F2FD' }}>
-                                <span className="text-2xl">📄</span>
-                            </div>
-                            <div>
-                                <p className="text-2xl font-bold" style={{ color: colors.textDark }}>{invoiceData.total}</p>
-                                <p className="text-sm" style={{ color: colors.textMuted }}>Total Invoices</p>
-                            </div>
+                    {/* Invoices Card with Stacked Bar */}
+                    <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
+                        <div className="flex items-center gap-1.5 mb-5">
+                            <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Invoices</span>
+                            <Icons.info style={{ color: dashColors.mutedText, width: 16, height: 16 }} />
                         </div>
                         <div className="flex gap-4">
-                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-                                <p className="text-lg font-semibold" style={{ color: colors.success }}>{invoiceData.paid}</p>
-                                <p className="text-xs" style={{ color: colors.textMuted }}>Paid</p>
+                            {/* Stacked Vertical Bar */}
+                            <div className="w-5 rounded overflow-hidden flex flex-col shrink-0" style={{ height: 180 }}>
+                                {invoices.map((inv, idx) => (
+                                    <div key={idx} style={{ backgroundColor: inv.color, height: `${inv.percent}%` }} />
+                                ))}
                             </div>
-                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-                                <p className="text-lg font-semibold" style={{ color: '#F59E0B' }}>{invoiceData.pending}</p>
-                                <p className="text-xs" style={{ color: colors.textMuted }}>Pending</p>
-                            </div>
-                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-                                <p className="text-lg font-semibold" style={{ color: '#DC2626' }}>{invoiceData.overdue}</p>
-                                <p className="text-xs" style={{ color: colors.textMuted }}>Overdue</p>
+                            {/* Invoice Items */}
+                            <div className="flex flex-col justify-between flex-1 py-1">
+                                {invoices.map((inv, idx) => (
+                                    <div key={idx} className="flex items-start gap-2.5">
+                                        <div className="w-2 h-2 rounded-full mt-1 shrink-0" style={{ backgroundColor: inv.color }} />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-sm" style={{ color: dashColors.darkText }}>{inv.status}</span>
+                                                <Icons.info style={{ color: dashColors.mutedText, width: 12, height: 12 }} />
+                                            </div>
+                                            {inv.amount !== null && (
+                                                <span className="text-sm tabular-nums" style={{ color: dashColors.mutedText }}>{formatNum(inv.amount)}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Expense Card */}
-                    <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Expense</h3>
-                            <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>View All</a>
+                    {/* Expenses Card */}
+                    <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
+                        <div className="flex items-center justify-between mb-5">
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Expenses</span>
+                                <Icons.info style={{ color: dashColors.mutedText, width: 16, height: 16 }} />
+                            </div>
+                            <FilterDropdown
+                                value={expensePeriod}
+                                onChange={setExpensePeriod}
+                                options={[
+                                    { value: 'this-month', label: 'this-month' },
+                                    { value: 'last-month', label: 'last-month' },
+                                    { value: 'this-year', label: 'this-year' },
+                                ]}
+                            />
                         </div>
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FFF3E0' }}>
-                                <span className="text-2xl">💳</span>
+                        <div className="flex gap-5">
+                            {/* Donut chart */}
+                            <div className="w-28 h-28 rounded-full relative shrink-0" style={{
+                                background: `conic-gradient(${dashColors.primary} 0% 35%, ${dashColors.teal} 35% 55%, ${dashColors.orange} 55% 70%, ${dashColors.purple} 70% 85%, ${dashColors.pink} 85% 100%)`
+                            }}>
+                                <div className="absolute inset-4 rounded-full bg-white" />
                             </div>
-                            <div>
-                                <p className="text-2xl font-bold" style={{ color: colors.textDark }}>{expenseData.total}</p>
-                                <p className="text-sm" style={{ color: colors.textMuted }}>Total Expenses</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-4">
-                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-                                <p className="text-lg font-semibold" style={{ color: colors.success }}>{expenseData.approved}</p>
-                                <p className="text-xs" style={{ color: colors.textMuted }}>Approved</p>
-                            </div>
-                            <div className="flex-1 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-                                <p className="text-lg font-semibold" style={{ color: '#F59E0B' }}>{expenseData.pending}</p>
-                                <p className="text-xs" style={{ color: colors.textMuted }}>Pending</p>
+                            <div className="flex-1">
+                                <p className="text-xs mb-0.5" style={{ color: dashColors.primary }}>Total Expenses</p>
+                                <p className="text-lg font-bold mb-3 tabular-nums" style={{ color: dashColors.darkText }}>200,500,712,123,551.20</p>
+                                <div className="flex flex-col gap-1.5">
+                                    {expenseCategories.map((cat, idx) => (
+                                        <div key={idx} className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cat.color }} />
+                                            <span className="text-xs" style={{ color: dashColors.mutedText }}>{cat.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Account Watchlist */}
-                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                {/* Accounts Watchlist */}
+                <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
                     <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Account Watchlist</h3>
-                        <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>Manage</a>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Accounts Watchlist</span>
+                        </div>
+                        <FilterDropdown
+                            value={watchlistPeriod}
+                            onChange={setWatchlistPeriod}
+                            options={[
+                                { value: 'this-month', label: 'this-month' },
+                                { value: 'last-month', label: 'last-month' },
+                                { value: 'this-year', label: 'this-year' },
+                            ]}
+                        />
                     </div>
                     <table className="w-full">
                         <thead>
-                            <tr style={{ borderBottom: `1px solid ${colors.borderLight}` }}>
-                                <th className="text-left py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Code</th>
-                                <th className="text-left py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Account Name</th>
-                                <th className="text-right py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Balance</th>
-                                <th className="text-right py-2 text-xs font-medium" style={{ color: colors.textMuted }}>Change</th>
+                            <tr style={{ borderBottom: `1px solid ${dashColors.border}` }}>
+                                <th className="text-left py-3 text-sm font-medium" style={{ color: dashColors.mutedText }}></th>
+                                <th className="text-right py-3 text-sm font-medium" style={{ color: dashColors.mutedText }}>This Month</th>
+                                <th className="text-right py-3 text-sm font-medium" style={{ color: dashColors.mutedText }}>This Year</th>
                             </tr>
                         </thead>
                         <tbody>
                             {watchlistAccounts.map((acc, idx) => (
-                                <tr key={acc.code} style={{ borderBottom: idx < watchlistAccounts.length - 1 ? `1px solid ${colors.borderLight}` : 'none' }}>
-                                    <td className="py-3 text-sm font-mono" style={{ color: colors.textDark }}>{acc.code}</td>
-                                    <td className="py-3 text-sm" style={{ color: colors.primary }}>{acc.name}</td>
-                                    <td className="py-3 text-sm text-right tabular-nums" style={{ color: acc.balance < 0 ? '#DC2626' : colors.textDark }}>{formatCurrency(acc.balance)}</td>
-                                    <td className="py-3 text-sm text-right tabular-nums" style={{ color: acc.change > 0 ? colors.success : '#DC2626' }}>
-                                        {acc.change > 0 ? '+' : ''}{acc.change}%
-                                    </td>
+                                <tr key={idx} style={{ borderBottom: idx < watchlistAccounts.length - 1 ? `1px solid ${dashColors.border}` : 'none' }}>
+                                    <td className="py-3 text-sm" style={{ color: dashColors.darkText }}>{acc.name}</td>
+                                    <td className="py-3 text-sm text-right tabular-nums" style={{ color: dashColors.darkText }}>{formatNum(acc.thisMonth)}</td>
+                                    <td className="py-3 text-sm text-right tabular-nums" style={{ color: dashColors.darkText }}>{formatNum(acc.thisYear)}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -919,77 +990,139 @@ function DashboardView() {
                 </div>
 
                 {/* Profit & Loss */}
-                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
+                <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
                     <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Profit & Loss</h3>
-                        <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>View Report</a>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Profit & Loss</span>
+                            <Icons.info style={{ color: dashColors.mutedText, width: 16, height: 16 }} />
+                        </div>
+                        <FilterDropdown
+                            value={plPeriod}
+                            onChange={setPlPeriod}
+                            options={[
+                                { value: 'this-month', label: 'this-month' },
+                                { value: 'last-month', label: 'last-month' },
+                                { value: 'this-year', label: 'this-year' },
+                            ]}
+                        />
                     </div>
-                    <div className="flex gap-8">
-                        <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: '#E8F5E9' }}>
-                            <p className="text-sm mb-1" style={{ color: colors.textMuted }}>Revenue</p>
-                            <p className="text-xl font-bold" style={{ color: colors.success }}>{formatCurrency(profitLossData.revenue)}</p>
+                    <p className="text-sm mb-5" style={{ color: dashColors.mutedText }}>Net Income for March 2026</p>
+                    <div className="flex flex-col gap-4">
+                        <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: dashColors.primary }} />
+                                <span className="text-sm" style={{ color: dashColors.mutedText }}>Income</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="h-7 rounded" style={{ backgroundColor: dashColors.primary, width: '85%' }} />
+                                <span className="text-sm tabular-nums whitespace-nowrap" style={{ color: dashColors.darkText }}>{formatNum(profitLossData.income)}</span>
+                            </div>
                         </div>
-                        <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: '#FFEBEE' }}>
-                            <p className="text-sm mb-1" style={{ color: colors.textMuted }}>Expenses</p>
-                            <p className="text-xl font-bold" style={{ color: '#DC2626' }}>{formatCurrency(profitLossData.expenses)}</p>
-                        </div>
-                        <div className="flex-1 p-4 rounded-lg" style={{ backgroundColor: '#E3F2FD' }}>
-                            <p className="text-sm mb-1" style={{ color: colors.textMuted }}>Net Profit</p>
-                            <p className="text-xl font-bold" style={{ color: colors.primary }}>{formatCurrency(profitLossData.profit)}</p>
+                        <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: dashColors.teal }} />
+                                <span className="text-sm" style={{ color: dashColors.mutedText }}>Expenses</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="h-7 rounded" style={{ backgroundColor: dashColors.teal, width: '15%' }} />
+                                <span className="text-sm tabular-nums whitespace-nowrap" style={{ color: dashColors.darkText }}>{formatNum(profitLossData.expenses)}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Right Sidebar */}
-            <div className="w-[320px] flex flex-col gap-6">
-                {/* Banks Card */}
-                <div className="rounded-xl p-6" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Banks</h3>
-                        <a href="#" className="text-sm font-medium" style={{ color: colors.primary }}>Connect</a>
+            <div className="w-[300px] flex flex-col gap-6">
+                {/* Cash & Bank Card */}
+                <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
+                    <div className="flex items-center justify-between mb-5">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Cash & Bank</span>
+                            <Icons.info style={{ color: dashColors.mutedText, width: 16, height: 16 }} />
+                        </div>
+                        <a href="#" className="text-sm font-medium" style={{ color: dashColors.primary }}>Connect Account</a>
                     </div>
-                    <div className="flex flex-col gap-3">
-                        {banks.map(bank => (
-                            <div key={bank.name} className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-                                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: colors.white }}>
-                                    <Icons.bank />
+                    <div className="flex flex-col">
+                        {bankAccounts.map((bank, idx) => (
+                            <div key={idx} className="py-4" style={{ borderBottom: idx < bankAccounts.length - 1 ? `1px solid ${dashColors.border}` : 'none' }}>
+                                <div className="flex items-start justify-between mb-1">
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold truncate" style={{ color: dashColors.darkText }}>{bank.name}</p>
+                                        <p className="text-xs" style={{ color: dashColors.mutedText }}>(last update {bank.lastUpdate})</p>
+                                    </div>
+                                    {bank.alert && (
+                                        <span
+                                            className="w-6 h-6 flex items-center justify-center text-xs font-semibold rounded ml-2 shrink-0 text-white"
+                                            style={{
+                                                backgroundColor: bank.alertType === 'warning' ? '#FF414A' : '#419AFF',
+                                                border: bank.alertType === 'warning' ? '2px solid #FF414A' : '2px solid #419AFF'
+                                            }}
+                                        >
+                                            {bank.alert}
+                                        </span>
+                                    )}
                                 </div>
-                                <div className="flex-1">
-                                    <p className="text-sm font-medium" style={{ color: colors.textDark }}>{bank.name}</p>
-                                    <p className="text-xs" style={{ color: colors.textMuted }}>{formatCurrency(bank.balance)}</p>
+                                <div className="flex justify-between text-sm mt-2">
+                                    <span style={{ color: dashColors.mutedText }}>Bank Balance</span>
+                                    <span className="tabular-nums font-medium" style={{ color: dashColors.darkText }}>{formatNum(bank.bankBalance)}</span>
                                 </div>
-                                {bank.connected && (
-                                    <span className="px-2 py-0.5 text-xs rounded-full" style={{ backgroundColor: colors.successBg, color: colors.success }}>
-                                        Connected
-                                    </span>
-                                )}
+                                <div className="flex justify-between text-sm mt-1">
+                                    <span style={{ color: dashColors.mutedText }}>Balance in Harmony</span>
+                                    <span className="tabular-nums font-medium" style={{ color: dashColors.darkText }}>{formatNum(bank.harmonyBalance)}</span>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Activity Card */}
-                <div className="rounded-xl p-6 flex-1" style={{ border: `1px solid ${colors.borderLight}`, backgroundColor: colors.white }}>
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold" style={{ color: colors.textDark }}>Recent Activity</h3>
+                {/* Activity Card with Flowbite-style Timeline */}
+                <div className="rounded-lg p-6" style={{ border: `1px solid ${dashColors.border}`, backgroundColor: '#fff' }}>
+                    <div className="flex items-center justify-between mb-5">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-base font-semibold" style={{ color: dashColors.darkText }}>Activity</span>
+                            <Icons.info style={{ color: dashColors.mutedText, width: 16, height: 16 }} />
+                        </div>
+                        <FilterDropdown
+                            value={activityFilter}
+                            onChange={setActivityFilter}
+                            options={[
+                                { value: 'most-recent', label: 'most-recent' },
+                                { value: 'this-week', label: 'this-week' },
+                                { value: 'this-month', label: 'this-month' },
+                            ]}
+                        />
                     </div>
-                    <div className="flex flex-col gap-4">
-                        {activities.map((activity, idx) => (
-                            <div key={idx} className="flex items-start gap-3">
-                                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: activity.amount > 0 ? '#E8F5E9' : '#FFEBEE' }}>
-                                    {activity.type === 'invoice' ? '📄' : activity.type === 'expense' ? '💳' : '🔄'}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm truncate" style={{ color: colors.textDark }}>{activity.desc}</p>
-                                    <p className="text-xs" style={{ color: colors.textMuted }}>{activity.time}</p>
-                                </div>
-                                <p className="text-sm font-medium tabular-nums shrink-0" style={{ color: activity.amount > 0 ? colors.success : '#DC2626' }}>
-                                    {activity.amount > 0 ? '+' : ''}{formatCurrency(activity.amount)}
-                                </p>
-                            </div>
+                    {/* Single Timeline */}
+                    <ol className="relative border-l-2" style={{ borderColor: dashColors.border }}>
+                        {activities.map((group, gIdx) => (
+                            <React.Fragment key={gIdx}>
+                                {/* Date header */}
+                                <li className="mb-3 ml-6 relative">
+                                    <div className="absolute w-3 h-3 rounded-full -left-[31px] top-0.5" style={{ backgroundColor: dashColors.primary }} />
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-sm font-semibold" style={{ color: dashColors.darkText }}>{group.date}</span>
+                                        <span className="text-sm" style={{ color: dashColors.mutedText }}>({group.label})</span>
+                                    </div>
+                                </li>
+                                {/* Activity items */}
+                                {group.items.map((item, iIdx) => (
+                                    <li key={`${gIdx}-${iIdx}`} className={`ml-6 relative ${iIdx === group.items.length - 1 && gIdx < activities.length - 1 ? 'mb-5' : 'mb-3'}`}>
+                                        <div
+                                            className="absolute w-2 h-2 rounded-full -left-[29px] top-1.5"
+                                            style={{ backgroundColor: item.code.startsWith('INV') ? dashColors.orange : dashColors.primary }}
+                                        />
+                                        <p className="text-sm leading-relaxed">
+                                            <span style={{ color: item.code.startsWith('INV') ? dashColors.orange : dashColors.primary }}>{item.code}</span>
+                                            <span style={{ color: dashColors.darkText }}> {item.action} </span>
+                                            <span style={{ color: dashColors.darkText }}>{item.user}</span>
+                                            <span style={{ color: dashColors.mutedText }}> • {item.time}</span>
+                                        </p>
+                                    </li>
+                                ))}
+                            </React.Fragment>
                         ))}
-                    </div>
+                    </ol>
                 </div>
             </div>
         </div>
@@ -997,10 +1130,7 @@ function DashboardView() {
 }
 
 // Main Layout
-export default function HarmoniLayout(props: any) {
-    const { page } = props;
-    const { title } = page;
-
+export default function HarmoniLayout(_props: any) {
     const [accounts, setAccounts] = React.useState<Account[]>(CHART_OF_ACCOUNTS);
     const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
     const [activeSection, setActiveSection] = React.useState<string>('dashboard');
@@ -1041,11 +1171,6 @@ export default function HarmoniLayout(props: any) {
 
     const handleAddAccount = (account: Partial<Account>) => {
         setAccounts([...accounts, account as Account]);
-    };
-
-    const handleConnectBank = (account: Account) => {
-        setSelectedAccount(account);
-        setShowConnectBankDialog(true);
     };
 
     return (
@@ -1140,17 +1265,11 @@ export default function HarmoniLayout(props: any) {
 
                 /* Sidebar menu animation */
                 .sidebar-item {
-                    transition: all 0.15s ease;
+                    transition: background-color 0.15s ease;
                     position: relative;
                 }
                 .sidebar-item:hover {
                     background-color: rgba(32, 136, 255, 0.08);
-                }
-                .sidebar-item:active {
-                    transform: scale(0.98);
-                }
-                .sidebar-item[data-active="true"] {
-                    animation: slideUp 0.2s ease;
                 }
 
                 /* Select dropdown animation */

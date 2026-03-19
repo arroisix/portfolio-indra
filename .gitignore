@@ -41,4 +41,7 @@ yarn-error.log*
 *.code-workspace
 .idea
 
-tmp*
+tmp*.open-next
+
+# OpenNext Cloudflare build output
+.open-next/
