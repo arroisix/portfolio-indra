@@ -116,9 +116,19 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                     </div>
                                 )}
 
-                                {/* Blur layer with mask for seamless fade */}
+                                {/* Blur layer - partial on default, full on hover */}
                                 <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
+                                    className="absolute inset-0 pointer-events-none transition-all duration-300 opacity-0 group-hover:opacity-100"
+                                    style={{
+                                        backdropFilter: 'blur(16px)',
+                                        WebkitBackdropFilter: 'blur(16px)',
+                                        backgroundColor: 'rgba(16, 16, 16, 0.4)',
+                                    }}
+                                />
+
+                                {/* Blur layer with mask for seamless fade (hidden on hover) */}
+                                <div
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-0"
                                     style={{
                                         height: '50%',
                                         backdropFilter: 'blur(16px)',
@@ -128,9 +138,9 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                                     }}
                                 />
 
-                                {/* Dark gradient overlay for readability */}
+                                {/* Dark gradient overlay for readability (hidden on hover) */}
                                 <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
+                                    className="absolute inset-x-0 bottom-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-0"
                                     style={{
                                         height: '50%',
                                         background: 'linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(16, 16, 16, 0.5) 40%, rgba(16, 16, 16, 0.75) 100%)',
