@@ -47,7 +47,7 @@ const VIBE_PROJECTS: Record<string, VibeProject> = {
         slug: 'project/harmoni-dashboard',
         workedOn: ['Product Design', 'Dashboard UI', 'Interactive Prototype'],
         featuredImage: {
-            url: '/images/project/6/Frame-2147236739.webp',
+            url: '/images/project/6/exploration-6.webp',
             altText: 'Harmoni Dashboard'
         },
         __metadata: {
@@ -103,53 +103,28 @@ export default function VibeCodedProjectsSection(props: VibeCodedProjectsSection
                             href={post.__metadata?.urlPath || `/${post.slug}` || '#'}
                             className="group block"
                         >
-                            <div
-                                className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-                                style={{ isolation: 'isolate' }}
-                            >
-                                {/* Image container */}
-                                {post.featuredImage?.url && (
-                                    <div className="aspect-[4/3] overflow-hidden relative">
-                                        {/* Normal image */}
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={post.featuredImage.url}
-                                            alt={post.featuredImage.altText || post.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                        />
-                                        {/* Hover overlay - just darker, no blur */}
-                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-200" />
+                            <div className="portfolio-card-fm bg-white">
+                                {/* Image with padding inside card */}
+                                <div className="p-3 pb-0">
+                                    <div className="portfolio-card-image-wrap relative overflow-hidden bg-gray-50 aspect-[4/3]">
+                                        {post.featuredImage?.url && (
+                                            /* eslint-disable-next-line @next/next/no-img-element */
+                                            <img
+                                                src={post.featuredImage.url}
+                                                alt={post.featuredImage.altText || post.title}
+                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            />
+                                        )}
                                     </div>
-                                )}
-
-                                {/* Bottom blur with gradient mask - always visible */}
-                                <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
-                                    style={{
-                                        height: '50%',
-                                        backdropFilter: 'blur(16px)',
-                                        WebkitBackdropFilter: 'blur(16px)',
-                                        maskImage: 'linear-gradient(to bottom, transparent 0%, black 40%, black 100%)',
-                                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40%, black 100%)',
-                                    }}
-                                />
-
-                                {/* Dark gradient overlay */}
-                                <div
-                                    className="absolute inset-x-0 bottom-0 pointer-events-none"
-                                    style={{
-                                        height: '50%',
-                                        background: 'linear-gradient(180deg, rgba(16, 16, 16, 0) 0%, rgba(16, 16, 16, 0.5) 40%, rgba(16, 16, 16, 0.7) 100%)',
-                                    }}
-                                />
+                                </div>
 
                                 {/* Content */}
-                                <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end items-start gap-1 p-4">
-                                    <h3 className="font-epilogue text-card-title text-white group-hover:text-gray-200 transition-colors">
+                                <div className="p-4 pt-3">
+                                    <h3 className="font-inter font-semibold text-base text-gray-900">
                                         {post.title}
                                     </h3>
                                     {post.excerpt && (
-                                        <p className="font-epilogue text-sm text-white/80 line-clamp-2">
+                                        <p className="font-inter text-sm text-gray-500 mt-1 line-clamp-2">
                                             {post.excerpt}
                                         </p>
                                     )}
