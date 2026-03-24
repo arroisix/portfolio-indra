@@ -203,9 +203,6 @@
         .portfolio-card-wrapper.mobile-card-active .portfolio-card-image-wrap {
             border-radius: 0;
         }
-        .portfolio-card-wrapper.mobile-card-active .portfolio-card-blur-overlay {
-            clip-path: inset(0 0 0 0);
-        }
     }
 
     /* Featuredmobile.com Style Card */
@@ -232,23 +229,6 @@
 
     .portfolio-card-fm:hover .portfolio-card-image-wrap {
         border-radius: 0;
-    }
-
-    /* Blur overlay that expands from bottom */
-    .portfolio-card-blur-overlay {
-        position: absolute;
-        inset: 0;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.1);
-        clip-path: inset(100% 0 0 0);
-        transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-        z-index: 10;
-    }
-
-    .portfolio-card-fm:hover .portfolio-card-blur-overlay {
-        clip-path: inset(0 0 0 0);
     }
 
     /* View All Button */

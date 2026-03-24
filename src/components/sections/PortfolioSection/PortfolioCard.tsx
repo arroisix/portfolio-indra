@@ -138,9 +138,6 @@ export default function PortfolioCard({ post }: PortfolioCardProps) {
                             {showVideo && isLoading && (
                                 <div className="absolute inset-0 skeleton-loading rounded-xl" />
                             )}
-
-                            {/* Blur overlay - expands from bottom on hover */}
-                            <div className="portfolio-card-blur-overlay" />
                         </div>
                     </div>
 
