@@ -12,7 +12,7 @@ workedOn:
   - Vibe Coding
 aspectRatio: medium
 featuredImage:
-  url: /images/project/6/Frame-2147236739.webp
+  url: /images/project/6/exploration-6.webp
   altText: Harmoni Dashboard
   type: ImageBlock
 isVibeCoded: true

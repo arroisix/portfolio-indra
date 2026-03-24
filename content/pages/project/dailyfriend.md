@@ -17,20 +17,20 @@ featuredImage:
   altText: DailyFriend App
   type: ImageBlock
 gallery:
-  - url: /images/project/5/Frame-123123.webp
+  - url: /images/project/5/dailyfriend-1.webp
     altText: App home screen
-  - url: /images/project/5/Frame-2147236731.webp
+  - url: /images/project/5/dailyfriend-2.webp
     altText: Mood tracking
     ratio: square
-  - url: /images/project/5/Frame-2147236733.webp
+  - url: /images/project/5/dailyfriend-3.webp
     altText: Daily check-in
     ratio: square
-  - url: /images/project/5/Frame-2147236732.webp
+  - url: /images/project/5/dailyfriend-4.webp
     altText: Progress overview
-  - url: /images/project/5/Frame-2147236734.webp
+  - url: /images/project/5/dailyfriend-5.webp
     altText: Wellness features
     ratio: square
-  - url: /images/project/5/Frame-2147236735.webp
+  - url: /images/project/5/dailyfriend-6.webp
     altText: Full experience
 isFeatured: true
 type: PostLayout

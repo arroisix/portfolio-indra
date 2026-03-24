@@ -94,7 +94,7 @@ export default function PortfolioCard({ post }: PortfolioCardProps) {
                 <div className="portfolio-card-fm bg-white">
                     {/* Media with padding inside card */}
                     <div className="p-3 pb-0">
-                        <div className={classNames('portfolio-card-image-wrap relative overflow-hidden rounded-xl bg-gray-50', aspectClass)}>
+                        <div className={classNames('portfolio-card-image-wrap relative overflow-hidden bg-gray-50', aspectClass)}>
                             {showVideo && mediaVideoUrl ? (
                                 // Video - autoplay, loop, muted, no controls
                                 <video
@@ -138,6 +138,9 @@ export default function PortfolioCard({ post }: PortfolioCardProps) {
                             {showVideo && isLoading && (
                                 <div className="absolute inset-0 skeleton-loading rounded-xl" />
                             )}
+
+                            {/* Blur overlay - expands from bottom on hover */}
+                            <div className="portfolio-card-blur-overlay" />
                         </div>
                     </div>
 

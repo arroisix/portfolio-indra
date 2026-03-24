@@ -198,25 +198,57 @@
         }
         .portfolio-card-wrapper.mobile-card-active .portfolio-card-fm {
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+            border-radius: 0;
+        }
+        .portfolio-card-wrapper.mobile-card-active .portfolio-card-image-wrap {
+            border-radius: 0;
+        }
+        .portfolio-card-wrapper.mobile-card-active .portfolio-card-blur-overlay {
+            clip-path: inset(0 0 0 0);
         }
     }
 
     /* Featuredmobile.com Style Card */
     .portfolio-card-fm {
-        @apply rounded-2xl overflow-hidden;
+        @apply overflow-hidden;
         background: #ffffff;
         border: 1px solid rgba(0, 0, 0, 0.08);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .portfolio-card-fm:hover {
         transform: translateY(-4px);
         box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12);
+        border-radius: 0;
     }
 
     /* Image wrapper inside card */
     .portfolio-card-image-wrap {
-        @apply relative overflow-hidden rounded-xl;
+        @apply relative overflow-hidden;
+        border-radius: 0.75rem;
+        transition: border-radius 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .portfolio-card-fm:hover .portfolio-card-image-wrap {
+        border-radius: 0;
+    }
+
+    /* Blur overlay that expands from bottom */
+    .portfolio-card-blur-overlay {
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1);
+        clip-path: inset(100% 0 0 0);
+        transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .portfolio-card-fm:hover .portfolio-card-blur-overlay {
+        clip-path: inset(0 0 0 0);
     }
 
     /* View All Button */
@@ -601,39 +633,6 @@
         .sb-markdown .learnings-grid {
             grid-template-columns: 1fr;
         }
-    }
-
-    /* Gallery Image Hover State */
-    .gallery-item-interactive {
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .gallery-item-interactive:hover {
-        transform: scale(1.02);
-        box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.15);
-    }
-    .gallery-item-interactive:hover .gallery-zoom-hint {
-        opacity: 1;
-    }
-
-    /* Lightbox Overlay */
-    .lightbox-overlay {
-        animation: lightbox-fade-in 0.3s ease-out forwards;
-    }
-    @keyframes lightbox-fade-in {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-    }
-
-    /* Lightbox Bouncy Entrance */
-    .lightbox-bounce-in {
-        animation: lightbox-bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    @keyframes lightbox-bounce-in {
-        0% { opacity: 0; transform: scale(0.3); }
-        50% { opacity: 1; transform: scale(1.05); }
-        70% { transform: scale(0.95); }
-        100% { transform: scale(1); }
     }
 
     /* Video Showcase Component */

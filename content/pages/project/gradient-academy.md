@@ -18,28 +18,28 @@ featuredImage:
   altText: Gradient Academy
   type: ImageBlock
 gallery:
-  - url: /images/project/4/Frame-3671731.webp
+  - url: /images/project/4/gradient-1.webp
     altText: Landing page hero
   - url: /images/project/4/untitled.mp4
     altText: AI Copilot interaction demo
     showcase: true
-  - url: /images/project/4/Frame-2147236726.webp
+  - url: /images/project/4/gradient-2.webp
     altText: Learning dashboard
-  - url: /images/project/4/Frame-1984077947.webp
+  - url: /images/project/4/gradient-3.webp
     altText: Course overview
     ratio: square
-  - url: /images/project/4/Frame-2147236725.webp
+  - url: /images/project/4/gradient-4.webp
     altText: Study materials
     ratio: square
-  - url: /images/project/4/Frame-1984077946.webp
+  - url: /images/project/4/gradient-5.webp
     altText: Video lectures interface
-  - url: /images/project/4/Frame-2147236728.webp
+  - url: /images/project/4/gradient-6.webp
     altText: Progress tracking
     ratio: square
-  - url: /images/project/4/Frame-2147236729.webp
+  - url: /images/project/4/gradient-7.webp
     altText: AI features
     ratio: square
-  - url: /images/project/4/Frame-2147236727.webp
+  - url: /images/project/4/gradient-8.webp
     altText: Platform overview
 isFeatured: true
 type: PostLayout
